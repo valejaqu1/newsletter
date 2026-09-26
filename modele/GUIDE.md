@@ -42,22 +42,29 @@ télécharge avec son accès universitaire. Ces PDF sont protégés par le droit
 ## Méthode de recherche
 
 1. **Cadrer** : reformuler le sujet en 4 à 6 questions précises qu'un clinicien se pose.
-2. **Chercher dans cet ordre** : revues systématiques et méta-analyses récentes (5 dernières
-   années en priorité), grandes cohortes ou registres, puis les études qui contredisent le
-   consensus. Viser **12 à 20 sources**, dont au moins 3 des deux dernières années.
-   Sources utiles : Europe PMC, PubMed Central, Semantic Scholar, Crossref, sites des revues,
-   PsyArXiv. Privilégier le texte intégral en libre accès.
-3. **Vérifier chaque référence** : auteurs, année, revue, volume, pages et DOI, un par un, dans
+2. **Chercher dans cet ordre** : revues systématiques et méta-analyses récentes, grandes
+   cohortes ou registres, puis les études qui contredisent le consensus. Viser **12 à 20
+   sources**. Commencer par l'outil **Consensus** (connecteur MCP) s'il est disponible : il
+   cible directement les articles scientifiques et économise des recherches web.
+   Autres sources utiles : Europe PMC, PubMed Central, Semantic Scholar, Crossref, sites des
+   revues, PsyArXiv. Privilégier le texte intégral en libre accès.
+3. **Privilégier le récent, sans exclusive.** L'étudiant veut se tenir à jour et voir les
+   points de vue nouveaux : donner la priorité aux 5 dernières années, et chercher
+   activement ce qui est paru dans les 2 dernières années (au moins 3 sources si elles
+   existent). Ce n'est pas une règle absolue : garder les études plus anciennes quand elles
+   restent la référence ou qu'elles fondent le débat, et dire quand une nouvelle étude
+   confirme, nuance ou contredit ce qu'on savait.
+4. **Vérifier chaque référence** : auteurs, année, revue, volume, pages et DOI, un par un, dans
    Europe PMC (`https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:"..."&format=json&resultType=core`)
    ou Crossref (`https://api.crossref.org/works?rows=1&query.bibliographic=...`). Ne jamais
    reprendre une année ou un volume depuis un résumé de page web : ces résumés se trompent.
    Si `curl` est bloqué dans l'environnement, utiliser WebFetch sur ces mêmes URL.
-4. **Noter pour chaque étude** si elle a été lue en texte intégral ou en résumé seulement.
-5. **Chiffres** : n'afficher que des chiffres publiés. Si seuls des qualificatifs sont
+5. **Noter pour chaque étude** si elle a été lue en texte intégral ou en résumé seulement.
+6. **Chiffres** : n'afficher que des chiffres publiés. Si seuls des qualificatifs sont
    disponibles (« effet faible », « moyen »), représenter des catégories, pas des nombres.
    Tout calcul fait par l'agent (ex. proportion attendue sous la loi normale) est signalé
    comme tel dans la légende.
-6. **Articles clés non accessibles** : les lister (3 à 5 maximum) dans `pdfs_demandes`, avec
+7. **Articles clés non accessibles** : les lister (3 à 5 maximum) dans `pdfs_demandes`, avec
    la raison précise pour laquelle le texte intégral changerait le rapport.
 
 ## Structure d'un rapport
@@ -70,6 +77,8 @@ nouveau design.
    une phrase d'accroche. Lien de retour vers `../index.html`.
 2. **Niveau 1, l'essentiel** : 3 phrases de synthèse, puis 4 à 6 lignes
    « question / réponse courte / solidité des preuves » (3 points : solide, modérée, faible).
+   Quand la recherche récente apporte un éclairage nouveau, le dire dans la synthèse et le
+   signaler dans le dossier concerné (par ex. « Nouveau en 2026 : … »).
 3. **Carte des études** : tableau `S` du script (une entrée par étude : année, thème, type,
    effectif, fiche). Les couloirs `LANES` correspondent aux dossiers. Types : population,
    clinique, revue, auto-déclaré. Ajuster `dy` si deux bulles se chevauchent.
