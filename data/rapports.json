@@ -2,6 +2,7 @@
   "rapports": [
     {
       "slug": "hpi-tdah",
+      "etat": "publie",
       "numero": 1,
       "titre": "HPI et TDAH",
       "accroche": "Un TDAH chez un HPI est un vrai TDAH, souvent masqué et diagnostiqué plus tard ; être HPI n'expose pas à plus de troubles psychiques.",
@@ -10,10 +11,26 @@
       "periode": "2007–2026",
       "version": 1,
       "pdfs_demandes": [
-        {"ref": "Cornoldi, Giofrè & Toffalini (2023)", "doi": "10.1016/j.intell.2023.101736", "pourquoi": "Scores d'indices WISC-IV détaillés des 82 enfants doués avec TDAH."},
-        {"ref": "Despature & Galiana (2023)", "doi": "10.1080/87565641.2023.2279117", "pourquoi": "D'où vient le chiffre de 15 % et quelles études il agrège."},
-        {"ref": "Winkler & Voight (2016)", "doi": "10.1177/0016986216657588", "pourquoi": "Tailles d'effet exactes pour chaque surexcitabilité."},
-        {"ref": "Liu et al. (2026)", "doi": "10.1038/s41398-026-04270-5", "pourquoi": "Détail des effets du QI verbal et du QI de performance."}
+        {
+          "ref": "Cornoldi, Giofrè & Toffalini (2023)",
+          "doi": "10.1016/j.intell.2023.101736",
+          "pourquoi": "Scores d'indices WISC-IV détaillés des 82 enfants doués avec TDAH."
+        },
+        {
+          "ref": "Despature & Galiana (2023)",
+          "doi": "10.1080/87565641.2023.2279117",
+          "pourquoi": "D'où vient le chiffre de 15 % et quelles études il agrège."
+        },
+        {
+          "ref": "Winkler & Voight (2016)",
+          "doi": "10.1177/0016986216657588",
+          "pourquoi": "Tailles d'effet exactes pour chaque surexcitabilité."
+        },
+        {
+          "ref": "Liu et al. (2026)",
+          "doi": "10.1038/s41398-026-04270-5",
+          "pourquoi": "Détail des effets du QI verbal et du QI de performance."
+        }
       ],
       "pdfs_recus": []
     }

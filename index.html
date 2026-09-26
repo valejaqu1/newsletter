@@ -72,6 +72,11 @@ input:focus,textarea:focus{outline:2px solid var(--accent); outline-offset:0; bo
 .pend .t{font-family:var(--display); font-weight:500}
 .pend .s{font-family:var(--mono); font-size:12px; color:var(--wait)}
 .empty{color:var(--ink-3); font-size:15.5px}
+.prep{background:var(--surface); border:1px dashed var(--wait); border-radius:12px; padding:18px clamp(16px,3vw,24px); display:flex; flex-direction:column; gap:6px}
+.prep h3{font-size:20px; font-weight:650}
+.prep .acc{color:var(--ink-2); max-width:64ch}
+.prep .s{font-family:var(--mono); font-size:12px; color:var(--wait)}
+.prep .pdfs{grid-column:auto; margin-top:8px}
 
 /* Bibliothèque */
 .lib{display:flex; flex-direction:column; gap:14px}
@@ -101,13 +106,13 @@ footer{padding-block:44px 60px; font-family:var(--mono); font-size:12px; color:v
     <h1>Veille <span>de nuit</span></h1>
   </div>
   <div>
-    <p class="dek">Tu déposes un sujet le soir. Claude lit la recherche pendant la nuit. Le rapport t'attend au réveil.</p>
-    <p class="clock">Recherche lancée chaque nuit vers 3 h (heure suisse)</p>
+    <p class="dek">Tu déposes un sujet. Claude te dit quels articles lui fournir. La nuit, il rédige le rapport avec tes PDF.</p>
+    <p class="clock">Pré-recherche quelques minutes après le dépôt · rédaction chaque nuit vers 3 h (heure suisse)</p>
   </div>
 </header>
 
 <section id="deposer">
-  <div class="sec-head"><span class="label">Ce soir</span><h2>Déposer un sujet</h2></div>
+  <div class="sec-head"><span class="label">Nouveau sujet</span><h2>Déposer un sujet</h2></div>
   <div class="deposit">
     <form id="f">
       <label for="sujet">Sujet ou question
@@ -124,14 +129,14 @@ footer{padding-block:44px 60px; font-family:var(--mono); font-size:12px; color:v
     </form>
     <ol class="steps">
       <li><span><b>GitHub s'ouvre</b> avec ton sujet déjà rempli. Clique sur le bouton vert <b>Commit changes</b>, puis confirme.</span></li>
-      <li><span>Vers <b>3 h du matin</b>, Claude cherche et lit les études (deux sujets par nuit au maximum).</span></li>
-      <li><span>Au réveil, le rapport apparaît ci-dessous. S'il te demande des <b>PDF</b>, dépose-les : le rapport sera complété la nuit suivante.</span></li>
+      <li><span>Quelques minutes plus tard, une <b>pré-recherche</b> affiche ci-dessous les articles clés à lui fournir en <b>PDF</b>.</span></li>
+      <li><span>Dépose les PDF dans la journée. Vers <b>3 h du matin</b>, Claude rédige le rapport avec eux : il t'attend au réveil.</span></li>
     </ol>
   </div>
 </section>
 
 <section id="attente">
-  <div class="sec-head"><span class="label">Prochaine nuit</span><h2>En attente</h2></div>
+  <div class="sec-head"><span class="label">Avant la prochaine nuit</span><h2>En préparation</h2></div>
   <div class="pending" id="pending"><p class="empty">Chargement…</p></div>
 </section>
 
@@ -174,20 +179,27 @@ document.getElementById("f").addEventListener("submit", e=>{
   msg.textContent=`GitHub s'est ouvert dans un nouvel onglet. Clique sur « Commit changes » pour valider « ${sujet} ».`;
 });
 
+function pdfBlock(r, label){
+  if(!(r.pdfs_demandes||[]).length) return "";
+  return `
+      <div class="pdfs">
+        <span class="label">${label}</span>
+        ${r.pdfs_demandes.map(p=>`<div class="row"><b>${esc(p.ref)}</b><a href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">doi:${esc(p.doi)}</a><span class="why">${esc(p.pourquoi)}</span></div>`).join("")}
+        <a class="up" href="${PDF_UPLOAD}" target="_blank" rel="noopener">Déposer des PDF (dépôt privé)</a>
+      </div>`;
+}
+
 async function load(){
   let data={rapports:[]};
   try{ data=await (await fetch("data/rapports.json",{cache:"no-store"})).json(); }catch(e){}
+  const pub=data.rapports.filter(r=>r.etat!=="en-preparation");
+  const prep=data.rapports.filter(r=>r.etat==="en-preparation");
+  const known=new Set(data.rapports.map(r=>r.slug));
+
   const lib=document.getElementById("lib");
-  const done=new Set(data.rapports.map(r=>r.slug));
-  lib.innerHTML = data.rapports.length ? "" : `<p class="empty">Aucun rapport pour l'instant.</p>`;
-  data.rapports.forEach(r=>{
+  lib.innerHTML = pub.length ? "" : `<p class="empty">Aucun rapport pour l'instant.</p>`;
+  pub.forEach(r=>{
     const c=document.createElement("article"); c.className="card";
-    const pdf = (r.pdfs_demandes||[]).length ? `
-      <div class="pdfs">
-        <span class="label">PDF demandés pour compléter ce rapport</span>
-        ${r.pdfs_demandes.map(p=>`<div class="row"><b>${esc(p.ref)}</b><a href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">doi:${esc(p.doi)}</a><span class="why">${esc(p.pourquoi)}</span></div>`).join("")}
-        <a class="up" href="${PDF_UPLOAD}" target="_blank" rel="noopener">Déposer des PDF (dépôt privé)</a>
-      </div>` : "";
     const recus=(r.pdfs_recus||[]).length?` · ${r.pdfs_recus.length} PDF intégré${r.pdfs_recus.length>1?"s":""}`:"";
     c.innerHTML=`
       <div class="num">${String(r.numero).padStart(2,"0")}</div>
@@ -195,23 +207,31 @@ async function load(){
         <h3><a href="rapports/${esc(r.slug)}.html">${esc(r.titre)}</a></h3>
         <p class="acc">${esc(r.accroche)}</p>
         <div class="meta"><span>${frDate(r.date)}</span>${r.maj?`<span>mis à jour le ${frDate(r.maj)}</span>`:""}<span>${r.sources} sources</span><span>${esc(r.periode)}</span><span>version ${r.version}${recus}</span></div>
-      </div>${pdf}`;
+      </div>${pdfBlock(r,"PDF qui compléteraient encore ce rapport")}`;
     lib.appendChild(c);
   });
 
   const pend=document.getElementById("pending");
+  pend.innerHTML="";
+  prep.forEach(r=>{
+    const d=document.createElement("article"); d.className="prep";
+    d.innerHTML=`<span class="s">PDF demandés · rapport rédigé la nuit prochaine vers 3 h</span>
+      <h3>${esc(r.titre)}</h3>${r.accroche?`<p class="acc">${esc(r.accroche)}</p>`:""}
+      ${pdfBlock(r,"Articles à fournir en PDF d'ici ce soir")}`;
+    pend.appendChild(d);
+  });
   try{
     const files=await (await fetch(`https://api.github.com/repos/${REPO}/contents/sujets`)).json();
     const waiting=(Array.isArray(files)?files:[]).filter(f=>f.name.endsWith(".md"))
-      .map(f=>({f, slug:f.name.replace(/^\d{4}-\d{2}-\d{2}-/,"").replace(/\.md$/,""), date:f.name.slice(0,10)}))
-      .filter(x=>!done.has(x.slug));
-    pend.innerHTML = waiting.length ? "" : `<p class="empty">Aucun sujet en attente. Dépose-en un ci-dessus.</p>`;
+      .map(f=>({slug:f.name.replace(/^\d{4}-\d{2}-\d{2}-/,"").replace(/\.md$/,""), date:f.name.slice(0,10)}))
+      .filter(x=>!known.has(x.slug));
     waiting.forEach(x=>{
       const d=document.createElement("div"); d.className="pend";
-      d.innerHTML=`<span class="t">${esc(x.slug.replace(/-/g," "))}</span><span class="s">déposé le ${frDate(x.date)} · traité la nuit prochaine</span>`;
+      d.innerHTML=`<span class="t">${esc(x.slug.replace(/-/g," "))}</span><span class="s">déposé le ${frDate(x.date)} · pré-recherche en cours, la liste de PDF arrive dans quelques minutes</span>`;
       pend.appendChild(d);
     });
-  }catch(e){ pend.innerHTML=`<p class="empty">Impossible de lire la liste des sujets pour l'instant. Réessaie dans quelques minutes.</p>`; }
+  }catch(e){}
+  if(!pend.children.length) pend.innerHTML=`<p class="empty">Aucun sujet en préparation. Dépose-en un ci-dessus.</p>`;
 }
 load();
 </script>
