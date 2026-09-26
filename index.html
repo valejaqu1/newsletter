@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Veille de nuit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f1f4f8; --surface:#ffffff; --surface-2:#e6ebf2; --ink:#121a25; --ink-2:#465264; --ink-3:#6b7788;
+  --rule:#d3dae4; --accent:#1c5cab; --accent-ink:#ffffff; --accent-soft:#dde8f7; --wait:#b7791f;
+  --display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0f1318; --surface:#161b22; --surface-2:#1f2631; --ink:#edf1f6; --ink-2:#b3bcc9; --ink-3:#8a94a3;
+    --rule:#2b333f; --accent:#6da7ec; --accent-ink:#0f1318; --accent-soft:#1a2738; --wait:#e0a84a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0f1318; --surface:#161b22; --surface-2:#1f2631; --ink:#edf1f6; --ink-2:#b3bcc9; --ink-3:#8a94a3;
+  --rule:#2b333f; --accent:#6da7ec; --accent-ink:#0f1318; --accent-soft:#1a2738; --wait:#e0a84a;
+}
+*{box-sizing:border-box}
+html{padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--serif); font-size:17px; line-height:1.55}
+.wrap{max-width:1000px; margin-inline:auto; padding-inline:clamp(16px,4vw,40px)}
+h1,h2,h3{font-family:var(--display); margin:0; text-wrap:balance; letter-spacing:-0.01em}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.label{font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3)}
+
+header{padding-block:40px 30px; border-bottom:1px solid var(--rule); display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px 30px}
+h1{font-size:clamp(42px,7vw,76px); font-weight:800; line-height:.95; letter-spacing:-0.03em}
+h1 span{color:var(--accent); font-weight:500}
+.dek{color:var(--ink-2); max-width:36ch; font-size:18px}
+.clock{font-family:var(--mono); font-size:12.5px; color:var(--ink-3); margin-top:12px}
+
+section{padding-block:40px 6px}
+.sec-head{display:flex; flex-direction:column; gap:4px; margin-bottom:16px}
+.sec-head h2{font-size:clamp(22px,3vw,28px); font-weight:650}
+
+/* Formulaire */
+.deposit{display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,1fr); gap:24px 36px; background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:clamp(18px,3vw,28px)}
+form{display:flex; flex-direction:column; gap:14px}
+label{display:flex; flex-direction:column; gap:6px; font-family:var(--display); font-weight:500; font-size:15px}
+label small{font-family:var(--serif); font-weight:400; color:var(--ink-3); font-size:14px}
+input,textarea{font:inherit; font-family:var(--serif); font-size:16px; color:var(--ink); background:var(--bg); border:1px solid var(--rule); border-radius:8px; padding:10px 12px; width:100%}
+textarea{min-height:84px; resize:vertical}
+input:focus,textarea:focus{outline:2px solid var(--accent); outline-offset:0; border-color:transparent}
+.btn{align-self:flex-start; font-family:var(--display); font-weight:650; font-size:16px; background:var(--accent); color:var(--accent-ink); border:0; border-radius:8px; padding:11px 18px; cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn[disabled]{opacity:.45; cursor:not-allowed}
+.steps{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:14px; counter-reset:s}
+.steps li{display:grid; grid-template-columns:28px 1fr; gap:10px; font-size:15.5px; color:var(--ink-2); counter-increment:s}
+.steps li::before{content:counter(s); font-family:var(--mono); font-size:13px; width:26px; height:26px; border-radius:50%; background:var(--accent-soft); color:var(--accent); display:grid; place-items:center}
+.steps b{color:var(--ink); font-weight:600}
+.msg{font-size:15px; color:var(--ink-2); background:var(--accent-soft); border-radius:8px; padding:10px 12px}
+@media (max-width:760px){ .deposit{grid-template-columns:1fr} }
+
+/* En attente */
+.pending{display:flex; flex-direction:column; gap:8px}
+.pend{display:flex; flex-wrap:wrap; gap:6px 14px; align-items:baseline; background:var(--surface); border:1px dashed var(--rule); border-radius:10px; padding:12px 16px}
+.pend .t{font-family:var(--display); font-weight:500}
+.pend .s{font-family:var(--mono); font-size:12px; color:var(--wait)}
+.empty{color:var(--ink-3); font-size:15.5px}
+
+/* Bibliothèque */
+.lib{display:flex; flex-direction:column; gap:14px}
+.card{display:grid; grid-template-columns:86px minmax(0,1fr); gap:6px 22px; background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:20px clamp(16px,3vw,24px)}
+.num{font-family:var(--display); font-weight:800; font-size:44px; line-height:1; color:var(--accent); letter-spacing:-0.03em; font-variant-numeric:tabular-nums}
+.card h3{font-size:24px; font-weight:650}
+.card h3 a{color:var(--ink); text-decoration:none}
+.card h3 a:hover{color:var(--accent)}
+.card .acc{color:var(--ink-2); margin-top:6px; max-width:64ch}
+.meta{display:flex; flex-wrap:wrap; gap:4px 16px; font-family:var(--mono); font-size:12px; color:var(--ink-3); margin-top:10px}
+.pdfs{grid-column:2; margin-top:12px; border-top:1px solid var(--rule); padding-top:12px; display:flex; flex-direction:column; gap:8px}
+.pdfs .row{display:flex; flex-wrap:wrap; gap:4px 12px; align-items:baseline; font-size:15px}
+.pdfs .row .why{flex-basis:100%; color:var(--ink-3); font-size:14px}
+.pdfs .row a{font-family:var(--mono); font-size:12px}
+.pdfs .up{align-self:flex-start; font-family:var(--display); font-weight:500; font-size:14.5px; text-decoration:none; border:1px solid var(--accent); color:var(--accent); border-radius:8px; padding:7px 12px; margin-top:4px}
+.done{font-family:var(--mono); font-size:12px; color:var(--ink-3)}
+@media (max-width:560px){ .card{grid-template-columns:1fr} .pdfs{grid-column:1} .num{font-size:32px} }
+
+footer{padding-block:44px 60px; font-family:var(--mono); font-size:12px; color:var(--ink-3); line-height:1.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div>
+    <p class="label">Psychologie clinique · synthèses de la littérature</p>
+    <h1>Veille <span>de nuit</span></h1>
+  </div>
+  <div>
+    <p class="dek">Tu déposes un sujet le soir. Claude lit la recherche pendant la nuit. Le rapport t'attend au réveil.</p>
+    <p class="clock">Recherche lancée chaque nuit vers 3 h (heure suisse)</p>
+  </div>
+</header>
+
+<section id="deposer">
+  <div class="sec-head"><span class="label">Ce soir</span><h2>Déposer un sujet</h2></div>
+  <div class="deposit">
+    <form id="f">
+      <label for="sujet">Sujet ou question
+        <input id="sujet" name="sujet" required maxlength="140" placeholder="Ex. : Thérapie des schémas et trouble borderline">
+      </label>
+      <label for="precisions">Précisions <small>facultatif : angle, public, ce que tu veux savoir</small>
+        <textarea id="precisions" name="precisions" placeholder="Ex. : plutôt adolescents, efficacité comparée à la TCD"></textarea>
+      </label>
+      <label for="etude">Étude de départ <small>facultatif : lien, DOI ou référence</small>
+        <input id="etude" name="etude" placeholder="Ex. : 10.1016/j.brat.2024.104512">
+      </label>
+      <button class="btn" id="go" type="submit">Envoyer à la veille</button>
+      <p class="msg" id="msg" hidden></p>
+    </form>
+    <ol class="steps">
+      <li><span><b>GitHub s'ouvre</b> avec ton sujet déjà rempli. Clique sur le bouton vert <b>Commit changes</b>, puis confirme.</span></li>
+      <li><span>Vers <b>3 h du matin</b>, Claude cherche et lit les études (deux sujets par nuit au maximum).</span></li>
+      <li><span>Au réveil, le rapport apparaît ci-dessous. S'il te demande des <b>PDF</b>, dépose-les : le rapport sera complété la nuit suivante.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="attente">
+  <div class="sec-head"><span class="label">Prochaine nuit</span><h2>En attente</h2></div>
+  <div class="pending" id="pending"><p class="empty">Chargement…</p></div>
+</section>
+
+<section id="bibliotheque">
+  <div class="sec-head"><span class="label">Tous les rapports</span><h2>Bibliothèque</h2></div>
+  <div class="lib" id="lib"><p class="empty">Chargement…</p></div>
+</section>
+
+<footer>
+  Synthèses rédigées par Claude à partir de résumés et d'articles en libre accès, références vérifiées dans Europe PMC ou Crossref.<br>
+  Vérifie un chiffre dans la source avant de le citer dans un travail. Les PDF que tu déposes restent dans un dépôt privé.
+</footer>
+</div>
+
+<script>
+const REPO = "valejaqu1/newsletter";
+const PDF_UPLOAD = "https://github.com/valejaqu1/newsletter-pdfs/upload/main";
+
+function slugify(s){
+  return s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase()
+    .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,50) || "sujet";
+}
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function frDate(iso){ const [y,m,d]=iso.split("-"); return `${d}.${m}.${y}`; }
+
+document.getElementById("f").addEventListener("submit", e=>{
+  e.preventDefault();
+  const sujet=document.getElementById("sujet").value.trim();
+  if(!sujet) return;
+  const prec=document.getElementById("precisions").value.trim();
+  const etude=document.getElementById("etude").value.trim();
+  const today=new Date().toISOString().slice(0,10);
+  const file=`sujets/${today}-${slugify(sujet)}.md`;
+  const body=`---\nsujet: "${sujet.replace(/"/g,"'")}"\nstatut: nouveau\ndate: ${today}\n---\n`+
+    (prec?`Précisions : ${prec}\n`:"")+(etude?`Étude de départ : ${etude}\n`:"");
+  const url=`https://github.com/${REPO}/new/main?filename=${encodeURIComponent(file)}&value=${encodeURIComponent(body)}&message=${encodeURIComponent("Nouveau sujet : "+sujet)}`;
+  window.open(url,"_blank","noopener");
+  const msg=document.getElementById("msg");
+  msg.hidden=false;
+  msg.textContent=`GitHub s'est ouvert dans un nouvel onglet. Clique sur « Commit changes » pour valider « ${sujet} ».`;
+});
+
+async function load(){
+  let data={rapports:[]};
+  try{ data=await (await fetch("data/rapports.json",{cache:"no-store"})).json(); }catch(e){}
+  const lib=document.getElementById("lib");
+  const done=new Set(data.rapports.map(r=>r.slug));
+  lib.innerHTML = data.rapports.length ? "" : `<p class="empty">Aucun rapport pour l'instant.</p>`;
+  data.rapports.forEach(r=>{
+    const c=document.createElement("article"); c.className="card";
+    const pdf = (r.pdfs_demandes||[]).length ? `
+      <div class="pdfs">
+        <span class="label">PDF demandés pour compléter ce rapport</span>
+        ${r.pdfs_demandes.map(p=>`<div class="row"><b>${esc(p.ref)}</b><a href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">doi:${esc(p.doi)}</a><span class="why">${esc(p.pourquoi)}</span></div>`).join("")}
+        <a class="up" href="${PDF_UPLOAD}" target="_blank" rel="noopener">Déposer des PDF (dépôt privé)</a>
+      </div>` : "";
+    const recus=(r.pdfs_recus||[]).length?` · ${r.pdfs_recus.length} PDF intégré${r.pdfs_recus.length>1?"s":""}`:"";
+    c.innerHTML=`
+      <div class="num">${String(r.numero).padStart(2,"0")}</div>
+      <div>
+        <h3><a href="rapports/${esc(r.slug)}.html">${esc(r.titre)}</a></h3>
+        <p class="acc">${esc(r.accroche)}</p>
+        <div class="meta"><span>${frDate(r.date)}</span>${r.maj?`<span>mis à jour le ${frDate(r.maj)}</span>`:""}<span>${r.sources} sources</span><span>${esc(r.periode)}</span><span>version ${r.version}${recus}</span></div>
+      </div>${pdf}`;
+    lib.appendChild(c);
+  });
+
+  const pend=document.getElementById("pending");
+  try{
+    const files=await (await fetch(`https://api.github.com/repos/${REPO}/contents/sujets`)).json();
+    const waiting=(Array.isArray(files)?files:[]).filter(f=>f.name.endsWith(".md"))
+      .map(f=>({f, slug:f.name.replace(/^\d{4}-\d{2}-\d{2}-/,"").replace(/\.md$/,""), date:f.name.slice(0,10)}))
+      .filter(x=>!done.has(x.slug));
+    pend.innerHTML = waiting.length ? "" : `<p class="empty">Aucun sujet en attente. Dépose-en un ci-dessus.</p>`;
+    waiting.forEach(x=>{
+      const d=document.createElement("div"); d.className="pend";
+      d.innerHTML=`<span class="t">${esc(x.slug.replace(/-/g," "))}</span><span class="s">déposé le ${frDate(x.date)} · traité la nuit prochaine</span>`;
+      pend.appendChild(d);
+    });
+  }catch(e){ pend.innerHTML=`<p class="empty">Impossible de lire la liste des sujets pour l'instant. Réessaie dans quelques minutes.</p>`; }
+}
+load();
+</script>
+</body>
+</html>

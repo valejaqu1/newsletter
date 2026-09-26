@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HPI et TDAH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+:root{
+  --bg:#f1f4f8; --surface:#ffffff; --surface-2:#e6ebf2; --ink:#121a25; --ink-2:#465264; --ink-3:#6b7788;
+  --rule:#d3dae4; --accent:#1c5cab; --accent-soft:#dde8f7;
+  --t-pop:#2a78d6; --t-clin:#eb6834; --t-rev:#1baf7a; --t-other:#8b95a3;
+  --q-low:#86b6ef; --q-mid:#2a78d6; --q-high:#104281;
+  --less:#2a78d6; --more:#e34948;
+  --display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0f1318; --surface:#161b22; --surface-2:#1f2631; --ink:#edf1f6; --ink-2:#b3bcc9; --ink-3:#8a94a3;
+    --rule:#2b333f; --accent:#6da7ec; --accent-soft:#1a2738;
+    --t-pop:#3987e5; --t-clin:#d95926; --t-rev:#199e70; --t-other:#7c8592;
+    --q-low:#1c5cab; --q-mid:#3987e5; --q-high:#9ec5f4;
+    --less:#3987e5; --more:#e66767;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0f1318; --surface:#161b22; --surface-2:#1f2631; --ink:#edf1f6; --ink-2:#b3bcc9; --ink-3:#8a94a3;
+  --rule:#2b333f; --accent:#6da7ec; --accent-soft:#1a2738;
+  --t-pop:#3987e5; --t-clin:#d95926; --t-rev:#199e70; --t-other:#7c8592;
+  --q-low:#1c5cab; --q-mid:#3987e5; --q-high:#9ec5f4;
+  --less:#3987e5; --more:#e66767;
+}
+
+*{box-sizing:border-box}
+html{padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%}
+[hidden]{display:none!important}
+.back{font-family:var(--mono); font-size:12.5px; text-decoration:none; display:inline-block; margin-bottom:14px}
+.up{display:inline-block; margin-top:16px; font-family:var(--display); font-weight:650; font-size:15px; text-decoration:none; background:var(--accent); color:var(--surface); border-radius:8px; padding:9px 15px}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--serif); font-size:17px; line-height:1.6;}
+.wrap{max-width:1080px; margin-inline:auto; padding-inline:clamp(16px,4vw,40px);}
+h1,h2,h3{font-family:var(--display); text-wrap:balance; margin:0; letter-spacing:-0.01em}
+p{margin:0}
+a{color:var(--accent)}
+button{font:inherit; color:inherit}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.mono{font-family:var(--mono)}
+.label{font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3)}
+
+/* ---------- En-tête ---------- */
+header.top{padding-block:40px 28px; border-bottom:1px solid var(--rule)}
+.protocol{display:flex; flex-wrap:wrap; gap:6px 22px; font-family:var(--mono); font-size:12px; color:var(--ink-3); letter-spacing:.04em}
+.protocol b{color:var(--ink-2); font-weight:500}
+.title-row{display:flex; flex-wrap:wrap; align-items:flex-end; gap:12px 28px; margin-top:22px}
+h1{font-size:clamp(48px,9vw,96px); font-weight:800; line-height:.92; letter-spacing:-0.035em}
+h1 .x{color:var(--accent); font-weight:500; padding-inline:.06em}
+.dek{max-width:34ch; font-size:19px; color:var(--ink-2); line-height:1.45; padding-bottom:8px}
+.levels{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px}
+.levels a{font-family:var(--mono); font-size:12.5px; text-decoration:none; color:var(--ink-2); border:1px solid var(--rule); background:var(--surface); padding:6px 11px; border-radius:999px}
+.levels a:hover{border-color:var(--accent); color:var(--accent)}
+
+section{padding-block:44px 8px}
+.sec-head{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:18px}
+.sec-head h2{font-size:clamp(24px,3.2vw,32px); font-weight:650}
+.sec-head .label{flex-basis:100%}
+
+/* ---------- Niveau 1 ---------- */
+.summary{font-size:clamp(19px,2.2vw,22px); line-height:1.5; max-width:62ch}
+.summary strong{font-weight:600}
+.verdicts{margin-top:26px; border-top:1px solid var(--rule)}
+.verdict{display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1.2fr) 150px; gap:6px 24px; align-items:center; padding:14px 4px; border-bottom:1px solid var(--rule); text-decoration:none; color:inherit}
+.verdict:hover{background:var(--surface)}
+.verdict .q{font-family:var(--display); font-weight:500; font-size:17px; line-height:1.3}
+.verdict .a{color:var(--ink-2); font-size:16px; line-height:1.4}
+.verdict .a b{color:var(--ink); font-weight:600}
+.strength{display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:12px; color:var(--ink-3)}
+.dots{display:inline-flex; gap:4px}
+.dots i{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--accent); display:block}
+.dots i.on{background:var(--accent)}
+.verdict-head{display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1.2fr) 150px; gap:24px; padding:10px 4px 8px}
+@media (max-width:720px){
+  .verdict,.verdict-head{grid-template-columns:1fr}
+  .verdict-head .label:not(:first-child){display:none}
+}
+
+/* ---------- Carte des études ---------- */
+.map-card{background:var(--surface); border:1px solid var(--rule); border-radius:10px; padding:18px 18px 10px}
+.legend{display:flex; flex-wrap:wrap; gap:8px 18px; font-family:var(--mono); font-size:12px; color:var(--ink-2); margin-bottom:6px}
+.legend span{display:inline-flex; align-items:center; gap:7px}
+.sw{width:11px; height:11px; border-radius:50%; display:inline-block}
+.sw.dia{border-radius:1px; transform:rotate(45deg) scale(.85)}
+.scroll-x{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.scroll-x svg{min-width:680px}
+svg text{font-family:var(--mono)}
+.mark{cursor:pointer; transition:opacity .15s}
+.mark:hover{opacity:.82}
+.mark.sel{stroke:var(--ink); stroke-width:2.5}
+.hint{font-family:var(--mono); font-size:12px; color:var(--ink-3); margin-top:6px}
+
+.detail{margin-top:16px; background:var(--surface); border:1px solid var(--rule); border-radius:10px; padding:22px clamp(16px,3vw,28px); display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.5fr); gap:22px 36px}
+.detail h3{font-size:21px; font-weight:650; line-height:1.25; grid-column:1/-1}
+.detail .kv{display:grid; grid-template-columns:auto 1fr; gap:6px 14px; align-content:start; font-size:15px}
+.detail .kv dt{font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); padding-top:3px}
+.detail .kv dd{margin:0; color:var(--ink-2)}
+.detail .body{display:flex; flex-direction:column; gap:14px}
+.detail .body h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); margin:0 0 3px; font-weight:500}
+.detail .body p{max-width:64ch}
+.chip{display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:11.5px; padding:3px 9px; border-radius:999px; background:var(--surface-2); color:var(--ink-2)}
+.chip.full::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--t-rev)}
+.chip.abs::before{content:""; width:7px; height:7px; border-radius:50%; border:1.5px solid var(--ink-3)}
+@media (max-width:720px){ .detail{grid-template-columns:1fr} }
+
+/* ---------- Dossiers ---------- */
+.dossier{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:24px 40px; padding-block:34px; border-top:1px solid var(--rule)}
+.dossier:first-of-type{border-top:0; padding-top:6px}
+.dossier .txt{display:flex; flex-direction:column; gap:14px}
+.dossier h3{font-size:clamp(22px,2.6vw,27px); font-weight:650; line-height:1.18}
+.dossier .lede{color:var(--ink-2); max-width:58ch}
+.topline{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center}
+.fig{background:var(--surface); border:1px solid var(--rule); border-radius:10px; padding:16px 16px 12px; align-self:start}
+.fig figcaption{font-family:var(--display); font-weight:500; font-size:15px; line-height:1.3; margin-bottom:10px}
+.fig .src{font-family:var(--mono); font-size:11.5px; color:var(--ink-3); margin-top:8px; line-height:1.5}
+.fig svg{display:block; width:100%; height:auto}
+details.deep{grid-column:1/-1; background:var(--surface); border:1px solid var(--rule); border-radius:10px}
+details.deep summary{cursor:pointer; list-style:none; padding:14px 18px; font-family:var(--display); font-weight:500; font-size:16px; display:flex; justify-content:space-between; gap:12px; align-items:center}
+details.deep summary::-webkit-details-marker{display:none}
+details.deep summary::after{content:"+"; font-family:var(--mono); font-size:20px; color:var(--accent); line-height:1}
+details.deep[open] summary::after{content:"−"}
+details.deep[open] summary{border-bottom:1px solid var(--rule)}
+.deep-body{padding:18px clamp(16px,3vw,26px) 22px; display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); gap:22px 34px}
+.deep-body .item h4{font-family:var(--display); font-weight:650; font-size:16px; margin:0 0 5px}
+.deep-body .item p{font-size:16px; color:var(--ink-2); max-width:62ch}
+.deep-body .wide{grid-column:1/-1}
+.cite{border:0; background:var(--accent-soft); color:var(--accent); font-family:var(--mono); font-size:12px; padding:2px 8px; border-radius:4px; cursor:pointer; white-space:nowrap}
+.cite:hover{text-decoration:underline}
+.limit{border-left:3px solid var(--rule); padding-left:12px; color:var(--ink-2); font-size:15.5px}
+.limit b{font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); font-weight:500; display:block}
+@media (max-width:820px){ .dossier{grid-template-columns:1fr} }
+
+/* ---------- Pratique ---------- */
+.practice{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); gap:14px}
+.practice li{list-style:none; background:var(--surface); border:1px solid var(--rule); border-radius:10px; padding:16px 18px; display:flex; flex-direction:column; gap:6px}
+.practice ol{margin:0; padding:0; display:contents}
+.practice h4{font-family:var(--display); font-weight:650; font-size:16.5px; margin:0; line-height:1.3}
+.practice p{font-size:15.5px; color:var(--ink-2)}
+.note{font-size:15px; color:var(--ink-3); margin-top:14px; max-width:70ch}
+
+.two{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:18px 40px}
+.two ul{margin:0; padding-left:1.1em; display:flex; flex-direction:column; gap:10px; color:var(--ink-2)}
+.two h3{font-size:19px; font-weight:650; margin-bottom:10px}
+
+.pdf{background:var(--accent-soft); border-radius:10px; padding:20px clamp(16px,3vw,26px)}
+.pdf h3{font-size:19px; font-weight:650}
+.pdf p{color:var(--ink-2); margin-top:6px; max-width:66ch}
+.pdf ul{margin:14px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px}
+.pdf li{display:flex; flex-wrap:wrap; gap:4px 12px; align-items:baseline; font-size:15.5px}
+.pdf li .why{color:var(--ink-2); flex-basis:100%; font-size:14.5px}
+
+.gloss{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr)); gap:14px 30px; margin:0}
+.gloss div{display:flex; flex-direction:column; gap:2px}
+.gloss dt{font-family:var(--mono); font-weight:500; font-size:14px; color:var(--accent)}
+.gloss dd{margin:0; font-size:15px; color:var(--ink-2)}
+
+.refs{margin:0; padding:0; list-style:none; display:flex; flex-direction:column}
+.refs li{display:grid; grid-template-columns:62px minmax(0,1fr) auto; gap:4px 16px; padding:11px 0; border-bottom:1px solid var(--rule); font-size:15px; align-items:baseline}
+.refs .yr{font-family:var(--mono); color:var(--ink-3); font-variant-numeric:tabular-nums}
+.refs .t{color:var(--ink)}
+.refs .j{color:var(--ink-3); font-style:italic}
+.refs a{font-family:var(--mono); font-size:12px}
+@media (max-width:600px){ .refs li{grid-template-columns:1fr} }
+
+footer{padding-block:40px 60px; font-family:var(--mono); font-size:12px; color:var(--ink-3); line-height:1.7}
+
+.tip{position:fixed; z-index:10; pointer-events:none; background:var(--ink); color:var(--bg); font-family:var(--mono); font-size:12px; line-height:1.45; padding:7px 10px; border-radius:6px; max-width:260px; box-shadow:0 4px 18px rgba(0,0,0,.18)}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important; scroll-behavior:auto!important} }
+html{scroll-behavior:smooth}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="top">
+  <a class="back" href="../index.html">← Toutes les veilles</a>
+  <div class="protocol">
+    <span>Veille <b>n° 01</b></span>
+    <span>Synthèse du <b>27.09.2026</b></span>
+    <span><b>20</b> sources · <b>2007 → 2026</b></span>
+    <span>Double exceptionnalité (2e)</span>
+  </div>
+  <div class="title-row">
+    <h1>HPI<span class="x">×</span>TDAH</h1>
+    <p class="dek">Ce que la recherche dit vraiment du haut potentiel intellectuel quand il se combine à un TDAH.</p>
+  </div>
+  <nav class="levels" aria-label="Niveaux de lecture">
+    <a href="#l1">1 min · l'essentiel</a>
+    <a href="#carte">Carte des études</a>
+    <a href="#l2">5 min · les dossiers</a>
+    <a href="#pratique">En stage</a>
+    <a href="#refs">Références</a>
+  </nav>
+</header>
+
+<!-- ============ NIVEAU 1 ============ -->
+<section id="l1">
+  <div class="sec-head"><span class="label">Niveau 1 · en une minute</span><h2>L'essentiel</h2></div>
+  <p class="summary">Un TDAH chez une personne HPI est <strong>un vrai TDAH</strong> : mêmes antécédents familiaux, mêmes comorbidités, même retentissement, même réponse au traitement. Être HPI <strong>n'expose pas à plus de troubles psychiques</strong> en population générale, et le QI est plutôt lié à moins de symptômes de TDAH. Mais en consultation, le haut potentiel peut <strong>masquer le TDAH et retarder le diagnostic</strong>.</p>
+
+  <div class="verdicts" role="list">
+    <div class="verdict-head" aria-hidden="true"><span class="label">Question</span><span class="label">Réponse</span><span class="label">Solidité des preuves</span></div>
+    <a class="verdict" role="listitem" href="#d1">
+      <span class="q">Le TDAH est-il un vrai diagnostic chez un HPI ?</span>
+      <span class="a"><b>Oui.</b> Même tableau qu'avec un QI moyen.</span>
+      <span class="strength"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span>solide</span>
+    </a>
+    <a class="verdict" role="listitem" href="#d2">
+      <span class="q">Être HPI rend-il plus vulnérable aux troubles psychiques ?</span>
+      <span class="a"><b>Non.</b> Même un peu moins d'anxiété chez l'adulte.</span>
+      <span class="strength"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span>solide</span>
+    </a>
+    <a class="verdict" role="listitem" href="#d3">
+      <span class="q">Le HPI peut-il masquer ou retarder le diagnostic de TDAH ?</span>
+      <span class="a"><b>Probablement.</b> Diagnostic plus tardif, tests exécutifs moins parlants.</span>
+      <span class="strength"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span>modérée</span>
+    </a>
+    <a class="verdict" role="listitem" href="#d4">
+      <span class="q">Existe-t-il un profil WISC typique du HPI avec TDAH ?</span>
+      <span class="a"><b>Un écart IAG &gt; ICC</b> est fréquent, mais il n'est pas spécifique.</span>
+      <span class="strength"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span>modérée</span>
+    </a>
+    <a class="verdict" role="listitem" href="#d5">
+      <span class="q">Les « surexcitabilités » expliquent-elles l'agitation d'un HPI ?</span>
+      <span class="a"><b>Non.</b> Le lien entre HPI et surexcitabilité psychomotrice n'est pas démontré.</span>
+      <span class="strength"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span>modérée</span>
+    </a>
+  </div>
+</section>
+
+<!-- ============ CARTE ============ -->
+<section id="carte">
+  <div class="sec-head"><span class="label">Vue d'ensemble</span><h2>Carte des études</h2></div>
+  <div class="map-card">
+    <div class="legend">
+      <span><i class="sw" style="background:var(--t-pop)"></i>Population / registre</span>
+      <span><i class="sw" style="background:var(--t-clin)"></i>Échantillon clinique</span>
+      <span><i class="sw dia" style="background:var(--t-rev)"></i>Revue ou méta-analyse</span>
+      <span><i class="sw" style="background:var(--t-other)"></i>Enquête auto-déclarée</span>
+      <span style="color:var(--ink-3)">taille du cercle = effectif (échelle log)</span>
+    </div>
+    <div class="scroll-x"><svg id="map" viewBox="0 0 900 430" role="img" aria-label="Carte des 20 études, par année et par thème"></svg></div>
+    <p class="hint">Clique sur une étude pour afficher sa fiche.</p>
+  </div>
+  <div class="detail" id="detail" aria-live="polite"></div>
+</section>
+
+<!-- ============ NIVEAU 2 ============ -->
+<section id="l2">
+  <div class="sec-head"><span class="label">Niveau 2 · cinq minutes, puis « Approfondir »</span><h2>Les dossiers</h2></div>
+
+  <!-- D1 -->
+  <article class="dossier" id="d1">
+    <div class="txt">
+      <div class="topline"><span class="label">Dossier 1 · Validité</span><span class="strength"><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i></span>preuves solides</span></div>
+      <h3>Le TDAH existe bel et bien chez les HPI</h3>
+      <p class="lede">Chez l'enfant comme chez l'adulte, le TDAH avec haut QI a les mêmes marqueurs que le TDAH « ordinaire » : il est familial, s'accompagne des mêmes comorbidités, pèse sur la vie quotidienne et répond au traitement de la même façon. Dans la seule cohorte de naissance disponible, la principale différence tient aux résultats en lecture.</p>
+      <p class="limit"><b>À garder en tête</b>Les groupes HPI-TDAH sont petits (34 à 64 personnes) et le seuil retenu est souvent QI ≥ 120, pas 130.</p>
+    </div>
+    <figure class="fig" style="margin:0">
+      <figcaption>TDAH selon le QI : des profils presque identiques</figcaption>
+      <div id="katusic"></div>
+      <p class="src">Katusic et al., 2011 · cohorte de naissance (Minnesota), 379 enfants avec TDAH. Lecture = percentile national médian.</p>
+    </figure>
+    <details class="deep">
+      <summary>Approfondir · les études en détail</summary>
+      <div class="deep-body">
+        <div class="item"><h4>Enfants : même tableau clinique</h4><p>Parmi 141 enfants de QI ≥ 120, les 49 qui avaient un TDAH présentaient plus d'antécédents familiaux de TDAH, plus de redoublements, plus de comorbidités et plus de difficultés fonctionnelles que les 92 autres. 35 sur 49 avaient une présentation combinée. <button class="cite" data-id="antshel2007">Antshel 2007</button></p></div>
+        <div class="item"><h4>Adultes : un retentissement réel</h4><p>Les 64 adultes HPI avec TDAH rapportaient une moins bonne qualité de vie, plus d'accidents, d'amendes et d'arrestations, et plus de dépressions, de TOC et d'anxiété généralisée que 53 adultes HPI sans TDAH. <button class="cite" data-id="antshel2009">Antshel 2009</button></p></div>
+        <div class="item"><h4>Même âge, même traitement</h4><p>Dans une cohorte de 5 718 naissances, les critères du TDAH étaient remplis au même âge quel que soit le QI (9,5 ans si QI élevé, 9,7 ans si moyen). Les taux de comorbidités et de traitement par stimulants ne différaient pas. <button class="cite" data-id="katusic2011">Katusic 2011</button></p></div>
+        <div class="item"><h4>Deux revues concordantes</h4><p>La revue systématique de 2016 conclut que le TDAH est valide chez les HPI, l'hyperactivité étant peut-être un marqueur moins spécifique. Celle de 2023 ajoute que le QI ne change pas la réponse au médicament et que le tableau est souvent moins sévère, avec un meilleur pronostic. <button class="cite" data-id="rommelse2016">Rommelse 2016</button> <button class="cite" data-id="despature2023">Despature 2023</button></p></div>
+      </div>
+    </details>
+  </article>
+
+  <!-- D2 -->
+  <article class="dossier" id="d2">
+    <div class="txt">
+      <div class="topline"><span class="label">Dossier 2 · Risque</span><span class="strength"><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i></span>preuves solides</span></div>
+      <h3>Être HPI n'augmente pas le risque de troubles psychiques</h3>
+      <p class="lede">L'idée d'un HPI « fragile par nature » vient surtout d'une enquête auprès de membres de Mensa. Dans la UK Biobank, avec un vrai groupe de comparaison de plus de 236 000 personnes, les adultes à très haut facteur g ont moins d'anxiété et de stress post-traumatique, et pas plus de dépression. Chez l'enfant, plus le QI est élevé, moins il y a de symptômes de TDAH.</p>
+      <p class="limit"><b>À garder en tête</b>La UK Biobank ne contient que des adultes de 40 à 69 ans, et le TDAH comme l'autisme y étaient trop rares pour être analysés.</p>
+    </div>
+    <figure class="fig" style="margin:0">
+      <figcaption>Adultes à haut facteur g (≥ +2 ET) comparés au groupe moyen</figcaption>
+      <div id="forest"></div>
+      <p class="src">Williams et al., 2023 · UK Biobank, 16 137 personnes à haut g contre 236 273. Odds ratio et IC à 95 %. Dépression, trouble bipolaire, schizophrénie, TOC, TCA : pas de différence.</p>
+    </figure>
+    <details class="deep">
+      <summary>Approfondir · génétique, enfants, et la controverse Mensa</summary>
+      <div class="deep-body">
+        <div class="item"><h4>Chez l'enfant : une relation linéaire</h4><p>Sur 2 221 enfants néerlandais de 10 à 12 ans, les problèmes d'attention diminuent régulièrement quand le QI augmente, sans remontée chez les plus doués. Le QI explique 4,1 % (parents) à 8,5 % (enseignants) de la variance des problèmes d'attention. Et ces problèmes prédisent de moins bons résultats scolaires même chez les QI de 115 à 129. <button class="cite" data-id="rommelse2017">Rommelse 2017</button></p></div>
+        <div class="item"><h4>La controverse Mensa</h4><p>3 715 membres de Mensa déclaraient bien plus de troubles que les moyennes nationales (26,7 % de troubles de l'humeur, 20 % de troubles anxieux, contre environ 10 % dans la population). Mais il s'agit de diagnostics auto-déclarés, parfois seulement « suspectés », comparés à des statistiques non appariées, dans un club qui ne représente pas les HPI. <button class="cite" data-id="karpinski2018">Karpinski 2018</button></p></div>
+        <div class="item"><h4>Ce que disent les revues</h4><p>Sur 19 études, les résultats sont hétérogènes : le HPI peut être protecteur ou fragilisant selon l'âge, le contexte et l'écart entre capacités verbales et non verbales. Les HPI avec TDAH ont nettement plus de comorbidités que les HPI sans TDAH. <button class="cite" data-id="tasca2024">Tasca 2024</button></p></div>
+        <div class="item wide">
+          <h4>Même signal côté génétique</h4>
+          <p>Les variantes génétiques associées à l'intelligence vont dans le sens inverse de celles du TDAH, alors qu'elles vont dans le même sens que celles de l'autisme. <button class="cite" data-id="savage2018">Savage 2018</button></p>
+          <div id="rg" style="max-width:560px; margin-top:12px"></div>
+        </div>
+      </div>
+    </details>
+  </article>
+
+  <!-- D3 -->
+  <article class="dossier" id="d3">
+    <div class="txt">
+      <div class="topline"><span class="label">Dossier 3 · Diagnostic</span><span class="strength"><span class="dots"><i class="on"></i><i class="on"></i><i></i></span>preuves modérées</span></div>
+      <h3>En consultation, le HPI peut masquer le TDAH… et le faire surgir plus tard</h3>
+      <p class="lede">Dans un grand échantillon clinique italien, les enfants très doués sont deux fois plus nombreux parmi les TDAH que dans la population. Au Canada, un QI plus élevé va avec un diagnostic plus tardif. Chez l'adulte, un QI élevé semble compenser une partie des déficits exécutifs visibles aux tests.</p>
+      <p class="limit"><b>À garder en tête</b>La surreprésentation peut refléter le recrutement : les familles d'enfants doués consultent peut-être davantage, et le choix du QIT ou de l'IAG change qui est compté comme HPI.</p>
+    </div>
+    <figure class="fig" style="margin:0">
+      <figcaption>Part des enfants avec IAG ≥ 125 parmi les enfants avec TDAH</figcaption>
+      <div id="cornoldi"></div>
+      <p class="src">Cornoldi, Giofrè &amp; Toffalini, 2023 · 82 enfants sur un large échantillon TDAH. Valeur attendue calculée ici à partir de la loi normale (moyenne 100, ET 15).</p>
+    </figure>
+    <details class="deep">
+      <summary>Approfondir · âge du diagnostic et compensation</summary>
+      <div class="deep-body">
+        <div class="item"><h4>Un diagnostic plus tardif</h4><p>Sur 568 enfants avec TDAH (réseau POND, Ontario), un QI plus élevé prédit un diagnostic plus tardif. Les symptômes hyperactifs-impulsifs accélèrent le diagnostic ; un niveau socio-économique élevé le retarde. <button class="cite" data-id="hare2024">Hare 2024</button></p></div>
+        <div class="item"><h4>Des tests exécutifs trompeurs</h4><p>Des adultes TDAH non traités avec QI ≥ 110 ne se distinguaient des contrôles que sur une seule mesure (erreurs de commission au CPT), contre huit mesures pour les TDAH de QI standard. Un bilan exécutif « normal » n'exclut donc pas un TDAH chez une personne très douée. <button class="cite" data-id="milioni2017">Milioni 2017</button></p></div>
+        <div class="item"><h4>Trois scénarios cliniques</h4><p>La revue de 2022 distingue trois cas : le HPI masque le TDAH, le TDAH masque le HPI, ou aucun des deux n'est repéré. Elle souligne aussi que certaines manifestations attribuées au HPI peuvent être confondues avec un TDAH. <button class="cite" data-id="coutinho2022">Coutinho-Souto 2022</button></p></div>
+        <div class="item"><h4>Une nuance</h4><p>Dans la cohorte de Katusic, les critères du TDAH étaient remplis au même âge quel que soit le QI. Mais il s'agit de critères repérés par les chercheurs, pas de la date du diagnostic posé en clinique. Les parents et les enseignants sont aussi plus souvent en désaccord sur l'attention aux extrêmes du QI. <button class="cite" data-id="katusic2011">Katusic 2011</button> <button class="cite" data-id="rommelse2017">Rommelse 2017</button></p></div>
+      </div>
+    </details>
+  </article>
+
+  <!-- D4 -->
+  <article class="dossier" id="d4">
+    <div class="txt">
+      <div class="topline"><span class="label">Dossier 4 · Profil cognitif</span><span class="strength"><span class="dots"><i class="on"></i><i class="on"></i><i></i></span>preuves modérées</span></div>
+      <h3>Au WISC, un IAG élevé et un ICC plus bas, mais rien de spécifique</h3>
+      <p class="lede">Chez les enfants doués avec TDAH, la mémoire de travail et la vitesse de traitement sont nettement plus faibles que le raisonnement. Le QIT est tiré vers le bas et peut passer sous le seuil de 130 alors que l'IAG le dépasse. Ce profil se retrouve aussi chez les doués avec trouble des apprentissages, et même chez des doués sans trouble.</p>
+      <p class="limit"><b>À garder en tête</b>Un écart IAG / ICC signale une difficulté à explorer. Il ne suffit pas à poser un diagnostic de TDAH.</p>
+    </div>
+    <figure class="fig" style="margin:0">
+      <figcaption>Deux façons de compter : QIT et IAG moyens du groupe, sur la courbe du QI</figcaption>
+      <div id="bell"></div>
+      <p class="src">Romano et al., 2024 · 40 enfants adressés pour suspicion de TDAH ou de trouble des apprentissages, IAG &gt; 120. Moyennes du groupe : QIT 121,7 · IAG 130,2.</p>
+    </figure>
+    <details class="deep">
+      <summary>Approfondir · forces, faiblesses et une étude de 2026</summary>
+      <div class="deep-body">
+        <div class="item"><h4>Ce qui est préservé, ce qui coince</h4><p>La revue de 2025 (19 études) décrit un écart entre IAG et indices de vitesse ou de mémoire de travail presque deux fois plus grand que chez les TDAH non doués. La vitesse de traitement distingue le mieux les doués avec et sans TDAH. Flexibilité, mémoire de travail verbale et fluence restent bonnes ; l'inhibition, la planification et l'organisation sont fragiles. <button class="cite" data-id="rizzo2025">Rizzo 2025</button></p></div>
+        <div class="item"><h4>Le même déficit, à un autre niveau</h4><p>Aux tâches d'inhibition, de mémoire de travail et d'attention soutenue, l'écart entre TDAH et contrôles est le même chez les doués et chez les QI moyens. Un jeune doué avec TDAH obtient ainsi des scores proches d'un contrôle de QI moyen : dans la norme, mais en dessous de ses pairs. <button class="cite" data-id="cadenas2020">Cadenas 2020</button></p></div>
+        <div class="item"><h4>Pas une erreur de diagnostic</h4><p>Les 82 enfants doués avec TDAH ont un profil proche de celui des doués avec trouble des apprentissages, et différent de celui des doués au développement typique. Dans une autre clinique, utiliser l'IAG plutôt que le QIT fait passer la part d'enfants HPI de 5 % à 8,8 %. <button class="cite" data-id="cornoldi2023">Cornoldi 2023</button> <button class="cite" data-id="romano2024">Romano 2024</button></p></div>
+        <div class="item"><h4>Nouveau en 2026 : le QI ne protège pas de tout</h4><p>Sur 5 138 enfants chinois avec TDAH, un QI verbal élevé va avec moins d'inattention mais plus d'impulsivité. Peu d'associations restent significatives après correction pour tests multiples : résultat à confirmer. <button class="cite" data-id="liu2026">Liu 2026</button></p></div>
+      </div>
+    </details>
+  </article>
+
+  <!-- D5 -->
+  <article class="dossier" id="d5">
+    <div class="txt">
+      <div class="topline"><span class="label">Dossier 5 · Surexcitabilités</span><span class="strength"><span class="dots"><i class="on"></i><i class="on"></i><i></i></span>preuves modérées</span></div>
+      <h3>Les « surexcitabilités » ne sont pas un bon marqueur du HPI</h3>
+      <p class="lede">La théorie de Dąbrowski est souvent invoquée pour dire qu'un enfant doué agité n'a pas de TDAH mais une « surexcitabilité psychomotrice ». Deux méta-analyses montrent que c'est justement la surexcitabilité psychomotrice qui n'est pas liée au HPI. Le lien disparaît même quand le HPI est défini par le QI.</p>
+      <p class="limit"><b>À garder en tête</b>Les études incluses sont petites, et un biais de publication gonfle probablement les différences observées.</p>
+    </div>
+    <figure class="fig" style="margin:0">
+      <figcaption>Force du lien entre HPI et chaque surexcitabilité</figcaption>
+      <div id="oe"></div>
+      <p class="src">Winkler &amp; Voight, 2016 (méta-analyse) · confirmé pour l'ordre des liens par Olszewski-Kubilius et al., 2026 (20 études, 230 effets). Catégories telles que rapportées dans les résumés.</p>
+    </figure>
+    <details class="deep">
+      <summary>Approfondir · ce que change la définition du HPI</summary>
+      <div class="deep-body">
+        <div class="item"><h4>Tout dépend de qui on appelle « doué »</h4><p>Le lien est le plus fort quand le HPI est défini par une participation passée à un programme pour élèves doués. Il est nul quand le HPI est défini par le QI ou l'aptitude générale, et absent sans critère explicite d'identification. Il n'apparaît qu'au lycée. <button class="cite" data-id="olszewski2026">Olszewski-Kubilius 2026</button></p></div>
+        <div class="item"><h4>La recommandation des auteurs</h4><p>Ne pas utiliser les surexcitabilités pour repérer le HPI, et ne pas supposer que l'intensité émotionnelle est une caractéristique normale des enfants doués. <button class="cite" data-id="winkler2016">Winkler 2016</button> <button class="cite" data-id="olszewski2026">Olszewski-Kubilius 2026</button></p></div>
+      </div>
+    </details>
+  </article>
+</section>
+
+<!-- ============ PRATIQUE ============ -->
+<section id="pratique">
+  <div class="sec-head"><span class="label">Niveau 3 · pour ton stage</span><h2>Ce que ça change en pratique</h2></div>
+  <div class="practice"><ol>
+    <li><h4>Comparer la personne à elle-même</h4><p>Un élève HPI avec des notes « dans la moyenne » peut être en vraie difficulté. Les problèmes d'attention pèsent sur la scolarité même à QI 115–129.</p></li>
+    <li><h4>Croiser les sources</h4><p>Parents et enseignants sont plus souvent en désaccord sur l'attention aux extrêmes du QI. Un seul informant ne suffit pas.</p></li>
+    <li><h4>Lire le WISC par indices</h4><p>Un IAG bien au-dessus de l'ICC oriente vers une difficulté (TDAH, trouble des apprentissages) sans dire laquelle.</p></li>
+    <li><h4>Se méfier d'un bilan exécutif « normal »</h4><p>Chez l'adulte doué, la compensation peut effacer le déficit aux tests alors que le retentissement au quotidien reste réel.</p></li>
+    <li><h4>Laisser de côté les surexcitabilités</h4><p>Attribuer l'agitation à une « surexcitabilité psychomotrice » plutôt qu'évaluer un TDAH n'a pas d'appui empirique.</p></li>
+    <li><h4>Chercher les comorbidités</h4><p>Les HPI avec TDAH ont plus d'anxiété, de dépression et de TOC que les HPI sans TDAH. Le traitement du TDAH fonctionne chez eux comme chez les autres.</p></li>
+  </ol></div>
+  <p class="note">Ces pistes résument la littérature. Discute-les avec ton ou ta superviseur·e avant de les appliquer à un patient.</p>
+</section>
+
+<!-- ============ DÉBATS ============ -->
+<section id="debats">
+  <div class="sec-head"><span class="label">Zones grises</span><h2>Débats et questions ouvertes</h2></div>
+  <div class="two">
+    <div>
+      <h3>Encore débattu</h3>
+      <ul>
+        <li>La surreprésentation des HPI en consultation TDAH : phénomène réel ou effet du recrutement ?</li>
+        <li>Le chiffre de « 15 % des HPI ont un TDAH » (revue de 2023) repose surtout sur des échantillons cliniques. Ce n'est pas une prévalence en population.</li>
+        <li>En France, beaucoup d'ouvrages grand public décrivent un HPI « hypersensible » et fragile. L'étude UK Biobank, cosignée par N. Gauvrit et F. Ramus, a été conçue pour tester ce discours.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Encore inconnu</h3>
+      <ul>
+        <li>Aucune définition commune : QI ≥ 115, 120, 125 ou 130, QIT ou IAG. Les chiffres changent selon le choix.</li>
+        <li>Très peu de données chez les filles (90 % de garçons chez Romano) et chez les adultes.</li>
+        <li>Presque aucun essai d'intervention conçu pour les élèves doublement exceptionnels.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PDF ============ -->
+<section id="pdf">
+  <div class="pdf">
+    <h3>Pour aller plus loin, j'aurais besoin de ces PDF</h3>
+    <p>Pour ces articles, je n'ai pu lire que le résumé. Si tu les télécharges avec ton accès UNIL et les déposes dans ton dépôt privé, le rapport sera complété la nuit suivante.</p>
+    <ul>
+      <li><strong>Cornoldi, Giofrè &amp; Toffalini (2023)</strong> <a href="https://doi.org/10.1016/j.intell.2023.101736">doi.org/10.1016/j.intell.2023.101736</a><span class="why">Scores d'indices WISC-IV détaillés des 82 enfants doués avec TDAH.</span></li>
+      <li><strong>Despature &amp; Galiana (2023)</strong> <a href="https://doi.org/10.1080/87565641.2023.2279117">doi.org/10.1080/87565641.2023.2279117</a><span class="why">D'où vient le chiffre de 15 % et quelles études il agrège.</span></li>
+      <li><strong>Winkler &amp; Voight (2016)</strong> <a href="https://doi.org/10.1177/0016986216657588">doi.org/10.1177/0016986216657588</a><span class="why">Tailles d'effet exactes pour chaque surexcitabilité, pour remplacer les catégories du graphique.</span></li>
+      <li><strong>Liu et al. (2026)</strong> <a href="https://doi.org/10.1038/s41398-026-04270-5">doi.org/10.1038/s41398-026-04270-5</a><span class="why">En libre accès, mais le site a bloqué ma lecture. Détail des effets du QI verbal et du QI de performance.</span></li>
+    </ul>
+    <a class="up" href="https://github.com/valejaqu1/newsletter-pdfs/upload/main" target="_blank" rel="noopener">Déposer des PDF (dépôt privé)</a>
+  </div>
+</section>
+
+<!-- ============ GLOSSAIRE ============ -->
+<section id="glossaire">
+  <div class="sec-head"><span class="label">Vocabulaire</span><h2>Glossaire</h2></div>
+  <dl class="gloss">
+    <div><dt>HPI · 2e</dt><dd>Haut potentiel intellectuel, souvent QIT ≥ 130. « 2e » (twice exceptional) : HPI associé à un trouble du neurodéveloppement.</dd></div>
+    <div><dt>IAG (GAI)</dt><dd>Indice d'aptitude générale du WISC : raisonnement verbal et non verbal, sans mémoire de travail ni vitesse.</dd></div>
+    <div><dt>ICC (CPI)</dt><dd>Indice de compétence cognitive : mémoire de travail (IMT) et vitesse de traitement (IVT).</dd></div>
+    <div><dt>Facteur g</dt><dd>Capacité générale commune à tous les tests cognitifs, estimée par analyse factorielle.</dd></div>
+    <div><dt>Odds ratio (OR)</dt><dd>Rapport de cotes. OR &lt; 1 : trouble moins fréquent dans le groupe étudié ; OR &gt; 1 : plus fréquent.</dd></div>
+    <div><dt>Corrélation génétique (rg)</dt><dd>Degré auquel deux traits partagent les mêmes variantes génétiques, de −1 à +1.</dd></div>
+    <div><dt>Surexcitabilités</dt><dd>Notion de Dąbrowski : intensité psychomotrice, sensorielle, intellectuelle, imaginative ou émotionnelle.</dd></div>
+    <div><dt>CPT</dt><dd>Continuous Performance Test : tâche informatisée d'attention soutenue et d'inhibition.</dd></div>
+  </dl>
+</section>
+
+<!-- ============ RÉFÉRENCES ============ -->
+<section id="refs">
+  <div class="sec-head"><span class="label">Sources vérifiées (DOI, revue, volume)</span><h2>Références</h2></div>
+  <ol class="refs" id="reflist"></ol>
+</section>
+
+<footer>
+  Synthèse rédigée par Claude le 27 septembre 2026 à partir de résumés et d'articles en libre accès. Chaque référence a été vérifiée dans Europe PMC ou Crossref.<br>
+  Les pastilles indiquent si l'article a été lu en entier ou seulement en résumé. Vérifie un chiffre dans la source avant de le citer dans un travail.
+</footer>
+</div>
+
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const LANES = [
+  {id:"val",  label:["Validité du","diagnostic"], h:62},
+  {id:"risk", label:["Risque et","prévalence"], h:100},
+  {id:"diag", label:["Diagnostic et","masquage"], h:62},
+  {id:"cog",  label:["Profil","cognitif"], h:66},
+  {id:"oe",   label:["Surexcita-","bilités"], h:62},
+];
+const TYPES = {
+  pop:{label:"Population / registre", c:"--t-pop"},
+  clin:{label:"Échantillon clinique", c:"--t-clin"},
+  rev:{label:"Revue ou méta-analyse", c:"--t-rev"},
+  self:{label:"Enquête auto-déclarée", c:"--t-other"},
+};
+const S = [
+ {id:"antshel2007", lane:"val", x:2007.5, type:"clin", n:141, short:"Antshel 2007",
+  authors:"Antshel KM, Faraone SV, Stallone K, et al.", title:"Is attention deficit hyperactivity disorder a valid diagnosis in the presence of high IQ? Results from the MGH Longitudinal Family Studies of ADHD",
+  journal:"Journal of Child Psychology and Psychiatry, 48(7), 687–694", doi:"10.1111/j.1469-7610.2007.01735.x", read:"abs",
+  sample:"141 enfants de QI ≥ 120 (49 avec TDAH, 92 sans), études familiales du MGH",
+  shows:"Les enfants HPI avec TDAH ont plus d'antécédents familiaux de TDAH, redoublent plus, ont plus de comorbidités et plus de difficultés fonctionnelles. Le TDAH est donc valide chez eux.",
+  limits:"Échantillon clinique américain, seuil QI ≥ 120."},
+ {id:"antshel2009", lane:"val", x:2009.6, type:"clin", n:117, short:"Antshel 2009",
+  authors:"Antshel KM, Faraone SV, Maglione K, et al.", title:"Is adult attention deficit hyperactivity disorder a valid diagnosis in the presence of high IQ?",
+  journal:"Psychological Medicine, 39(8), 1325–1335", doi:"10.1017/S0033291708004959", read:"abs",
+  sample:"117 adultes de QI ≥ 120 (64 avec TDAH, 53 sans), appariés en QI, niveau socio-économique et sexe",
+  shows:"Qualité de vie plus faible, plus d'accidents, d'amendes et d'arrestations, plus de dépression, de TOC et d'anxiété généralisée chez les adultes HPI avec TDAH. Même profil familial qu'avec un QI moyen.",
+  limits:"Petit échantillon, recrutement clinique."},
+ {id:"katusic2011", lane:"val", x:2011.1, type:"pop", n:379, short:"Katusic 2011",
+  authors:"Katusic MZ, Voigt RG, Colligan RC, Weaver AL, Homan KJ, Barbaresi WJ", title:"Attention-deficit hyperactivity disorder in children with high intelligence quotient: results from a population-based study",
+  journal:"Journal of Developmental & Behavioral Pediatrics, 32(2), 103–109", doi:"10.1097/DBP.0b013e318206d700", read:"abs",
+  sample:"379 enfants avec TDAH issus d'une cohorte de 5 718 naissances (Rochester, Minnesota) ; QI élevé ≥ 120 : n = 34",
+  shows:"Âge d'apparition des critères, comorbidités, abus de substances et traitement par stimulants sont comparables quel que soit le QI. Seules la lecture et l'éducation des mères diffèrent.",
+  limits:"Seulement 34 enfants dans le groupe QI élevé."},
+ {id:"rommelse2016", lane:"val", x:2016.9, type:"rev", short:"Rommelse 2016",
+  authors:"Rommelse N, van der Kruijs M, Damhuis J, et al.", title:"An evidenced-based perspective on the validity of attention-deficit/hyperactivity disorder in the context of high intelligence",
+  journal:"Neuroscience & Biobehavioral Reviews, 71, 21–47", doi:"10.1016/j.neubiorev.2016.08.032", read:"abs",
+  sample:"Revue systématique d'études cognitives et comportementales",
+  shows:"Le TDAH est un construit valide chez les HPI : tableau clinique, évolution et réponse au traitement caractéristiques. L'hyperactivité serait un marqueur moins spécifique. TDAH et QI sont négativement corrélés sur presque tous les indicateurs.",
+  limits:"Les auteurs soulignent le petit nombre d'études disponibles."},
+ {id:"despature2023", lane:"val", x:2023.8, type:"rev", short:"Despature 2023",
+  authors:"Despature I, Galiana A", title:"Clinical and Cognitive Features of Attention Deficit Hyperactivity Disorder with Intellectual Giftedness: A Systematic Review",
+  journal:"Developmental Neuropsychology, 48(7), 347–360", doi:"10.1080/87565641.2023.2279117", read:"abs",
+  sample:"Revue systématique des 15 dernières années, HPI défini par QI > 115",
+  shows:"Le QI ne modifie pas la réponse au traitement médicamenteux, les comorbidités sont les mêmes. Tableau souvent moins sévère et meilleur pronostic, mais diagnostic retardé par le masquage.",
+  limits:"Le chiffre de 15 % d'HPI avec TDAH vient surtout d'échantillons cliniques."},
+ {id:"rommelse2017", lane:"risk", x:2017.9, dy:22, type:"pop", n:2221, short:"Rommelse 2017",
+  authors:"Rommelse N, Antshel K, Smeets S, Greven C, Hoogeveen L, Faraone SV, Hartman CA", title:"High intelligence and the risk of ADHD and other psychopathology",
+  journal:"British Journal of Psychiatry, 211(6), 359–364", doi:"10.1192/bjp.bp.116.184382", read:"abs",
+  sample:"2 221 enfants de 10 à 12 ans, cohorte néerlandaise TRAILS",
+  shows:"Relation linéaire : plus le QI est élevé, moins il y a de problèmes d'attention et d'hyperactivité, sans remontée chez les plus doués. Les problèmes d'attention prédisent de moins bons résultats scolaires même à QI 115–129.",
+  limits:"Questionnaires, pas de diagnostic clinique."},
+ {id:"karpinski2018", lane:"risk", x:2018.0, dy:-24, type:"self", n:3715, short:"Karpinski 2018",
+  authors:"Karpinski RI, Kinase Kolb AM, Tetreault NA, Borowski TB", title:"High intelligence: A risk factor for psychological and physiological overexcitabilities",
+  journal:"Intelligence, 66, 8–23", doi:"10.1016/j.intell.2017.09.001", read:"abs",
+  sample:"3 715 membres de l'American Mensa",
+  shows:"Taux déclarés de troubles de l'humeur, d'anxiété, de TDAH, d'autisme et d'allergies bien supérieurs aux moyennes nationales. Les auteurs proposent une théorie « hyper cerveau, hyper corps ».",
+  limits:"Auto-déclaration, diagnostics « suspectés » inclus, pas de groupe témoin apparié, membres de Mensa non représentatifs des HPI."},
+ {id:"savage2018", lane:"risk", x:2018.6, dy:4, type:"pop", n:269867, short:"Savage 2018",
+  authors:"Savage JE, Jansen PR, Stringer S, et al.", title:"Genome-wide association meta-analysis in 269,867 individuals identifies new genetic and functional links to intelligence",
+  journal:"Nature Genetics, 50(7), 912–919", doi:"10.1038/s41588-018-0152-6", read:"full",
+  sample:"269 867 personnes, méta-analyse génomique (GWAS)",
+  shows:"Corrélation génétique négative entre intelligence et TDAH (rg = −0,36) et symptômes dépressifs (−0,27), positive avec l'autisme (+0,25).",
+  limits:"Corrélation génétique moyenne sur toute la population, pas spécifique aux HPI."},
+ {id:"williams2023", lane:"risk", x:2023.0, dy:0, type:"pop", n:252410, short:"Williams 2023",
+  authors:"Williams CM, Peyre H, Labouret G, Fassaya J, Guzmán García A, Gauvrit N, Ramus F", title:"High intelligence is not associated with a greater propensity for mental health disorders",
+  journal:"European Psychiatry, 66(1), e3 (en ligne fin 2022)", doi:"10.1192/j.eurpsy.2022.2343", read:"full",
+  sample:"UK Biobank : 16 137 adultes à haut facteur g (≥ +2 ET) contre 236 273 adultes dans la moyenne, 40–69 ans",
+  shows:"Moins d'anxiété généralisée (OR 0,69) et de stress post-traumatique (OR 0,67), pas de différence pour la dépression, le trouble bipolaire, la schizophrénie, le TOC ou les TCA. Un peu plus d'allergies et de myopie.",
+  limits:"Adultes uniquement, TDAH et autisme non analysés faute de cas suffisants."},
+ {id:"tasca2024", lane:"risk", x:2024.3, dy:0, type:"rev", short:"Tasca 2024",
+  authors:"Tasca I, Guidi M, Turriziani P, Mento G, Tarantino V", title:"Behavioral and Socio-Emotional Disorders in Intellectual Giftedness: A Systematic Review",
+  journal:"Child Psychiatry & Human Development, 55(3), 768–789", doi:"10.1007/s10578-022-01420-w", read:"full",
+  sample:"Revue systématique de 19 études",
+  shows:"Pas de conclusion univoque : le HPI peut protéger ou fragiliser selon l'âge, le contexte et l'écart verbal / non verbal. Les HPI avec TDAH ont plus de comorbidités que les HPI sans TDAH.",
+  limits:"Méthodes très hétérogènes entre études."},
+ {id:"milioni2017", lane:"diag", x:2017.3, type:"clin", n:84, short:"Milioni 2017",
+  authors:"Milioni ALV, Chaim TM, Cavallet M, et al.", title:"High IQ May “Mask” the Diagnosis of ADHD by Compensating for Deficits in Executive Functions in Treatment-Naïve Adults With ADHD",
+  journal:"Journal of Attention Disorders, 21(6), 455–464", doi:"10.1177/1087054714554933", read:"abs",
+  sample:"51 adultes TDAH non traités (QI ≥ 110 ou standard) et 33 contrôles (Brésil)",
+  shows:"Les TDAH de QI standard échouent à de nombreux tests exécutifs (Stroop, TMT-B, WCST, CPT) ; ceux de QI plus élevé seulement aux erreurs de commission du CPT.",
+  limits:"Seuil de QI à 110, donc pas des HPI au sens strict. Petit échantillon."},
+ {id:"coutinho2022", lane:"diag", x:2022.9, type:"rev", short:"Coutinho-Souto 2022",
+  authors:"Coutinho-Souto WKS, Fleith DS", title:"Giftedness and ADHD: A systematic literature review",
+  journal:"Revista de Psicología (PUCP), 40(2), 1175–1213", doi:"", url:"http://www.scielo.org.pe/scielo.php?script=sci_arttext&pid=S0254-92472022000201175", read:"full",
+  sample:"Revue systématique de 27 études empiriques (2011–2021)",
+  shows:"Trois scénarios : le HPI masque le TDAH, le TDAH masque le HPI, ou aucun n'est repéré. Les doués avec TDAH ont une mémoire de travail plus faible et un potentiel créatif plus élevé que les doués sans TDAH.",
+  limits:"Revue qualitative, sans méta-analyse."},
+ {id:"hare2024", lane:"diag", x:2024.5, type:"clin", n:568, short:"Hare 2024",
+  authors:"Hare C, Leslie AC, Bodell LP, et al.", title:"Sex and intelligence quotient differences in age of diagnosis among youth with attention-deficit hyperactivity disorder",
+  journal:"British Journal of Clinical Psychology, 63(4), 627–645", doi:"10.1111/bjc.12485", read:"abs",
+  sample:"568 enfants avec TDAH, réseau POND (Ontario, Canada)",
+  shows:"Un QI plus élevé prédit un diagnostic plus tardif. Les symptômes hyperactifs-impulsifs et externalisés prédisent un diagnostic plus précoce ; un niveau socio-économique élevé, un diagnostic plus tardif.",
+  limits:"Enfants déjà diagnostiqués uniquement ; données démographiques incomplètes."},
+ {id:"cadenas2020", lane:"cog", x:2020.1, type:"clin", n:224, short:"Cadenas 2020",
+  authors:"Cadenas M, Hartman C, Faraone S, Antshel K, Borges Á, Hoogeveen L, Rommelse N", title:"Cognitive correlates of attention-deficit hyperactivity disorder in children and adolescents with high intellectual ability",
+  journal:"Journal of Neurodevelopmental Disorders, 12, 6", doi:"10.1186/s11689-020-9307-8", read:"full",
+  sample:"Deux cohortes néerlandaises en quatuors : TDAH / contrôles × QI ≥ 120 / QI moyen (224 participants)",
+  shows:"Pas d'interaction TDAH × QI : l'écart entre TDAH et contrôles (d ≈ 0,58) est le même chez les doués. Les doués avec TDAH obtiennent des scores proches des contrôles de QI moyen.",
+  limits:"Petits groupes dans la seconde cohorte (21 par groupe)."},
+ {id:"cornoldi2023", lane:"cog", x:2023.2, type:"clin", n:82, short:"Cornoldi 2023",
+  authors:"Cornoldi C, Giofrè D, Toffalini E", title:"Cognitive characteristics of intellectually gifted children with a diagnosis of ADHD",
+  journal:"Intelligence, 97, 101736", doi:"10.1016/j.intell.2023.101736", read:"abs",
+  sample:"82 enfants avec TDAH et IAG ≥ 125 (WISC-IV), issus d'un large échantillon clinique italien",
+  shows:"Ils représentent 8,8 % des enfants TDAH, environ deux fois la proportion attendue. Leur profil (mémoire de travail et vitesse plus faibles) ressemble à celui des doués avec trouble des apprentissages : ce n'est pas une erreur de diagnostic.",
+  limits:"Échantillon clinique ; le recrutement peut gonfler la proportion."},
+ {id:"romano2024", lane:"cog", x:2024.3, type:"clin", n:456, short:"Romano 2024",
+  authors:"Romano S, Esposito D, Aricò M, et al.", title:"Giftedness and Twice-Exceptionality in Children Suspected of ADHD or Specific Learning Disorders: A Retrospective Study",
+  journal:"Sci, 6(2), 23", doi:"10.3390/sci6020023", read:"abs",
+  sample:"456 enfants adressés pour suspicion de TDAH ou trouble des apprentissages ; 40 avec IAG > 120 (90 % de garçons)",
+  shows:"Profil hétérogène dans tous les groupes, avec mémoire de travail et vitesse plus basses, y compris chez les enfants sans trouble. Utiliser l'IAG plutôt que le QIT fait passer la part d'HPI de 5 % à 8,8 %.",
+  limits:"Étude rétrospective, 40 enfants, un seul centre (Rome)."},
+ {id:"rizzo2025", lane:"cog", x:2025.9, dy:-9, type:"rev", short:"Rizzo 2025",
+  authors:"Rizzo L, Pinnelli S, Minnaert A", title:"Twice-exceptional students: a systematic review to outline the distinctive characteristics through a multidimensional lens",
+  journal:"Frontiers in Education, 10, 1696805", doi:"10.3389/feduc.2025.1696805", read:"full",
+  sample:"Revue systématique de 19 études (2013–2025)",
+  shows:"Écart IAG / vitesse et mémoire de travail presque deux fois plus grand que chez les TDAH non doués ; la vitesse de traitement distingue le mieux les doués avec et sans TDAH. Difficultés sociales, régulation émotionnelle et estime de soi fragiles.",
+  limits:"Mélange d'études qualitatives et quantitatives, 2e définis de façons variées."},
+ {id:"liu2026", lane:"cog", x:2026.55, dy:10, type:"clin", n:5138, short:"Liu 2026",
+  authors:"Liu N, Jia G, Wang Y, et al.", title:"The paradox of high IQ in ADHD: dissociable effects on inattention and impulsivity – insights from behavior, cognition & brain in 5138 children",
+  journal:"Translational Psychiatry (2026)", doi:"10.1038/s41398-026-04270-5", read:"abs",
+  sample:"5 138 enfants avec TDAH de 6 à 16 ans (Peking University Sixth Hospital)",
+  shows:"Un QI verbal élevé va avec moins d'inattention mais plus d'impulsivité. Le QI de performance a une relation en U inversé avec les symptômes, avec un pic autour de 103.",
+  limits:"Peu d'associations restent significatives après correction pour tests multiples. Lu via le résumé et un article de presse."},
+ {id:"winkler2016", lane:"oe", x:2016.8, type:"rev", short:"Winkler 2016",
+  authors:"Winkler D, Voight A", title:"Giftedness and Overexcitability: Investigating the Relationship Using Meta-Analysis",
+  journal:"Gifted Child Quarterly, 60(4), 243–257", doi:"10.1177/0016986216657588", read:"abs",
+  sample:"Méta-analyse d'études comparant doués et non doués",
+  shows:"Effet non significatif pour la surexcitabilité psychomotrice, faible pour l'émotionnelle et la sensorielle, moyen pour l'intellectuelle et l'imaginative.",
+  limits:"Tailles d'effet exactes non lues (résumé seulement)."},
+ {id:"olszewski2026", lane:"oe", x:2026.25, type:"rev", short:"Olszewski-Kubilius 2026",
+  authors:"Olszewski-Kubilius P, Steenbergen-Hu S, Calvert E, Richert Corwith S, Bright S", title:"A Meta-Analysis of Research on the Relationship Between Overexcitabilities and Giftedness",
+  journal:"Gifted Child Quarterly, 70(2), 111–138", doi:"10.1177/00169862251370377", read:"abs",
+  sample:"Méta-analyse de 20 études, 230 effets",
+  shows:"Lien le plus fort avec la surexcitabilité intellectuelle, le plus faible avec la sensorielle et l'émotionnelle. Lien nul quand le HPI est défini par le QI. Biais de publication probable.",
+  limits:"Études incluses souvent petites."},
+];
+const byId = Object.fromEntries(S.map(s=>[s.id,s]));
+const NS = "http://www.w3.org/2000/svg";
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+function el(tag, attrs={}, parent){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+function txt(parent, x, y, s, attrs={}){ const t=el("text",{x,y,"font-size":12,fill:"var(--ink-2)",...attrs},parent); t.textContent=s; return t; }
+
+/* ---------- Tooltip ---------- */
+const tip = document.getElementById("tip");
+function showTip(html, ev){ tip.innerHTML=html; tip.hidden=false; moveTip(ev); }
+function moveTip(ev){ const pad=14; let x=ev.clientX+pad, y=ev.clientY+pad; const r=tip.getBoundingClientRect(); if(x+r.width>innerWidth-8) x=ev.clientX-r.width-pad; if(y+r.height>innerHeight-8) y=ev.clientY-r.height-pad; tip.style.left=x+"px"; tip.style.top=y+"px"; }
+function hideTip(){ tip.hidden=true; }
+function hover(node, html){ node.addEventListener("mouseenter",e=>showTip(html,e)); node.addEventListener("mousemove",moveTip); node.addEventListener("mouseleave",hideTip); }
+
+/* ---------- Carte des études ---------- */
+let selected = "williams2023";
+function drawMap(){
+  const svg = document.getElementById("map"); svg.innerHTML="";
+  const W=900, left=130, right=880, top=10;
+  const x0=2006, x1=2027; const X = y => left + (y-x0)/(x1-x0)*(right-left);
+  let y=top; const laneY={};
+  LANES.forEach((L,i)=>{
+    if(i%2===0) el("rect",{x:left-6,y,width:right-left+12,height:L.h,fill:"var(--surface-2)",opacity:.55,rx:4},svg);
+    laneY[L.id]=y+L.h/2;
+    L.label.forEach((s,j)=>txt(svg,0,y+L.h/2-7+j*15,s,{"font-size":12,fill:"var(--ink-2)"}));
+    y+=L.h;
+  });
+  const bottom=y;
+  for(let yr=2007; yr<=2026; yr++){
+    const gx=X(yr);
+    if(yr%2===1){ el("line",{x1:gx,x2:gx,y1:top,y2:bottom,stroke:"var(--rule)","stroke-width":1},svg); txt(svg,gx,bottom+18,String(yr),{"text-anchor":"middle",fill:"var(--ink-3)","font-size":11.5}); }
+  }
+  svg.setAttribute("viewBox",`0 0 ${W} ${bottom+30}`);
+  const R = n => 4 + 2.8*Math.log10(n);
+  const order=[...S].sort((a,b)=>(b.n||0)-(a.n||0));
+  order.forEach(s=>{
+    const cx=X(s.x), cy=laneY[s.lane]+(s.dy||0);
+    const fill=`var(${TYPES[s.type].c})`;
+    let m;
+    if(s.type==="rev"){ const d=10; m=el("path",{d:`M${cx} ${cy-d} L${cx+d} ${cy} L${cx} ${cy+d} L${cx-d} ${cy} Z`,fill},svg); }
+    else m=el("circle",{cx,cy,r:R(s.n),fill},svg);
+    m.setAttribute("stroke","var(--surface)"); m.setAttribute("stroke-width","2");
+    m.classList.add("mark"); if(s.id===selected) m.classList.add("sel");
+    m.setAttribute("tabindex","0"); m.setAttribute("role","button");
+    m.setAttribute("aria-label",`${s.short}, ${TYPES[s.type].label}${s.n?`, ${s.n.toLocaleString("fr-CH")} participants`:""}`);
+    hover(m,`<b>${s.short}</b><br>${TYPES[s.type].label}${s.n?`<br>N = ${s.n.toLocaleString("fr-CH")}`:""}`);
+    const go=()=>{ selected=s.id; drawMap(); renderDetail(); };
+    m.addEventListener("click",go);
+    m.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); }});
+  });
+  // direct labels for the biggest studies
+  ["williams2023","savage2018","liu2026"].forEach(id=>{
+    const s=byId[id]; const cx=X(s.x), cy=laneY[s.lane]+(s.dy||0), r=R(s.n);
+    const below = s.lane!=="cog";
+    txt(svg,cx,below?cy+r+13:cy-r-6,s.short,{"text-anchor":"middle","font-size":11,fill:"var(--ink-2)"});
+  });
+}
+function renderDetail(){
+  const s=byId[selected]; const d=document.getElementById("detail");
+  const link = s.doi?`<a href="https://doi.org/${s.doi}">doi.org/${s.doi}</a>`:`<a href="${s.url}">Texte intégral (SciELO)</a>`;
+  d.innerHTML=`
+    <h3>${s.title}</h3>
+    <dl class="kv">
+      <dt>Auteurs</dt><dd>${s.authors}</dd>
+      <dt>Revue</dt><dd>${s.journal}</dd>
+      <dt>Type</dt><dd>${TYPES[s.type].label}</dd>
+      <dt>Échantillon</dt><dd>${s.sample}</dd>
+      <dt>Lecture</dt><dd><span class="chip ${s.read}">${s.read==="full"?"texte intégral":"résumé seulement"}</span></dd>
+      <dt>Lien</dt><dd>${link}</dd>
+    </dl>
+    <div class="body">
+      <div><h4>Ce qu'elle montre</h4><p>${s.shows}</p></div>
+      <div><h4>À garder en tête</h4><p>${s.limits}</p></div>
+    </div>`;
+}
+document.querySelectorAll(".cite").forEach(b=>{
+  b.addEventListener("click",()=>{ selected=b.dataset.id; drawMap(); renderDetail(); document.getElementById("carte").scrollIntoView({block:"start"}); });
+});
+
+/* ---------- Katusic : dot plot ---------- */
+function drawKatusic(){
+  const host=document.getElementById("katusic"); host.innerHTML="";
+  const rows=[
+    {k:"Trouble des apprentissages", v:[76.2,78.3,85.3], u:"%"},
+    {k:"Trouble psychiatrique associé", v:[47.6,50.4,47.1], u:"%"},
+    {k:"Abus de substances", v:[19.0,23.6,17.6], u:"%"},
+    {k:"Traitement par stimulants", v:[90,75,79], u:"%"},
+    {k:"Lecture (percentile)", v:[29,42,77], u:"", hi:true},
+  ];
+  const groups=[{l:"QI < 80",c:"var(--q-low)"},{l:"QI 80–119",c:"var(--q-mid)"},{l:"QI ≥ 120",c:"var(--q-high)"}];
+  const W=480, L=10, R=470, rowH=44, top=40;
+  const H=top+rows.length*rowH+22;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Comparaison des enfants TDAH selon le QI"},host);
+  // legend
+  let lx=L; groups.forEach(g=>{ el("circle",{cx:lx+6,cy:12,r:6,fill:g.c},svg); const t=txt(svg,lx+17,16,g.l,{"font-size":12,fill:"var(--ink-2)"}); lx+=g.l.length*7.4+34; });
+  const X=v=>L+v/100*(R-L);
+  [0,25,50,75,100].forEach(v=>{ el("line",{x1:X(v),x2:X(v),y1:top-4,y2:H-22,stroke:"var(--rule)","stroke-width":1},svg); txt(svg,X(v),H-6,String(v),{"text-anchor":v===0?"start":v===100?"end":"middle","font-size":11,fill:"var(--ink-3)"}); });
+  rows.forEach((r,i)=>{
+    const y=top+i*rowH;
+    txt(svg,L,y+10,r.k,{"font-size":12,fill:r.hi?"var(--ink)":"var(--ink-2)","font-weight":r.hi?500:400});
+    const cy=y+26, mn=Math.min(...r.v), mx=Math.max(...r.v);
+    el("line",{x1:X(mn),x2:X(mx),y1:cy,y2:cy,stroke:"var(--ink-3)","stroke-width":2,opacity:.45},svg);
+    r.v.forEach((v,j)=>{
+      const c=el("circle",{cx:X(v),cy,r:6.5,fill:groups[j].c,stroke:"var(--surface)","stroke-width":2},svg);
+      hover(c,`<b>${groups[j].l}</b><br>${r.k} : ${String(v).replace(".",",")}${r.u?" %":""}`);
+      const hit=el("circle",{cx:X(v),cy,r:12,fill:"transparent"},svg); hover(hit,`<b>${groups[j].l}</b><br>${r.k} : ${String(v).replace(".",",")}${r.u?" %":""}`);
+    });
+    if(r.hi){ txt(svg,X(mx)+12,cy+4,"seul écart net",{"font-size":11,fill:"var(--ink)"}); }
+  });
+}
+
+/* ---------- Forest plot ---------- */
+function drawForest(){
+  const host=document.getElementById("forest"); host.innerHTML="";
+  const rows=[
+    {k:"Anxiété généralisée", or:0.69, lo:0.64, hi:0.74},
+    {k:"Stress post-traumatique", or:0.67, lo:0.61, hi:0.74},
+    {k:"Allergies", or:1.13, lo:1.08, hi:1.18},
+    {k:"Myopie", or:1.93, lo:1.82, hi:2.04},
+  ];
+  const W=480, L=170, R=450, top=14, rowH=38;
+  const H=top+rows.length*rowH+50;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Odds ratios, haut facteur g contre moyenne"},host);
+  const lmin=Math.log(0.5), lmax=Math.log(2.5);
+  const X=v=>L+(Math.log(v)-lmin)/(lmax-lmin)*(R-L);
+  const axisY=top+rows.length*rowH+2;
+  [0.5,0.75,1,1.5,2,2.5].forEach(v=>{ el("line",{x1:X(v),x2:X(v),y1:top-4,y2:axisY,stroke:v===1?"var(--ink-3)":"var(--rule)","stroke-width":1,"stroke-dasharray":v===1?"4 3":""},svg); txt(svg,X(v),axisY+15,String(v).replace(".",","),{"text-anchor":"middle","font-size":11,fill:"var(--ink-3)"}); });
+  txt(svg,X(1)-6,axisY+34,"← moins fréquent chez les HPI",{"text-anchor":"end","font-size":11,fill:"var(--ink-2)"});
+  txt(svg,X(1)+6,axisY+34,"plus fréquent →",{"text-anchor":"start","font-size":11,fill:"var(--ink-2)"});
+  rows.forEach((r,i)=>{
+    const cy=top+i*rowH+rowH/2; const c=r.or<1?"var(--less)":"var(--more)";
+    txt(svg,0,cy+4,r.k,{"font-size":12.5,fill:"var(--ink-2)"});
+    el("line",{x1:X(r.lo),x2:X(r.hi),y1:cy,y2:cy,stroke:c,"stroke-width":2,"stroke-linecap":"round"},svg);
+    el("rect",{x:X(r.or)-5.5,y:cy-5.5,width:11,height:11,fill:c,stroke:"var(--surface)","stroke-width":2,rx:1.5},svg);
+    const lab=String(r.or.toFixed(2)).replace(".",",");
+    txt(svg,X(r.hi)+8,cy+4,lab,{"text-anchor":"start","font-size":12,fill:"var(--ink)","font-weight":500});
+    const hit=el("rect",{x:L,y:cy-rowH/2,width:R-L,height:rowH,fill:"transparent"},svg);
+    hover(hit,`<b>${r.k}</b><br>OR ${lab} [${String(r.lo).replace(".",",")} ; ${String(r.hi).replace(".",",")}]`);
+  });
+}
+
+/* ---------- Corrélations génétiques ---------- */
+function drawRg(){
+  const host=document.getElementById("rg"); host.innerHTML="";
+  const rows=[{k:"TDAH",v:-0.36},{k:"Symptômes dépressifs",v:-0.27},{k:"Autisme",v:0.25}];
+  const W=520, L=150, R=500, top=6, rowH=30, H=top+rows.length*rowH+26;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Corrélations génétiques avec l'intelligence"},host);
+  const X=v=>L+(v+0.5)/1*(R-L);
+  const axisY=top+rows.length*rowH;
+  [-0.5,-0.25,0,0.25,0.5].forEach(v=>{ el("line",{x1:X(v),x2:X(v),y1:top,y2:axisY,stroke:v===0?"var(--ink-3)":"var(--rule)","stroke-width":1},svg); txt(svg,X(v),axisY+15,(v>0?"+":"")+String(v).replace(".",","),{"text-anchor":"middle","font-size":11,fill:"var(--ink-3)"}); });
+  rows.forEach((r,i)=>{
+    const y=top+i*rowH+6, h=rowH-12; const c=r.v<0?"var(--less)":"var(--more)";
+    txt(svg,0,y+h/2+4,r.k,{"font-size":12.5,fill:"var(--ink-2)"});
+    const x=Math.min(X(0),X(r.v)), w=Math.abs(X(r.v)-X(0));
+    el("rect",{x,y,width:w,height:h,fill:c,rx:3},svg);
+    const lab=(r.v>0?"+":"−")+String(Math.abs(r.v)).replace(".",",");
+    txt(svg,r.v<0?x-6:x+w+6,y+h/2+4,lab,{"text-anchor":r.v<0?"end":"start","font-size":12,fill:"var(--ink)","font-weight":500});
+  });
+}
+
+/* ---------- Cornoldi : attendu vs observé ---------- */
+function drawCornoldi(){
+  const host=document.getElementById("cornoldi"); host.innerHTML="";
+  const rows=[{k:"Attendu dans la population",v:4.8,c:"var(--t-other)",lab:"≈ 4,8 %"},{k:"Observé chez les enfants TDAH",v:8.8,c:"var(--accent)",lab:"8,8 %"}];
+  const W=480, L=10, R=420, top=4, rowH=56, H=top+rows.length*rowH+22;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"8,8 % observé contre environ 4,8 % attendu"},host);
+  const X=v=>L+v/10*(R-L);
+  const axisY=top+rows.length*rowH;
+  [0,2,4,6,8,10].forEach(v=>{ el("line",{x1:X(v),x2:X(v),y1:top,y2:axisY,stroke:"var(--rule)","stroke-width":1},svg); txt(svg,X(v),axisY+15,v+" %",{"text-anchor":v===0?"start":"middle","font-size":11,fill:"var(--ink-3)"}); });
+  rows.forEach((r,i)=>{
+    const y=top+i*rowH;
+    txt(svg,L,y+14,r.k,{"font-size":12.5,fill:"var(--ink-2)"});
+    el("rect",{x:X(0),y:y+22,width:X(r.v)-X(0),height:20,fill:r.c,rx:3},svg);
+    txt(svg,X(r.v)+8,y+37,r.lab,{"font-size":13,fill:"var(--ink)","font-weight":500});
+  });
+}
+
+/* ---------- Courbe du QI (Romano) ---------- */
+function drawBell(){
+  const host=document.getElementById("bell"); host.innerHTML="";
+  const W=480, L=14, R=466, base=150, top=26, H=196;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Courbe normale du QI avec QIT moyen 121,7 et IAG moyen 130,2"},host);
+  const q0=55, q1=145; const X=q=>L+(q-q0)/(q1-q0)*(R-L);
+  const pdf=q=>Math.exp(-0.5*((q-100)/15)**2);
+  const Y=p=>base-p*(base-top-12);
+  let d=`M${X(q0)} ${base}`; for(let q=q0;q<=q1;q+=0.5) d+=` L${X(q).toFixed(1)} ${Y(pdf(q)).toFixed(1)}`; d+=` L${X(q1)} ${base} Z`;
+  el("path",{d,fill:"var(--surface-2)",stroke:"var(--ink-3)","stroke-width":1.2},svg);
+  // zone HPI ≥ 130
+  let z=`M${X(130)} ${base}`; for(let q=130;q<=q1;q+=0.5) z+=` L${X(q).toFixed(1)} ${Y(pdf(q)).toFixed(1)}`; z+=` L${X(q1)} ${base} Z`;
+  el("path",{d:z,fill:"var(--accent)",opacity:.28},svg);
+  el("line",{x1:L,x2:R,y1:base,y2:base,stroke:"var(--ink-3)","stroke-width":1},svg);
+  [70,85,100,115,130,145].forEach(q=>{ el("line",{x1:X(q),x2:X(q),y1:base,y2:base+5,stroke:"var(--ink-3)"},svg); txt(svg,X(q),base+18,String(q),{"text-anchor":q===145?"end":"middle","font-size":11,fill:"var(--ink-3)"}); });
+  txt(svg,X(100),base+34,"moyenne 100 · 1 ET = 15 points",{"text-anchor":"middle","font-size":11,fill:"var(--ink-3)"});
+  el("line",{x1:X(130),x2:X(130),y1:top-8,y2:base,stroke:"var(--accent)","stroke-width":1.5,"stroke-dasharray":"4 3"},svg);
+  txt(svg,X(130)-6,top-12,"seuil HPI 130",{"text-anchor":"end","font-size":11,fill:"var(--accent)"});
+  const marks=[{q:121.7,l:"QIT 121,7",c:"var(--t-clin)",ly:66,anchor:"end",dx:-7},{q:130.2,l:"IAG 130,2",c:"var(--accent)",ly:98,anchor:"start",dx:7}];
+  marks.forEach(m=>{
+    el("line",{x1:X(m.q),x2:X(m.q),y1:m.ly,y2:base,stroke:m.c,"stroke-width":2.5},svg);
+    el("circle",{cx:X(m.q),cy:m.ly,r:5,fill:m.c,stroke:"var(--surface)","stroke-width":2},svg);
+    txt(svg,X(m.q)+m.dx,m.ly+4,m.l,{"text-anchor":m.anchor,"font-size":12.5,fill:"var(--ink)","font-weight":500});
+  });
+}
+
+/* ---------- Surexcitabilités ---------- */
+function drawOE(){
+  const host=document.getElementById("oe"); host.innerHTML="";
+  const rows=[
+    {k:"Intellectuelle",lvl:3,t:"moyen, le plus fort"},
+    {k:"Imaginative",lvl:3,t:"moyen"},
+    {k:"Émotionnelle",lvl:1,t:"faible"},
+    {k:"Sensorielle",lvl:1,t:"faible"},
+    {k:"Psychomotrice",lvl:0,t:"non significatif"},
+  ];
+  const W=480, L=128, rowH=34, top=4, H=top+rows.length*rowH+4, cell=52;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Force du lien entre HPI et surexcitabilités"},host);
+  rows.forEach((r,i)=>{
+    const y=top+i*rowH;
+    txt(svg,0,y+rowH/2+4,r.k,{"font-size":12.5,fill:r.k==="Psychomotrice"?"var(--ink)":"var(--ink-2)","font-weight":r.k==="Psychomotrice"?500:400});
+    for(let j=0;j<3;j++){ el("rect",{x:L+j*(cell+4),y:y+8,width:cell,height:rowH-16,rx:3,fill:j<r.lvl?"var(--accent)":"var(--surface-2)"},svg); }
+    txt(svg,L+3*(cell+4)+8,y+rowH/2+4,r.t,{"font-size":12,fill:"var(--ink-2)"});
+  });
+}
+
+/* ---------- Références ---------- */
+function drawRefs(){
+  const ol=document.getElementById("reflist");
+  [...S].sort((a,b)=>a.x-b.x).forEach(s=>{
+    const li=document.createElement("li");
+    const link=s.doi?`<a href="https://doi.org/${s.doi}">doi:${s.doi}</a>`:`<a href="${s.url}">SciELO</a>`;
+    li.innerHTML=`<span class="yr">${Math.floor(s.x)}</span><span><span class="t">${s.authors} ${s.title}.</span> <span class="j">${s.journal}.</span> <span class="chip ${s.read}">${s.read==="full"?"texte intégral":"résumé"}</span></span>${link}`;
+    ol.appendChild(li);
+  });
+}
+
+drawMap(); renderDetail(); drawKatusic(); drawForest(); drawRg(); drawCornoldi(); drawBell(); drawOE(); drawRefs();
+</script>
+
+</body>
+</html>
