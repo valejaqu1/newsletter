@@ -21,18 +21,36 @@ suivre le sujet.
 | `sujets/AAAA-MM-JJ-slug.md` | Un fichier par sujet déposé (frontmatter `sujet`, `statut`, `date`, puis précisions libres). |
 | `rapports/slug.html` | Un rapport par sujet. `rapports/hpi-tdah.html` est le **modèle de référence**. |
 | `data/rapports.json` | Rapports publiés et sujets en préparation (avec leurs PDF demandés), lus par `index.html`. |
+| `commandes/` | Feux verts de l'étudiant (`go` / `stop`), créés depuis le site, supprimés une fois traités. |
 | `modele/GUIDE.md` | Ce fichier. |
 
 Un second dépôt **privé**, `valejaqu1/newsletter-pdfs`, reçoit les PDF que l'étudiant
 télécharge avec son accès universitaire. Ces PDF sont protégés par le droit d'auteur :
 **ne jamais les copier, ni en citer de longs passages, dans ce dépôt public.**
 
-## Deux passages par sujet
+## Deux passages par sujet, et le feu vert de l'étudiant
 
-Un sujet passe par deux étapes, pour que l'étudiant ait le temps de fournir les PDF avant la
-rédaction. Statuts dans le frontmatter du sujet : `nouveau` → `attente-pdf` → `fait`.
+Un sujet passe par deux étapes. Entre les deux, **rien n'est rédigé ni retravaillé sans le
+feu vert explicite de l'étudiant.** Statuts dans le frontmatter du sujet :
+`nouveau` → `attente-pdf` → `fait`.
+
+### Commandes de l'étudiant (`commandes/`)
+
+L'étudiant donne ses feux verts depuis le site : chaque clic crée un fichier
+`commandes/AAAAMMJJ-HHMMSS--slug--action.md` (séparateurs : deux tirets). `action` vaut :
+
+- `go` : rédiger le rapport de ce sujet cette nuit (s'il est `attente-pdf`), ou compléter
+  le rapport déjà publié avec les PDF déposés depuis ;
+- `stop` : annuler un `go` donné plus tôt.
+
+Pour chaque `slug`, **seule la commande la plus récente compte** (tri par nom de fichier).
+Une fois traitée (ou annulée par `stop`), supprimer avec `git rm` tous les fichiers de
+commande de ce `slug` dans le même commit. Sans commande `go`, ne rien rédiger ni modifier
+pour ce sujet, même si des PDF sont arrivés : ils restent stockés pour plus tard.
 
 ### Passage 1 · Pré-recherche (tâche « Veille · pré-recherche », dans les minutes qui suivent le dépôt)
+
+Automatique, sans feu vert : elle ne rédige rien, elle prépare la liste des PDF.
 
 1. Traiter les sujets `statut: nouveau`. S'il n'y en a aucun, s'arrêter sans rien committer.
 2. Recherche rapide et économe (Consensus d'abord, une dizaine de recherches au plus) :
@@ -50,23 +68,25 @@ rédaction. Statuts dans le frontmatter du sujet : `nouveau` → `attente-pdf` �
 
 ### Passage 2 · Rédaction (tâche « Veille de nuit », chaque nuit à 3 h)
 
-1. Lire ce guide et `data/rapports.json`.
-2. **Rapports à rédiger** : sujets `statut: attente-pdf` dont la `prerecherche` date d'au
-   moins 6 heures (sinon ils attendent la nuit suivante). Au maximum **deux** par nuit, les
-   plus anciens d'abord. Rédiger le rapport complet en utilisant les PDF déposés et les
+1. Lire ce guide, `data/rapports.json` et `commandes/`. Retenir, pour chaque `slug`, la
+   commande la plus récente.
+2. **`go` sur un sujet `attente-pdf`** : rédiger le rapport complet (au maximum **deux** par
+   nuit, les feux verts les plus anciens d'abord ; les autres gardent leur `go` pour la nuit
+   suivante). Lire d'abord en entier les PDF déposés pour ce sujet, compléter avec les
    sources en libre accès. Mettre l'entrée de `data/rapports.json` à `"etat": "publie"` et
    compléter tous ses champs ; les PDF utilisés passent dans `pdfs_recus`, ceux qui manquent
-   restent dans `pdfs_demandes` (ils pourront compléter le rapport plus tard).
-3. **Sujets jamais pré-recherchés** (`statut: nouveau`, si la pré-recherche n'a pas tourné) :
-   faire le passage 1 pour eux, pas le rapport, pour que l'étudiant puisse fournir les PDF
-   dans la journée.
-4. **PDF arrivés après publication** : PDF du dépôt privé absents de tous les `pdfs_recus`
-   et rattachés à un rapport déjà publié : lire l'article en entier, mettre à jour les
-   dossiers concernés, passer la fiche à « texte intégral », incrémenter `version`, ajouter
-   `"maj"`, déplacer l'entrée vers `pdfs_recus` (avec le nom du fichier).
-5. Mettre le `statut` des sujets rédigés à `fait`.
-6. `git add`, `git commit` (message en français), `git push` sur `main`. S'il n'y avait rien
-   à faire, ne rien committer.
+   restent dans `pdfs_demandes`. Mettre le sujet à `statut: fait`.
+3. **`go` sur un rapport déjà publié** : intégrer les PDF du dépôt privé absents de tous les
+   `pdfs_recus` et rattachés à ce rapport : lire chaque article en entier, mettre à jour les
+   dossiers concernés, passer les fiches à « texte intégral », incrémenter `version`, ajouter
+   `"maj"`, déplacer les entrées vers `pdfs_recus` (avec le nom du fichier). S'il n'y a aucun
+   nouveau PDF pour ce rapport, ne rien modifier et le dire dans le résumé final.
+4. **`stop`** : ne rien faire pour ce sujet, seulement supprimer ses fichiers de commande.
+5. **Sujets jamais pré-recherchés** (`statut: nouveau`) : faire le passage 1 pour eux (liste
+   de PDF), jamais le rapport.
+6. Supprimer (`git rm`) les fichiers de commande traités, puis `git add`, `git commit`
+   (message en français), `git push` sur `main`. S'il n'y avait rien à faire, ne rien
+   committer.
 
 ### Identifier un PDF
 

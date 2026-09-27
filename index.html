@@ -56,7 +56,7 @@ label small{font-family:var(--serif); font-weight:400; color:var(--ink-3); font-
 input,textarea{font:inherit; font-family:var(--serif); font-size:16px; color:var(--ink); background:var(--bg); border:1px solid var(--rule); border-radius:8px; padding:10px 12px; width:100%}
 textarea{min-height:84px; resize:vertical}
 input:focus,textarea:focus{outline:2px solid var(--accent); outline-offset:0; border-color:transparent}
-.btn{align-self:flex-start; font-family:var(--display); font-weight:650; font-size:16px; background:var(--accent); color:var(--accent-ink); border:0; border-radius:8px; padding:11px 18px; cursor:pointer}
+.btn{align-self:flex-start; display:inline-block; text-decoration:none; font-family:var(--display); font-weight:650; font-size:16px; background:var(--accent); color:var(--accent-ink); border:0; border-radius:8px; padding:11px 18px; cursor:pointer}
 .btn:hover{filter:brightness(1.08)}
 .btn[disabled]{opacity:.45; cursor:not-allowed}
 .steps{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:14px; counter-reset:s}
@@ -77,6 +77,12 @@ input:focus,textarea:focus{outline:2px solid var(--accent); outline-offset:0; bo
 .prep .acc{color:var(--ink-2); max-width:64ch}
 .prep .s{font-family:var(--mono); font-size:12px; color:var(--wait)}
 .prep .pdfs{grid-column:auto; margin-top:8px}
+.ctl{display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; margin-top:12px}
+.ctl .state{font-family:var(--mono); font-size:12px; color:var(--ink-2)}
+.ctl .state.go{color:var(--accent)}
+.btn.sm{font-size:14.5px; padding:8px 14px}
+.btn.ghost{background:transparent; color:var(--ink-2); border:1px solid var(--rule)}
+.btn.ghost:hover{border-color:var(--ink-3); filter:none}
 
 /* Bibliothèque */
 .lib{display:flex; flex-direction:column; gap:14px}
@@ -106,7 +112,7 @@ footer{padding-block:44px 60px; font-family:var(--mono); font-size:12px; color:v
     <h1>Veille <span>de nuit</span></h1>
   </div>
   <div>
-    <p class="dek">Tu déposes un sujet. Claude te dit quels articles lui fournir. La nuit, il rédige le rapport avec tes PDF.</p>
+    <p class="dek">Tu déposes un sujet. Claude te dit quels articles lui fournir. Quand tu donnes ton feu vert, il rédige le rapport la nuit.</p>
     <p class="clock">Pré-recherche quelques minutes après le dépôt · rédaction chaque nuit vers 3 h (heure suisse)</p>
   </div>
 </header>
@@ -130,7 +136,7 @@ footer{padding-block:44px 60px; font-family:var(--mono); font-size:12px; color:v
     <ol class="steps">
       <li><span><b>GitHub s'ouvre</b> avec ton sujet déjà rempli. Clique sur le bouton vert <b>Commit changes</b>, puis confirme.</span></li>
       <li><span>Quelques minutes plus tard, une <b>pré-recherche</b> affiche ci-dessous les articles clés à lui fournir en <b>PDF</b>.</span></li>
-      <li><span>Dépose les PDF dans la journée. Vers <b>3 h du matin</b>, Claude rédige le rapport avec eux : il t'attend au réveil.</span></li>
+      <li><span>Dépose les PDF, puis donne ton <b>feu vert</b>. La nuit suivante, vers <b>3 h</b>, Claude rédige le rapport avec eux : il t'attend au réveil.</span></li>
     </ol>
   </div>
 </section>
@@ -179,6 +185,26 @@ document.getElementById("f").addEventListener("submit", e=>{
   msg.textContent=`GitHub s'est ouvert dans un nouvel onglet. Clique sur « Commit changes » pour valider « ${sujet} ».`;
 });
 
+function stamp(){
+  const d=new Date(), z=n=>String(n).padStart(2,"0");
+  return `${d.getFullYear()}${z(d.getMonth()+1)}${z(d.getDate())}-${z(d.getHours())}${z(d.getMinutes())}${z(d.getSeconds())}`;
+}
+function commandUrl(slug, action, titre){
+  const file=`commandes/${stamp()}--${slug}--${action}.md`;
+  const body=`action: ${action}\nslug: ${slug}\n`;
+  const msg=(action==="go"?"Feu vert : ":"Annulation : ")+titre;
+  return `https://github.com/${REPO}/new/main?filename=${encodeURIComponent(file)}&value=${encodeURIComponent(body)}&message=${encodeURIComponent(msg)}`;
+}
+function control(r, cmds, published){
+  const last=cmds[r.slug];
+  if(last==="go"){
+    return `<div class="ctl"><span class="state go">✓ Feu vert donné · ${published?"complément":"rédaction"} cette nuit vers 3 h</span>
+      <a class="btn sm ghost" href="${commandUrl(r.slug,"stop",r.titre)}" target="_blank" rel="noopener">Annuler</a></div>`;
+  }
+  const label = published ? "Compléter avec mes PDF cette nuit" : "Feu vert : rédiger cette nuit";
+  const state = published ? "Tes PDF restent stockés tant que tu ne donnes pas le feu vert." : "En attente de ton feu vert. Dépose d'abord les PDF que tu trouves.";
+  return `<div class="ctl"><a class="btn sm" href="${commandUrl(r.slug,"go",r.titre)}" target="_blank" rel="noopener">${label}</a><span class="state">${state}</span></div>`;
+}
 function pdfBlock(r, label){
   if(!(r.pdfs_demandes||[]).length) return "";
   return `
@@ -188,10 +214,18 @@ function pdfBlock(r, label){
         <a class="up" href="${PDF_UPLOAD}" target="_blank" rel="noopener">Déposer des PDF (dépôt privé)</a>
       </div>`;
 }
+async function listDir(dir){
+  try{ const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${dir}`,{cache:"no-store"}); if(!r.ok) return []; const j=await r.json(); return Array.isArray(j)?j:[]; }catch(e){ return []; }
+}
 
 async function load(){
   let data={rapports:[]};
   try{ data=await (await fetch("data/rapports.json",{cache:"no-store"})).json(); }catch(e){}
+  const [cmdFiles, sujetFiles] = await Promise.all([listDir("commandes"), listDir("sujets")]);
+  const cmds={};
+  cmdFiles.map(f=>f.name).filter(n=>n.endsWith(".md")).sort().forEach(n=>{
+    const parts=n.replace(/\.md$/,"").split("--"); if(parts.length===3) cmds[parts[1]]=parts[2];
+  });
   const pub=data.rapports.filter(r=>r.etat!=="en-preparation");
   const prep=data.rapports.filter(r=>r.etat==="en-preparation");
   const known=new Set(data.rapports.map(r=>r.slug));
@@ -201,13 +235,14 @@ async function load(){
   pub.forEach(r=>{
     const c=document.createElement("article"); c.className="card";
     const recus=(r.pdfs_recus||[]).length?` · ${r.pdfs_recus.length} PDF intégré${r.pdfs_recus.length>1?"s":""}`:"";
+    const pdf=(r.pdfs_demandes||[]).length ? pdfBlock(r,"PDF qui compléteraient ce rapport").replace(/<\/div>\s*$/, control(r,cmds,true)+"</div>") : "";
     c.innerHTML=`
       <div class="num">${String(r.numero).padStart(2,"0")}</div>
       <div>
         <h3><a href="rapports/${esc(r.slug)}.html">${esc(r.titre)}</a></h3>
         <p class="acc">${esc(r.accroche)}</p>
         <div class="meta"><span>${frDate(r.date)}</span>${r.maj?`<span>mis à jour le ${frDate(r.maj)}</span>`:""}<span>${r.sources} sources</span><span>${esc(r.periode)}</span><span>version ${r.version}${recus}</span></div>
-      </div>${pdfBlock(r,"PDF qui compléteraient encore ce rapport")}`;
+      </div>${pdf}`;
     lib.appendChild(c);
   });
 
@@ -215,22 +250,20 @@ async function load(){
   pend.innerHTML="";
   prep.forEach(r=>{
     const d=document.createElement("article"); d.className="prep";
-    d.innerHTML=`<span class="s">PDF demandés · rapport rédigé la nuit prochaine vers 3 h</span>
+    d.innerHTML=`<span class="s">Pré-recherche faite · PDF demandés</span>
       <h3>${esc(r.titre)}</h3>${r.accroche?`<p class="acc">${esc(r.accroche)}</p>`:""}
-      ${pdfBlock(r,"Articles à fournir en PDF d'ici ce soir")}`;
+      ${pdfBlock(r,"Articles à fournir en PDF")}
+      ${control(r,cmds,false)}`;
     pend.appendChild(d);
   });
-  try{
-    const files=await (await fetch(`https://api.github.com/repos/${REPO}/contents/sujets`)).json();
-    const waiting=(Array.isArray(files)?files:[]).filter(f=>f.name.endsWith(".md"))
-      .map(f=>({slug:f.name.replace(/^\d{4}-\d{2}-\d{2}-/,"").replace(/\.md$/,""), date:f.name.slice(0,10)}))
-      .filter(x=>!known.has(x.slug));
-    waiting.forEach(x=>{
+  sujetFiles.filter(f=>f.name.endsWith(".md"))
+    .map(f=>({slug:f.name.replace(/^\d{4}-\d{2}-\d{2}-/,"").replace(/\.md$/,""), date:f.name.slice(0,10)}))
+    .filter(x=>!known.has(x.slug))
+    .forEach(x=>{
       const d=document.createElement("div"); d.className="pend";
       d.innerHTML=`<span class="t">${esc(x.slug.replace(/-/g," "))}</span><span class="s">déposé le ${frDate(x.date)} · pré-recherche en cours, la liste de PDF arrive dans quelques minutes</span>`;
       pend.appendChild(d);
     });
-  }catch(e){}
   if(!pend.children.length) pend.innerHTML=`<p class="empty">Aucun sujet en préparation. Dépose-en un ci-dessus.</p>`;
 }
 load();
