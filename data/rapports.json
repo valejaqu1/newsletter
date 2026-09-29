@@ -1,6 +1,46 @@
 {
   "rapports": [
     {
+      "slug": "difficulte-contemporaine-au-niveau-de-la-sante-men",
+      "etat": "en-preparation",
+      "titre": "La santé mentale des hommes aujourd'hui",
+      "accroche": "Ce que la recherche dit des difficultés contemporaines de santé mentale chez les hommes adultes : normes de masculinité, sous-diagnostic de la dépression, isolement social, et le débat sur une possible invisibilisation croisée des souffrances.",
+      "date": "2026-09-29",
+      "pdfs_demandes": [
+        {
+          "ref": "Wong, Ho, Wang & Miller (2017)",
+          "doi": "10.1037/cou0000176",
+          "pourquoi": "Méta-analyse fondatrice (78 échantillons, plus de 19 000 hommes) qui établit le lien entre conformité aux normes masculines et santé mentale ; le texte intégral détaille quelles normes précises (autosuffisance, promiscuité, etc.) sont réellement en cause plutôt que la masculinité en bloc."
+        },
+        {
+          "ref": "Üzümçeker (2025)",
+          "doi": "10.1002/ijop.70031",
+          "pourquoi": "Mise à jour méta-analytique récente (35 échantillons) qui chiffre le lien entre masculinité traditionnelle et attitudes envers la demande d'aide (r = -0,38) ainsi que l'auto-stigmatisation (r = 0,35) ; le texte intégral détaille les modérateurs testés."
+        },
+        {
+          "ref": "Friedel, Abels, Henze, Haering, Buspavanich & Stadler (2024)",
+          "doi": "10.1007/s00115-024-01616-6",
+          "pourquoi": "Revue récente sur le paradoxe du genre en dépression, qui explique pourquoi la dépression masculine serait sous-estimée par une présentation atypique des symptômes ; le texte intégral détaille les modèles explicatifs biologiques et sociologiques."
+        },
+        {
+          "ref": "Michaud, Brovelli & Bourquin (2021)",
+          "doi": "10.53738/revmed.2021.17.7442.1265",
+          "pourquoi": "Synthèse en français, publiée dans une revue suisse, sur le paradoxe du genre dans le suicide (hommes : plus de décès ; femmes : plus de tentatives) avec des implications cliniques directes pour repérer une dépression masculine mal exprimée."
+        },
+        {
+          "ref": "Rice, Seidler, Kealy, Ogrodniczuk, Zajac & Oliffe (2022)",
+          "doi": "10.1097/hrp.0000000000000346",
+          "pourquoi": "Discussion clinique centrale : faut-il inclure les symptômes externalisés (colère, prise de risque) dans les critères diagnostiques de la dépression chez l'homme ? Directement utilisable pour l'anamnèse."
+        },
+        {
+          "ref": "Flood, Dragiewicz & Pease (2021)",
+          "doi": "10.1002/ajs4.137",
+          "pourquoi": "Revue de référence sur les mécanismes de résistance et de retour de bâton face à l'égalité de genre, utile pour traiter avec prudence la question du sujet sur une possible invisibilisation croisée des souffrances masculine et féminine."
+        }
+      ],
+      "pdfs_recus": []
+    },
+    {
       "slug": "l-impacte-de-notre-alimentation-sur-notre-bien-etr",
       "etat": "en-preparation",
       "titre": "Alimentation et santé mentale",
