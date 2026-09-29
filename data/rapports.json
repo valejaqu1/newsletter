@@ -1,6 +1,41 @@
 {
   "rapports": [
     {
+      "slug": "l-impacte-de-notre-alimentation-sur-notre-bien-etr",
+      "etat": "en-preparation",
+      "titre": "Alimentation et santé mentale",
+      "accroche": "Ce que la recherche dit vraiment du lien entre qualité de l'alimentation et humeur chez l'adulte : des associations qui reviennent souvent, mais une preuve encore fragile.",
+      "date": "2026-09-29",
+      "pdfs_demandes": [
+        {
+          "ref": "Molendijk et al. (2018)",
+          "doi": "10.1016/j.jad.2017.09.022",
+          "pourquoi": "Méta-analyse dose-réponse fondatrice (24 cohortes) qui a fixé les OR de référence (0,64–0,78) cités dans presque toute la littérature ultérieure ; le texte intégral détaille l'effet par groupe alimentaire."
+        },
+        {
+          "ref": "Molero et al. (2025)",
+          "doi": "10.1016/j.jad.2025.03.162",
+          "pourquoi": "Mise à jour très récente (21 essais randomisés + 92 cohortes, >700 000 participants) qui nuance fortement le consensus ; le texte intégral explique pourquoi la force de preuve globale est jugée très faible malgré un effet net des essais de traitement."
+        },
+        {
+          "ref": "Matison et al. (2021)",
+          "doi": "10.1016/j.arr.2021.101403",
+          "pourquoi": "Seule méta-analyse centrée sur l'indice inflammatoire alimentaire et le régime occidental chez les 45 ans et plus (OR 1,33) ; le texte intégral donne le détail par groupe d'aliments."
+        },
+        {
+          "ref": "Simpson et al. (2021)",
+          "doi": "10.1016/j.cpr.2020.101943",
+          "pourquoi": "Revue de référence sur l'axe intestin-cerveau (793 citations) ; le texte intégral précise quels taxons bactériens et quels mécanismes inflammatoires sont réellement établis plutôt que spéculatifs."
+        },
+        {
+          "ref": "Dai et al. (2024)",
+          "doi": "10.1016/j.clnu.2024.04.016",
+          "pourquoi": "Umbrella review qui classe la force de preuve du lien aliments ultra-transformés/dépression (classe II, « très suggestive ») parmi 49 issues de santé ; le texte intégral donne la méthode de gradation et les biais évalués."
+        }
+      ],
+      "pdfs_recus": []
+    },
+    {
       "slug": "hpi-tdah",
       "etat": "publie",
       "numero": 1,
