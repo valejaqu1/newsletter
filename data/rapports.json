@@ -1,6 +1,41 @@
 {
   "rapports": [
     {
+      "slug": "le-vecu-des-parents-et-les-different-transfert-pos",
+      "etat": "en-preparation",
+      "titre": "Vécu parental et transmission aux enfants",
+      "accroche": "Reproduire un schéma vécu dans l'enfance, ou faire l'inverse par peur de le reproduire : ce que la recherche dit des profils de parents et de ce qui fait la différence.",
+      "date": "2026-09-30",
+      "pdfs_demandes": [
+        {
+          "ref": "Madigan, Turgeon, Racine, Zhu, Alink, Ereyi-Osas, Jang & Fearon (2025)",
+          "doi": "10.1017/s0954579425000239",
+          "pourquoi": "Méta-analyse qui chiffre quatre profils (maintien, rupture, apparition du cycle, aucun antécédent) : seul le résumé est lisible, le texte donnerait les facteurs qui distinguent les parents qui rompent le schéma de ceux qui le reproduisent."
+        },
+        {
+          "ref": "Assink, Spruit, Schuts, Lindauer, van der Put & Stams (2018)",
+          "doi": "10.1016/j.chiabu.2018.07.037",
+          "pourquoi": "Méta-analyse de référence sur l'ampleur de la transmission intergénérationnelle ; le texte intégral détaille les modérateurs (type de maltraitance, qualité méthodologique) absents du résumé."
+        },
+        {
+          "ref": "Greene, Haisley, Wallace & Ford (2020)",
+          "doi": "10.1016/j.cpr.2020.101891",
+          "pourquoi": "Revue systématique des pratiques parentales des adultes ayant vécu de la maltraitance (parentification, rejet, retrait, parentalité positive) : donne une typologie clinique des profils, à lire en entier pour le détail des 97 études."
+        },
+        {
+          "ref": "Berthelot, Ensink, Bernazzani, Normandin, Luyten & Fonagy (2015)",
+          "doi": "10.1002/imhj.21499",
+          "pourquoi": "Étudie la fonction réflexive spécifique au trauma comme mécanisme qui explique pourquoi certaines mères transmettent un attachement désorganisé et d'autres non ; le résumé ne donne pas le détail de ce mécanisme."
+        },
+        {
+          "ref": "Ensink, Normandin, Plamondon, Berthelot & Fonagy (2016)",
+          "doi": "10.1037/cbs0000030",
+          "pourquoi": "Modélise le chemin fonction réflexive → comportement parental → attachement du bébé ; le texte intégral préciserait comment la réflexivité protège contre la reproduction de schémas négatifs, utile pour les pistes cliniques."
+        }
+      ],
+      "pdfs_recus": []
+    },
+    {
       "slug": "difficulte-contemporaine-au-niveau-de-la-sante-men",
       "etat": "publie",
       "numero": 3,
