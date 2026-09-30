@@ -1,6 +1,6 @@
 ---
 sujet: "difficulté contemporaine au niveau de la santé mental des hommes"
-statut: attente-pdf
+statut: fait
 date: 2026-09-29
 prerecherche: 2026-09-29T11:44Z
 ---
