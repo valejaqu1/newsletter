@@ -1,6 +1,6 @@
 ---
 sujet: "L'impacte de notre alimentation sur notre bien être mental / trouble ?"
-statut: attente-pdf
+statut: fait
 date: 2026-09-29
 prerecherche: 2026-09-29T11:38Z
 ---

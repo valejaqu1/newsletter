@@ -1,0 +1,830 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Assiette et humeur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+:root{
+  --bg:#f1f4f8; --surface:#ffffff; --surface-2:#e6ebf2; --ink:#121a25; --ink-2:#465264; --ink-3:#6b7788;
+  --rule:#d3dae4; --accent:#1c5cab; --accent-soft:#dde8f7;
+  --t-pop:#2a78d6; --t-clin:#eb6834; --t-rev:#1baf7a; --t-other:#8b95a3;
+  --q-low:#86b6ef; --q-mid:#2a78d6; --q-high:#104281;
+  --less:#2a78d6; --more:#e34948;
+  --display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0f1318; --surface:#161b22; --surface-2:#1f2631; --ink:#edf1f6; --ink-2:#b3bcc9; --ink-3:#8a94a3;
+    --rule:#2b333f; --accent:#6da7ec; --accent-soft:#1a2738;
+    --t-pop:#3987e5; --t-clin:#d95926; --t-rev:#199e70; --t-other:#7c8592;
+    --q-low:#1c5cab; --q-mid:#3987e5; --q-high:#9ec5f4;
+    --less:#3987e5; --more:#e66767;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0f1318; --surface:#161b22; --surface-2:#1f2631; --ink:#edf1f6; --ink-2:#b3bcc9; --ink-3:#8a94a3;
+  --rule:#2b333f; --accent:#6da7ec; --accent-soft:#1a2738;
+  --t-pop:#3987e5; --t-clin:#d95926; --t-rev:#199e70; --t-other:#7c8592;
+  --q-low:#1c5cab; --q-mid:#3987e5; --q-high:#9ec5f4;
+  --less:#3987e5; --more:#e66767;
+}
+
+*{box-sizing:border-box}
+html{padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%}
+[hidden]{display:none!important}
+.back{font-family:var(--mono); font-size:12.5px; text-decoration:none; display:inline-block; margin-bottom:14px}
+.up{display:inline-block; margin-top:16px; font-family:var(--display); font-weight:650; font-size:15px; text-decoration:none; background:var(--accent); color:var(--surface); border-radius:8px; padding:9px 15px}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--serif); font-size:17px; line-height:1.6;}
+.wrap{max-width:1080px; margin-inline:auto; padding-inline:clamp(16px,4vw,40px);}
+h1,h2,h3{font-family:var(--display); text-wrap:balance; margin:0; letter-spacing:-0.01em}
+p{margin:0}
+a{color:var(--accent)}
+button{font:inherit; color:inherit}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.mono{font-family:var(--mono)}
+.label{font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3)}
+
+/* ---------- En-tête ---------- */
+header.top{padding-block:40px 28px; border-bottom:1px solid var(--rule)}
+.protocol{display:flex; flex-wrap:wrap; gap:6px 22px; font-family:var(--mono); font-size:12px; color:var(--ink-3); letter-spacing:.04em}
+.protocol b{color:var(--ink-2); font-weight:500}
+.title-row{display:flex; flex-wrap:wrap; align-items:flex-end; gap:12px 28px; margin-top:22px}
+h1{font-size:clamp(48px,9vw,96px); font-weight:800; line-height:.92; letter-spacing:-0.035em}
+h1 .x{color:var(--accent); font-weight:500; padding-inline:.06em}
+.dek{max-width:34ch; font-size:19px; color:var(--ink-2); line-height:1.45; padding-bottom:8px}
+.levels{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px}
+.levels a{font-family:var(--mono); font-size:12.5px; text-decoration:none; color:var(--ink-2); border:1px solid var(--rule); background:var(--surface); padding:6px 11px; border-radius:999px}
+.levels a:hover{border-color:var(--accent); color:var(--accent)}
+
+section{padding-block:44px 8px}
+.sec-head{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:18px}
+.sec-head h2{font-size:clamp(24px,3.2vw,32px); font-weight:650}
+.sec-head .label{flex-basis:100%}
+
+/* ---------- Niveau 1 ---------- */
+.summary{font-size:clamp(19px,2.2vw,22px); line-height:1.5; max-width:62ch}
+.summary strong{font-weight:600}
+.verdicts{margin-top:26px; border-top:1px solid var(--rule)}
+.verdict{display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1.2fr) 150px; gap:6px 24px; align-items:center; padding:14px 4px; border-bottom:1px solid var(--rule); text-decoration:none; color:inherit}
+.verdict:hover{background:var(--surface)}
+.verdict .q{font-family:var(--display); font-weight:500; font-size:17px; line-height:1.3}
+.verdict .a{color:var(--ink-2); font-size:16px; line-height:1.4}
+.verdict .a b{color:var(--ink); font-weight:600}
+.strength{display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:12px; color:var(--ink-3)}
+.dots{display:inline-flex; gap:4px}
+.dots i{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--accent); display:block}
+.dots i.on{background:var(--accent)}
+.verdict-head{display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1.2fr) 150px; gap:24px; padding:10px 4px 8px}
+@media (max-width:720px){
+  .verdict,.verdict-head{grid-template-columns:1fr}
+  .verdict-head .label:not(:first-child){display:none}
+}
+
+/* ---------- Carte des études ---------- */
+.map-card{background:var(--surface); border:1px solid var(--rule); border-radius:10px; padding:18px 18px 10px}
+.legend{display:flex; flex-wrap:wrap; gap:8px 18px; font-family:var(--mono); font-size:12px; color:var(--ink-2); margin-bottom:6px}
+.legend span{display:inline-flex; align-items:center; gap:7px}
+.sw{width:11px; height:11px; border-radius:50%; display:inline-block}
+.sw.dia{border-radius:1px; transform:rotate(45deg) scale(.85)}
+.scroll-x{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.scroll-x svg{min-width:680px}
+svg text{font-family:var(--mono)}
+.mark{cursor:pointer; transition:opacity .15s}
+.mark:hover{opacity:.82}
+.mark.sel{stroke:var(--ink); stroke-width:2.5}
+.hint{font-family:var(--mono); font-size:12px; color:var(--ink-3); margin-top:6px}
+
+.detail{margin-top:16px; background:var(--surface); border:1px solid var(--rule); border-radius:10px; padding:22px clamp(16px,3vw,28px); display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.5fr); gap:22px 36px}
+.detail h3{font-size:21px; font-weight:650; line-height:1.25; grid-column:1/-1}
+.detail .kv{display:grid; grid-template-columns:auto 1fr; gap:6px 14px; align-content:start; font-size:15px}
+.detail .kv dt{font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); padding-top:3px}
+.detail .kv dd{margin:0; color:var(--ink-2)}
+.detail .body{display:flex; flex-direction:column; gap:14px}
+.detail .body h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); margin:0 0 3px; font-weight:500}
+.detail .body p{max-width:64ch}
+.chip{display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:11.5px; padding:3px 9px; border-radius:999px; background:var(--surface-2); color:var(--ink-2)}
+.chip.full::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--t-rev)}
+.chip.abs::before{content:""; width:7px; height:7px; border-radius:50%; border:1.5px solid var(--ink-3)}
+@media (max-width:720px){ .detail{grid-template-columns:1fr} }
+
+/* ---------- Dossiers ---------- */
+.dossier{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:24px 40px; padding-block:34px; border-top:1px solid var(--rule)}
+.dossier:first-of-type{border-top:0; padding-top:6px}
+.dossier .txt{display:flex; flex-direction:column; gap:14px}
+.dossier h3{font-size:clamp(22px,2.6vw,27px); font-weight:650; line-height:1.18}
+.dossier .lede{color:var(--ink-2); max-width:58ch}
+.topline{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center}
+.fig{background:var(--surface); border:1px solid var(--rule); border-radius:10px; padding:16px 16px 12px; align-self:start}
+.fig figcaption{font-family:var(--display); font-weight:500; font-size:15px; line-height:1.3; margin-bottom:10px}
+.fig .src{font-family:var(--mono); font-size:11.5px; color:var(--ink-3); margin-top:8px; line-height:1.5}
+.fig svg{display:block; width:100%; height:auto}
+details.deep{grid-column:1/-1; background:var(--surface); border:1px solid var(--rule); border-radius:10px}
+details.deep summary{cursor:pointer; list-style:none; padding:14px 18px; font-family:var(--display); font-weight:500; font-size:16px; display:flex; justify-content:space-between; gap:12px; align-items:center}
+details.deep summary::-webkit-details-marker{display:none}
+details.deep summary::after{content:"+"; font-family:var(--mono); font-size:20px; color:var(--accent); line-height:1}
+details.deep[open] summary::after{content:"−"}
+details.deep[open] summary{border-bottom:1px solid var(--rule)}
+.deep-body{padding:18px clamp(16px,3vw,26px) 22px; display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); gap:22px 34px}
+.deep-body .item h4{font-family:var(--display); font-weight:650; font-size:16px; margin:0 0 5px}
+.deep-body .item p{font-size:16px; color:var(--ink-2); max-width:62ch}
+.deep-body .wide{grid-column:1/-1}
+.cite{border:0; background:var(--accent-soft); color:var(--accent); font-family:var(--mono); font-size:12px; padding:2px 8px; border-radius:4px; cursor:pointer; white-space:nowrap}
+.cite:hover{text-decoration:underline}
+.limit{border-left:3px solid var(--rule); padding-left:12px; color:var(--ink-2); font-size:15.5px}
+.limit b{font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); font-weight:500; display:block}
+@media (max-width:820px){ .dossier{grid-template-columns:1fr} }
+
+/* ---------- Pratique ---------- */
+.practice{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); gap:14px}
+.practice li{list-style:none; background:var(--surface); border:1px solid var(--rule); border-radius:10px; padding:16px 18px; display:flex; flex-direction:column; gap:6px}
+.practice ol{margin:0; padding:0; display:contents}
+.practice h4{font-family:var(--display); font-weight:650; font-size:16.5px; margin:0; line-height:1.3}
+.practice p{font-size:15.5px; color:var(--ink-2)}
+.note{font-size:15px; color:var(--ink-3); margin-top:14px; max-width:70ch}
+
+.two{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:18px 40px}
+.two ul{margin:0; padding-left:1.1em; display:flex; flex-direction:column; gap:10px; color:var(--ink-2)}
+.two h3{font-size:19px; font-weight:650; margin-bottom:10px}
+
+.pdf{background:var(--accent-soft); border-radius:10px; padding:20px clamp(16px,3vw,26px)}
+.pdf h3{font-size:19px; font-weight:650}
+.pdf p{color:var(--ink-2); margin-top:6px; max-width:66ch}
+.pdf ul{margin:14px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px}
+.pdf li{display:flex; flex-wrap:wrap; gap:4px 12px; align-items:baseline; font-size:15.5px}
+.pdf li .why{color:var(--ink-2); flex-basis:100%; font-size:14.5px}
+
+.gloss{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr)); gap:14px 30px; margin:0}
+.gloss div{display:flex; flex-direction:column; gap:2px}
+.gloss dt{font-family:var(--mono); font-weight:500; font-size:14px; color:var(--accent)}
+.gloss dd{margin:0; font-size:15px; color:var(--ink-2)}
+
+.refs{margin:0; padding:0; list-style:none; display:flex; flex-direction:column}
+.refs li{display:grid; grid-template-columns:62px minmax(0,1fr) auto; gap:4px 16px; padding:11px 0; border-bottom:1px solid var(--rule); font-size:15px; align-items:baseline}
+.refs .yr{font-family:var(--mono); color:var(--ink-3); font-variant-numeric:tabular-nums}
+.refs .t{color:var(--ink)}
+.refs .j{color:var(--ink-3); font-style:italic}
+.refs a{font-family:var(--mono); font-size:12px}
+@media (max-width:600px){ .refs li{grid-template-columns:1fr} }
+
+footer{padding-block:40px 60px; font-family:var(--mono); font-size:12px; color:var(--ink-3); line-height:1.7}
+
+.tip{position:fixed; z-index:10; pointer-events:none; background:var(--ink); color:var(--bg); font-family:var(--mono); font-size:12px; line-height:1.45; padding:7px 10px; border-radius:6px; max-width:260px; box-shadow:0 4px 18px rgba(0,0,0,.18)}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important; scroll-behavior:auto!important} }
+html{scroll-behavior:smooth}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="top">
+  <a class="back" href="../index.html">← Toutes les veilles</a>
+  <div class="protocol">
+    <span>Veille <b>n° 02</b></span>
+    <span>Synthèse du <b>30.09.2026</b></span>
+    <span><b>20</b> sources · <b>2017 → 2026</b></span>
+    <span>Nutrition et santé mentale</span>
+  </div>
+  <div class="title-row">
+    <h1>Assiette<span class="x">×</span>Humeur</h1>
+    <p class="dek">Ce que la recherche dit vraiment du lien entre notre alimentation et notre santé mentale, chez l'adulte.</p>
+  </div>
+  <nav class="levels" aria-label="Niveaux de lecture">
+    <a href="#l1">1 min · l'essentiel</a>
+    <a href="#carte">Carte des études</a>
+    <a href="#l2">5 min · les dossiers</a>
+    <a href="#pratique">En stage</a>
+    <a href="#refs">Références</a>
+  </nav>
+</header>
+
+<!-- ============ NIVEAU 1 ============ -->
+<section id="l1">
+  <div class="sec-head"><span class="label">Niveau 1 · en une minute</span><h2>L'essentiel</h2></div>
+  <p class="summary">Une alimentation de meilleure qualité est associée à <strong>un peu moins de dépression</strong>, et les aliments ultra-transformés à <strong>un peu plus</strong> — mais l'effet rétrécit dans les études les mieux conçues et les plus récentes. Changer d'alimentation peut aider en complément d'un suivi existant, avec un essai qui montre un effet net (SMILES) mais que personne n'a encore réussi à reproduire à cette taille. La question de la <strong>causalité reste ouverte</strong> : les études génétiques ne confirment pas franchement ce que montrent les cohortes, et trouvent même des effets surprenants (viande rouge protectrice, sucre protecteur).</p>
+
+  <div class="verdicts" role="list">
+    <div class="verdict-head" aria-hidden="true"><span class="label">Question</span><span class="label">Réponse</span><span class="label">Solidité des preuves</span></div>
+    <a class="verdict" role="listitem" href="#d1">
+      <span class="q">Une alimentation de meilleure qualité protège-t-elle contre la dépression ?</span>
+      <span class="a"><b>Oui, un peu.</b> Mais l'effet rétrécit dans les études récentes.</span>
+      <span class="strength"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span>modérée</span>
+    </a>
+    <a class="verdict" role="listitem" href="#d2">
+      <span class="q">Les aliments ultra-transformés augmentent-ils le risque de dépression et d'anxiété ?</span>
+      <span class="a"><b>Oui, de façon assez constante</b> (risque 20 à 50 % plus élevé selon les études).</span>
+      <span class="strength"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span>solide pour l'anxiété</span>
+    </a>
+    <a class="verdict" role="listitem" href="#d3">
+      <span class="q">Changer d'alimentation peut-il réduire des symptômes dépressifs déjà là ?</span>
+      <span class="a"><b>Probablement, un peu.</b> Un seul essai montre un grand effet, jamais égalé depuis.</span>
+      <span class="strength"><span class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span>faible à modérée</span>
+    </a>
+    <a class="verdict" role="listitem" href="#d4">
+      <span class="q">Le microbiote intestinal explique-t-il ce lien ?</span>
+      <span class="a"><b>C'est plausible</b>, avec un effet modeste des probiotiques sur l'humeur.</span>
+      <span class="strength"><span class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span>faible à modérée</span>
+    </a>
+    <a class="verdict" role="listitem" href="#d5">
+      <span class="q">L'alimentation cause-t-elle vraiment l'humeur, ou l'inverse ?</span>
+      <span class="a"><b>Pas démontré.</b> La génétique ne confirme pas les associations observées.</span>
+      <span class="strength"><span class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span>faible</span>
+    </a>
+  </div>
+</section>
+
+<!-- ============ CARTE ============ -->
+<section id="carte">
+  <div class="sec-head"><span class="label">Vue d'ensemble</span><h2>Carte des études</h2></div>
+  <div class="map-card">
+    <div class="legend">
+      <span><i class="sw" style="background:var(--t-pop)"></i>Population / cohorte</span>
+      <span><i class="sw" style="background:var(--t-clin)"></i>Échantillon clinique</span>
+      <span><i class="sw dia" style="background:var(--t-rev)"></i>Revue ou méta-analyse</span>
+      <span style="color:var(--ink-3)">taille du cercle = effectif (échelle log)</span>
+    </div>
+    <div class="scroll-x"><svg id="map" viewBox="0 0 900 440" role="img" aria-label="Carte des 20 études, par année et par thème"></svg></div>
+    <p class="hint">Clique sur une étude pour afficher sa fiche.</p>
+  </div>
+  <div class="detail" id="detail" aria-live="polite"></div>
+</section>
+
+<!-- ============ NIVEAU 2 ============ -->
+<section id="l2">
+  <div class="sec-head"><span class="label">Niveau 2 · cinq minutes, puis « Approfondir »</span><h2>Les dossiers</h2></div>
+
+  <!-- D1 -->
+  <article class="dossier" id="d1">
+    <div class="txt">
+      <div class="topline"><span class="label">Dossier 1 · Risque</span><span class="strength"><span class="dots"><i class="on"></i><i class="on"></i><i></i></span>preuves modérées</span></div>
+      <h3>Une alimentation de meilleure qualité va avec un peu moins de dépression</h3>
+      <p class="lede">Depuis plus de dix ans, les cohortes montrent la même tendance : un régime de type méditerranéen ou riche en fruits et légumes est associé à moins de symptômes dépressifs, et un régime « occidental » ou pro-inflammatoire à un peu plus. Mais l'effet observé s'est réduit d'étude en étude : de plus en plus modeste dans les analyses les plus récentes, les mieux contrôlées.</p>
+      <p class="limit"><b>À garder en tête</b>L'association est plus nette avec un score de symptômes auto-rapportés qu'avec un vrai diagnostic de dépression posé par un clinicien.</p>
+    </div>
+    <figure class="fig" style="margin:0">
+      <figcaption>Le même type de régime, un effet qui rétrécit avec le temps</figcaption>
+      <div id="dietForest"></div>
+      <p class="src">Lassale 2018 · Nicolaou 2019 · Shafiei 2019 · Molero 2025 (régime méditerranéen) ; Matison 2021 (indice inflammatoire alimentaire et régime occidental). Risques relatifs et odds ratios tels que publiés.</p>
+    </figure>
+    <details class="deep">
+      <summary>Approfondir · ce que montrent (et ne montrent pas) les cohortes</summary>
+      <div class="deep-body">
+        <div class="item"><h4>La méta-analyse fondatrice</h4><p>Sur 24 cohortes et près de 2 millions de personnes-années, une alimentation de bonne qualité est associée à moins de dépression, avec une relation dose-réponse (OR 0,64 à 0,78). Mais les études qui utilisaient un vrai diagnostic, plutôt qu'un score, ne retrouvaient pas d'effet significatif. Une revue combinant 41 études arrive à un résultat proche pour le régime méditerranéen (RR 0,67). <button class="cite" data-id="molendijk2018">Molendijk 2018</button> <button class="cite" data-id="lassale2018">Lassale 2018</button></p></div>
+        <div class="item"><h4>Une mise à jour qui nuance fortement</h4><p>En 2025, avec plus de 700 000 participants (92 cohortes et 21 essais), les auteurs qualifient eux-mêmes la force de la preuve globale de « très faible », à cause de la causalité inverse possible et d'une validité interne limitée. Le régime méditerranéen reste associé à moins de symptômes (OR 0,91), mais sans relation dose-réponse. <button class="cite" data-id="molero2025">Molero 2025</button></p></div>
+        <div class="item"><h4>Une contradiction instructive</h4><p>Avec une méthode harmonisée sur 6 cohortes européennes, le score méditerranéen prédit bien moins de symptômes à 5–6 ans (OR 0,88). Mais une autre revue, en ne gardant que les cohortes avec risque relatif calculable, ne retrouve aucune association significative (HR 0,95) : l'effet favorable n'apparaît que dans les études transversales (OR 0,72), plus exposées à la causalité inverse. <button class="cite" data-id="nicolaou2019">Nicolaou 2019</button> <button class="cite" data-id="shafiei2019">Shafiei 2019</button></p></div>
+        <div class="item"><h4>Chez les 45 ans et plus, et pour l'anxiété</h4><p>Un indice inflammatoire alimentaire élevé et un régime occidental sont associés à plus de dépression incidente après 45 ans ; fruits et légumes, à moins. Pour l'anxiété diagnostiquée, en revanche, les preuves sont trop rares et trop inconstantes pour conclure. <button class="cite" data-id="matison2021">Matison 2021</button> <button class="cite" data-id="eliby2023">Eliby 2023</button></p></div>
+      </div>
+    </details>
+  </article>
+
+  <!-- D2 -->
+  <article class="dossier" id="d2">
+    <div class="txt">
+      <div class="topline"><span class="label">Dossier 2 · Aliments ultra-transformés</span><span class="strength"><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i></span>preuves solides pour l'association</span></div>
+      <h3>Plus d'aliments ultra-transformés, plus de risque de dépression et d'anxiété</h3>
+      <p class="lede">Contrairement au dossier précédent, le signal ne s'affaiblit pas avec le temps : des études indépendantes, sur des centaines de milliers de personnes au total, retrouvent toutes un risque plus élevé de dépression et d'anxiété chez les plus gros consommateurs d'aliments ultra-transformés (sodas, plats industriels, snacks emballés). Une vaste synthèse de synthèses classe ce lien comme l'un des plus solides parmi 49 issues de santé étudiées.</p>
+      <p class="limit"><b>À garder en tête</b>La plupart des études restent transversales ou basées sur des questionnaires alimentaires auto-remplis, avec un risque de confusion (revenu, sédentarité, poids).</p>
+    </div>
+    <figure class="fig" style="margin:0">
+      <figcaption>Un risque qui se retrouve dans plusieurs synthèses indépendantes</figcaption>
+      <div id="upfForest"></div>
+      <p class="src">Lane 2022 · Werneck 2024 · Lane 2024 (BMJ). Odds ratios et hazard ratios tels que publiés, comparant forte à faible consommation d'aliments ultra-transformés.</p>
+    </figure>
+    <details class="deep">
+      <summary>Approfondir · ce que dit la plus grande synthèse à ce jour</summary>
+      <div class="deep-body">
+        <div class="item"><h4>Transversal et prospectif concordent</h4><p>Sur 17 études et plus de 385 000 personnes, une forte consommation d'aliments ultra-transformés est associée à plus de symptômes dépressifs et anxieux au même moment (OR 1,44 et 1,48), et prédit un risque plus élevé de dépression dans le temps (HR 1,22). <button class="cite" data-id="lane2022">Lane 2022</button></p></div>
+        <div class="item"><h4>Une relation dose-dépendante</h4><p>Dans la cohorte brésilienne NutriNet Brasil, chaque hausse de 10 % de la part d'aliments ultra-transformés dans l'alimentation est associée à 10 % de risque en plus de symptômes dépressifs. En combinant 6 cohortes, le risque grimpe à 32 % pour une forte exposition. <button class="cite" data-id="werneck2024">Werneck 2024</button></p></div>
+        <div class="item"><h4>Le verdict d'une synthèse de synthèses</h4><p>En reprenant 45 méta-analyses, la preuve est jugée « convaincante » (le niveau le plus élevé) pour le lien entre aliments ultra-transformés et anxiété (OR 1,48) et trouble mental courant (OR 1,53), et « très suggestive » pour la dépression (HR 1,22). Mais la qualité GRADE de ces résultats reste faible, et les auteurs rappellent qu'une association n'est pas une preuve de causalité. <button class="cite" data-id="lane2024bmj">Lane 2024 (BMJ)</button> <button class="cite" data-id="dai2024">Dai 2024</button></p></div>
+      </div>
+    </details>
+  </article>
+
+  <!-- D3 -->
+  <article class="dossier" id="d3">
+    <div class="txt">
+      <div class="topline"><span class="label">Dossier 3 · Interventions</span><span class="strength"><span class="dots"><i class="on"></i><i></i><i></i></span>preuves faibles à modérées</span></div>
+      <h3>Changer d'alimentation peut aider, mais un seul essai montre un grand effet</h3>
+      <p class="lede">Un essai australien de référence (SMILES) a montré qu'un accompagnement diététique de 12 semaines réduisait bien plus les symptômes dépressifs qu'un simple soutien social. Depuis, les méta-analyses qui regroupent des essais plus petits, souvent chez des personnes sans dépression diagnostiquée, retrouvent un effet nettement plus modeste. L'écart entre les deux est lui-même devenu un débat.</p>
+      <p class="limit"><b>À garder en tête</b>SMILES reste une petite étude (67 personnes) sans aveugle possible : les participants savaient qu'ils recevaient une intervention diététique.</p>
+    </div>
+    <figure class="fig" style="margin:0">
+      <figcaption>Des tailles d'effet très différentes selon l'étude et la population</figcaption>
+      <div id="rctBars"></div>
+      <p class="src">Jacka (SMILES) 2017 · Firth 2019 · Bizzozero-Peroni 2024 · Molero 2025. Tailles d'effet (d, g ou SMD) telles que publiées ; une valeur plus grande = une baisse plus forte des symptômes.</p>
+    </figure>
+    <details class="deep">
+      <summary>Approfondir · l'essai SMILES et ce qui a suivi</summary>
+      <div class="deep-body">
+        <div class="item"><h4>L'essai qui a lancé le domaine</h4><p>67 adultes avec une dépression majeure modérée à sévère, déjà suivis pour 82 % d'entre eux, ont reçu 7 séances avec une diététicienne ou un soutien social. À 12 semaines, la rémission concernait 32 % du groupe diététique contre 8 % du groupe contrôle (NNT 4,1). <button class="cite" data-id="jacka2017">Jacka 2017</button></p></div>
+        <div class="item"><h4>Un effet plus modeste en moyenne</h4><p>En regroupant 16 essais et plus de 45 000 participants, la plupart sans dépression diagnostiquée, l'effet moyen des interventions diététiques sur les symptômes dépressifs est faible (g = 0,162) et nul pour l'anxiété. <button class="cite" data-id="firth2019">Firth 2019</button></p></div>
+        <div class="item"><h4>Spécifiquement pour le régime méditerranéen</h4><p>Sur 5 essais et 1 507 personnes avec dépression, le régime méditerranéen réduit les symptômes (SMD −0,53), mais avec un risque de biais élevé et une certitude de preuve jugée faible par les auteurs eux-mêmes. <button class="cite" data-id="bizzozero2024">Bizzozero-Peroni 2024</button></p></div>
+        <div class="item wide"><h4>Un débat entre les deux équipes</h4><p>Les auteurs de la méta-analyse 2018 ont publiquement suggéré qu'un biais d'attente (les participants qui espèrent un effet parce qu'ils savent qu'ils suivent le groupe « traitement ») pouvait expliquer le grand effet de SMILES. L'équipe de SMILES répond avoir observé une corrélation entre l'ampleur du changement alimentaire et celle de l'amélioration des symptômes, ce qu'elle juge cohérent avec un effet réel. Un essai plus récent, avec repas fournis et groupe contrôle « factice », est en cours pour trancher. <button class="cite" data-id="jacka2017">Jacka 2017</button> <button class="cite" data-id="molero2025">Molero 2025</button></p></div>
+      </div>
+    </details>
+  </article>
+
+  <!-- D4 -->
+  <article class="dossier" id="d4">
+    <div class="txt">
+      <div class="topline"><span class="label">Dossier 4 · Axe intestin-cerveau</span><span class="strength"><span class="dots"><i class="on"></i><i></i><i></i></span>preuves faibles à modérées</span></div>
+      <h3>Le microbiote est un mécanisme plausible, pas encore une explication complète</h3>
+      <p class="lede">Les personnes avec anxiété ou dépression ont, en moyenne, un microbiote intestinal un peu différent : plus de bactéries associées à l'inflammation, moins de bactéries productrices de composés protecteurs pour la paroi intestinale. Donner des probiotiques réduit un peu les symptômes, surtout chez des personnes déjà suivies pour un trouble diagnostiqué. « Nouveau en 2026 » : la plus large synthèse à ce jour (70 essais) confirme cet effet modeste, avec une note de prudence méthodologique.</p>
+      <p class="limit"><b>À garder en tête</b>Les essais contrôlent rarement l'alimentation ou les traitements en cours, qui influencent pourtant eux-mêmes le microbiote.</p>
+    </div>
+    <figure class="fig" style="margin:0">
+      <figcaption>Un effet qui grandit avec la sévérité du tableau clinique</figcaption>
+      <div id="probioBars"></div>
+      <p class="src">Liu 2019 (détail par type d'échantillon) et Lian 2026 (mise à jour à grande échelle, 70 essais). Tailles d'effet (d, SMD) telles que publiées.</p>
+    </figure>
+    <details class="deep">
+      <summary>Approfondir · microbiote, probiotiques et mécanismes</summary>
+      <div class="deep-body">
+        <div class="item"><h4>Ce que montre le microbiote</h4><p>Sur 26 études comparant la composition du microbiote intestinal, les profils associés à l'anxiété et à la dépression penchent vers plus de bactéries pro-inflammatoires et moins de bactéries productrices d'acides gras à chaîne courte, un carburant protecteur pour la paroi intestinale. <button class="cite" data-id="simpson2021">Simpson 2021</button></p></div>
+        <div class="item"><h4>Un effet qui dépend du public visé</h4><p>Sur 34 essais contrôlés, l'effet des probiotiques est faible tous publics confondus (d = −0,24 pour la dépression), plus net dans des échantillons cliniques (d = −0,45), et encore plus dans un sous-groupe préliminaire d'échantillons psychiatriques diagnostiqués (d = −0,73). Les prébiotiques seuls n'ont pas d'effet démontré. <button class="cite" data-id="liu2019">Liu 2019</button></p></div>
+        <div class="item"><h4>Des mécanismes biologiques partiels</h4><p>Chez des personnes avec dépression et une maladie physique associée, les probiotiques augmentent un marqueur de plasticité cérébrale (BDNF) et diminuent un marqueur d'inflammation (CRP). Aucun effet significatif sur d'autres marqueurs inflammatoires ou sur le cortisol. <button class="cite" data-id="sikorska2023">Sikorska 2023</button></p></div>
+        <div class="item"><h4>Nouveau en 2026 : confirmation à grande échelle</h4><p>La plus vaste synthèse publiée à ce jour, 70 essais évalués avec la méthode GRADE, confirme une réduction modérée des symptômes dépressifs (SMD −0,57) et anxieux (SMD −0,43) avec probiotiques ou synbiotiques, tout en précisant que ces interventions doivent compléter, jamais remplacer, un traitement standard. <button class="cite" data-id="lian2026">Lian 2026</button></p></div>
+      </div>
+    </details>
+  </article>
+
+  <!-- D5 -->
+  <article class="dossier" id="d5">
+    <div class="txt">
+      <div class="topline"><span class="label">Dossier 5 · Causalité</span><span class="strength"><span class="dots"><i class="on"></i><i></i><i></i></span>preuves faibles</span></div>
+      <h3>La génétique ne confirme pas franchement ce que montrent les cohortes</h3>
+      <p class="lede">Pour savoir si l'alimentation cause vraiment des changements d'humeur (et pas l'inverse), les chercheurs utilisent la randomisation mendélienne : ils comparent des personnes selon des variants génétiques qui influencent leurs habitudes alimentaires, sans que la dépression puisse avoir causé ces variants. Résultat : les associations retrouvées en cohorte s'effacent souvent, et certaines s'inversent de façon surprenante.</p>
+      <p class="limit"><b>À garder en tête</b>La randomisation mendélienne a elle-même des limites (pléiotropie) : elle affaiblit la confiance dans une causalité simple, elle ne prouve pas l'absence de lien.</p>
+    </div>
+    <figure class="fig" style="margin:0">
+      <figcaption>Le même aliment, deux méthodes, deux résultats différents</figcaption>
+      <div id="causalDumbbell"></div>
+      <p class="src">Comparaison entre l'association observée en cohorte (Matison 2021, fruits et légumes → dépression) et l'estimation par randomisation mendélienne pour la dépression (van Hooijdonk 2025, étude 3).</p>
+    </figure>
+    <details class="deep">
+      <summary>Approfondir · des résultats génétiques qui surprennent</summary>
+      <div class="deep-body">
+        <div class="item"><h4>Bœuf protecteur, poisson à risque ?</h4><p>Une analyse génétique portant sur près de 450 000 personnes trouve qu'une consommation plus élevée de bœuf serait protectrice contre la dépression, et le poisson non gras un facteur de risque — l'inverse des recommandations nutritionnelles habituelles. <button class="cite" data-id="chen2022">Chen 2022</button></p></div>
+        <div class="item"><h4>Trois méthodes, aucune ne confirme la causalité</h4><p>En combinant un suivi de 9 276 étudiants, une comparaison de jumeaux et une randomisation mendélienne, aucune des trois méthodes ne soutient un effet causal de l'alimentation sur la dépression ou l'anxiété, ni l'inverse. Seule exception surprenante : plus de fruits est associé génétiquement à plus d'anxiété (OR 1,99), pas moins. <button class="cite" data-id="hooijdonk2025">van Hooijdonk 2025</button></p></div>
+        <div class="item wide"><h4>Comment lire ces résultats</h4><p>Ces études ne veulent pas dire qu'il faut manger plus de viande rouge ou de sucre. Elles montrent surtout que la méthode utilisée change la conclusion, et que la prudence s'impose avant de présenter l'alimentation comme une cause établie de la dépression.</p></div>
+      </div>
+    </details>
+  </article>
+</section>
+
+<!-- ============ PRATIQUE ============ -->
+<section id="pratique">
+  <div class="sec-head"><span class="label">Niveau 3 · pour ton stage</span><h2>Ce que ça change en pratique</h2></div>
+  <div class="practice"><ol>
+    <li><h4>Intégrer l'alimentation à l'anamnèse</h4><p>Un régime très pauvre en fruits et légumes ou très riche en produits ultra-transformés est une piste à explorer, pas une cause certaine à annoncer.</p></li>
+    <li><h4>Ne jamais présenter l'alimentation comme un substitut</h4><p>Les résultats les plus solides concernent un accompagnement diététique en plus d'un suivi existant, pas à la place d'un traitement.</p></li>
+    <li><h4>Rester mesuré sur les probiotiques</h4><p>L'effet documenté est modeste, et surtout observé chez des personnes déjà suivies pour un trouble diagnostiqué, pas en prévention générale.</p></li>
+    <li><h4>Distinguer symptômes et diagnostic</h4><p>Beaucoup d'associations sont plus nettes avec un score de symptômes qu'avec un diagnostic clinique posé. Le dire change la portée d'un résultat.</p></li>
+    <li><h4>Éviter tout discours culpabilisant</h4><p>La causalité inverse est plausible : la dépression modifie l'appétit et les choix alimentaires. Présenter l'alimentation comme un manque de volonté serait trompeur.</p></li>
+    <li><h4>Orienter vers une diététicienne si le patient est motivé</h4><p>C'est le format structuré, avec suivi individuel, qui a montré le résultat le plus net dans les études — pas un simple conseil isolé.</p></li>
+  </ol></div>
+  <p class="note">Ces pistes résument la littérature. Discute-les avec ton ou ta superviseur·e avant de les appliquer à un patient.</p>
+</section>
+
+<!-- ============ DÉBATS ============ -->
+<section id="debats">
+  <div class="sec-head"><span class="label">Zones grises</span><h2>Débats et questions ouvertes</h2></div>
+  <div class="two">
+    <div>
+      <h3>Encore débattu</h3>
+      <ul>
+        <li>Pourquoi la randomisation mendélienne trouve parfois la viande rouge ou le sucre « protecteurs » : artefact statistique, ou signal réel que les cohortes ne peuvent pas voir ?</li>
+        <li>Si l'effet spectaculaire de SMILES (d = 1,16 sur seulement 67 personnes) reflète un vrai effet du régime ou un biais d'attente, comme le proposent Molendijk et ses collègues en réponse directe à l'équipe de Jacka.</li>
+        <li>L'anxiété répond-elle aux mêmes leviers alimentaires que la dépression ? Les synthèses se contredisent : effet jugé « non significatif » dans certaines, « convaincant » dans d'autres, selon la méthode et les études incluses.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Encore inconnu</h3>
+      <ul>
+        <li>Quel mécanisme domine réellement : inflammation, microbiote, ou simple confusion avec le poids, l'activité physique et le niveau socio-économique ?</li>
+        <li>Aucun essai randomisé de grande taille (plus de 200 personnes), avec un diagnostic clinique confirmé, n'a encore testé un régime comme traitement de la dépression.</li>
+        <li>Presque aucune donnée spécifique à la Suisse ou à l'Europe francophone : la plupart des grandes cohortes viennent du monde anglo-saxon, scandinave ou australien.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PDF ============ -->
+<section id="pdf">
+  <div class="pdf">
+    <h3>Pour aller plus loin, j'aurais besoin de ces PDF</h3>
+    <p>Pour ces articles, je n'ai pu lire que le résumé. Si tu les télécharges avec ton accès UNIL et les déposes dans ton dépôt privé, le rapport sera complété la nuit suivante.</p>
+    <ul>
+      <li><strong>Molero et al. (2025)</strong> <a href="https://doi.org/10.1016/j.jad.2025.03.162">doi.org/10.1016/j.jad.2025.03.162</a><span class="why">Mise à jour la plus récente et la plus nuancée (700 000+ participants) : le texte intégral donne le détail par régime et par type d'étude derrière le verdict « preuve très faible ».</span></li>
+      <li><strong>Simpson et al. (2021)</strong> <a href="https://doi.org/10.1016/j.cpr.2020.101943">doi.org/10.1016/j.cpr.2020.101943</a><span class="why">Le résumé ne donne que des catégories générales de bactéries ; le texte intégral précise quels taxons et quels mécanismes inflammatoires sont vraiment établis, plutôt que spéculatifs.</span></li>
+      <li><strong>Dai et al. (2024)</strong> <a href="https://doi.org/10.1016/j.clnu.2024.04.016">doi.org/10.1016/j.clnu.2024.04.016</a><span class="why">Umbrella review qui classe le lien aliments ultra-transformés/dépression comme « très suggestif » parmi 49 issues de santé ; le texte intégral donne la méthode de gradation et l'effet chiffré exact pour la dépression.</span></li>
+    </ul>
+    <a class="up" href="https://github.com/valejaqu1/newsletter-pdfs/upload/main" target="_blank" rel="noopener">Déposer des PDF (dépôt privé)</a>
+  </div>
+</section>
+
+<!-- ============ GLOSSAIRE ============ -->
+<section id="glossaire">
+  <div class="sec-head"><span class="label">Vocabulaire</span><h2>Glossaire</h2></div>
+  <dl class="gloss">
+    <div><dt>OR, RR, HR</dt><dd>Odds ratio, risque relatif, hazard ratio : mesures d'association. Valeur &lt; 1 = risque plus faible ; &gt; 1 = risque plus élevé dans le groupe étudié.</dd></div>
+    <div><dt>Taille d'effet (d, g, SMD)</dt><dd>Mesure standardisée de l'ampleur d'une différence entre deux groupes. Environ 0,2 = petit effet, 0,5 = moyen, 0,8 = grand (repères, pas des seuils absolus).</dd></div>
+    <div><dt>Aliments ultra-transformés</dt><dd>Classification NOVA : produits industriels à base d'ingrédients raffinés et d'additifs, peu ou pas transformés autrement à la maison (sodas, plats préparés, snacks emballés).</dd></div>
+    <div><dt>Indice inflammatoire alimentaire (DII)</dt><dd>Score qui classe un régime selon son potentiel à favoriser ou réduire l'inflammation dans l'organisme, à partir de sa composition en nutriments.</dd></div>
+    <div><dt>Axe intestin-cerveau</dt><dd>Ensemble des voies (nerveuses, immunitaires, hormonales) par lesquelles le microbiote intestinal et le cerveau s'influencent mutuellement.</dd></div>
+    <div><dt>Probiotiques, prébiotiques, synbiotiques</dt><dd>Micro-organismes vivants supposés bénéfiques (probiotiques), fibres qui nourrissent les bonnes bactéries (prébiotiques), ou association des deux (synbiotiques).</dd></div>
+    <div><dt>Randomisation mendélienne</dt><dd>Méthode qui utilise des variants génétiques comme substituts d'une exposition (ex. un régime) pour estimer un effet causal, sans essai clinique.</dd></div>
+    <div><dt>Causalité inverse</dt><dd>Quand l'effet supposé (ici la dépression) modifie en réalité la cause étudiée (ici l'alimentation), plutôt que l'inverse.</dd></div>
+    <div><dt>GRADE</dt><dd>Système standardisé pour noter la certitude d'une preuve scientifique (très faible, faible, modérée, élevée).</dd></div>
+    <div><dt>Essai contrôlé randomisé (RCT)</dt><dd>Étude où les participants sont assignés au hasard à une intervention ou à un groupe contrôle, pour limiter les biais de comparaison.</dd></div>
+  </dl>
+</section>
+
+<!-- ============ RÉFÉRENCES ============ -->
+<section id="refs">
+  <div class="sec-head"><span class="label">Sources vérifiées (DOI, revue, volume)</span><h2>Références</h2></div>
+  <ol class="refs" id="reflist"></ol>
+</section>
+
+<footer>
+  Synthèse rédigée par Claude le 30 septembre 2026 à partir de résumés et d'articles en libre accès. Chaque référence a été vérifiée dans Europe PMC ou Crossref.<br>
+  Les pastilles indiquent si l'article a été lu en entier ou seulement en résumé. Vérifie un chiffre dans la source avant de le citer dans un travail.
+</footer>
+</div>
+
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const LANES = [
+  {id:"risk", label:["Qualité de","l'alimentation"], h:96},
+  {id:"upf",  label:["Aliments ultra-","transformés"], h:70},
+  {id:"int",  label:["Interventions"], h:64},
+  {id:"gut",  label:["Axe intestin-","cerveau"], h:64},
+  {id:"caus", label:["Causalité"], h:64},
+];
+const TYPES = {
+  pop:{label:"Population / cohorte", c:"--t-pop"},
+  clin:{label:"Échantillon clinique", c:"--t-clin"},
+  rev:{label:"Revue ou méta-analyse", c:"--t-rev"},
+};
+const S = [
+ {id:"jacka2017", lane:"int", x:2017.3, type:"clin", n:67, short:"Jacka 2017",
+  authors:"Jacka FN, O'Neil A, Opie R, et al.", title:"A randomised controlled trial of dietary improvement for adults with major depression (the 'SMILES' trial)",
+  journal:"BMC Medicine, 15, 23", doi:"10.1186/s12916-017-0791-y", read:"full",
+  sample:"67 adultes avec dépression majeure modérée à sévère (Australie), 82 % déjà sous traitement",
+  shows:"12 semaines de soutien diététique individualisé réduisent bien plus les symptômes qu'un soutien social seul (d = 1,16). Rémission chez 32 % contre 8 % (NNT 4,1). Chaque hausse de 10 % de l'adhésion au régime prédit une baisse de 2,2 points au MADRS.",
+  limits:"Seulement 67 participants ; les auteurs reconnaissent eux-mêmes un risque de biais d'attente lié à l'absence d'aveugle."},
+ {id:"molendijk2018", lane:"risk", x:2018.0, dy:-20, type:"rev", short:"Molendijk 2018",
+  authors:"Molendijk M, Molero P, Ortuño Sánchez-Pedreño F, Van der Does W, Martínez-González MA", title:"Diet quality and depression risk: A systematic review and dose-response meta-analysis of prospective studies",
+  journal:"Journal of Affective Disorders, 226, 346–354", doi:"10.1016/j.jad.2017.09.022", read:"abs",
+  sample:"24 cohortes prospectives, 1 959 217 personnes-années",
+  shows:"Une alimentation de bonne qualité (saine ou méditerranéenne) est associée à moins de symptômes dépressifs, avec une relation dose-réponse (OR 0,64 à 0,78). Un indice inflammatoire alimentaire bas est aussi associé à moins de dépression (OR 0,81), sans dose-réponse. Les études avec un diagnostic formel ne montraient pas d'effet significatif.",
+  limits:"Confusion résiduelle possible ; la plupart des données viennent de scores de symptômes autodéclarés, pas de diagnostics cliniques."},
+ {id:"lassale2018", lane:"risk", x:2018.4, dy:20, type:"rev", short:"Lassale 2018",
+  authors:"Lassale C, Batty GD, Baghdadli A, Jacka F, Sánchez-Villegas A, Kivimäki M, Akbaraly T", title:"Healthy dietary indices and risk of depressive outcomes: a systematic review and meta-analysis of observational studies",
+  journal:"Molecular Psychiatry, 24(7), 965–986", doi:"10.1038/s41380-018-0237-8", read:"full",
+  sample:"41 études (20 longitudinales, 21 transversales)",
+  shows:"L'association la plus nette concerne le régime méditerranéen : risque relatif combiné de 0,67 pour l'incidence de la dépression sur 4 études longitudinales. Un indice inflammatoire alimentaire bas est associé à un RR de 0,76 ; d'autres indices (HEI, AHEI) montrent un RR de 0,65.",
+  limits:"Peu d'études longitudinales par indice ; grande hétérogénéité dans la façon de mesurer la dépression."},
+ {id:"shafiei2019", lane:"risk", x:2019.1, dy:-20, type:"rev", n:56043, short:"Shafiei 2019",
+  authors:"Shafiei F, Salari-Moghaddam A, Larijani B, Esmaillzadeh A", title:"Adherence to the Mediterranean diet and risk of depression: a systematic review and updated meta-analysis of observational studies",
+  journal:"Nutrition Reviews, 77(4), 230–239", doi:"10.1093/nutrit/nuy070", read:"abs",
+  sample:"56 043 participants, 14 études (4 cohortes avec risque relatif, 9 transversales)",
+  shows:"En ne combinant que les cohortes, aucune association significative n'apparaît entre régime méditerranéen et dépression (HR 0,95). L'association favorable n'apparaît que dans les études transversales (OR 0,72), plus exposées à la causalité inverse.",
+  limits:"Seulement 4 cohortes disponibles avec un risque relatif calculable."},
+ {id:"nicolaou2019", lane:"risk", x:2019.5, dy:22, type:"pop", n:23026, short:"Nicolaou 2019",
+  authors:"Nicolaou M, Colpo M, Vermeulen E, et al.", title:"Association of a priori dietary patterns with depressive symptoms: a harmonised meta-analysis of observational studies",
+  journal:"Psychological Medicine, 50(11), 1872–1883", doi:"10.1017/S0033291719001958", read:"full",
+  sample:"23 026 participants, 6 cohortes européennes et australienne ; incidence sur 10 721 personnes suivies 5–6 ans",
+  shows:"Avec une méthode harmonisée entre 6 cohortes, le score méditerranéen prédit une baisse des symptômes dépressifs à 5–6 ans (OR 0,88). Les indices AHEI (0,95) et DASH (0,90) montrent des associations plus faibles.",
+  limits:"Analyses surtout transversales ; seules 3 cohortes avaient des données d'incidence à long terme."},
+ {id:"liu2019", lane:"gut", x:2019.2, type:"rev", short:"Liu 2019",
+  authors:"Liu RT, Walsh RFL, Sheehan AE", title:"Prebiotics and probiotics for depression and anxiety: A systematic review and meta-analysis of controlled clinical trials",
+  journal:"Neuroscience and Biobehavioral Reviews, 102, 13–23", doi:"10.1016/j.neubiorev.2019.03.023", read:"abs",
+  sample:"34 essais contrôlés",
+  shows:"Les probiotiques ont un effet faible mais significatif sur la dépression (d = −0,24) et l'anxiété (d = −0,10). L'effet est plus net dans des échantillons cliniques (d = −0,45), encore plus dans un sous-groupe préliminaire d'échantillons psychiatriques (d = −0,73). Les prébiotiques seuls n'ont pas d'effet démontré.",
+  limits:"Peu d'essais avec de vrais échantillons psychiatriques diagnostiqués ; le sous-groupe le plus prometteur repose sur très peu d'études."},
+ {id:"firth2019", lane:"int", x:2019.3, type:"rev", n:45826, short:"Firth 2019",
+  authors:"Firth J, Marx W, Dash S, et al.", title:"The Effects of Dietary Improvement on Symptoms of Depression and Anxiety: A Meta-Analysis of Randomized Controlled Trials",
+  journal:"Psychosomatic Medicine, 81(3), 265–280", doi:"10.1097/PSY.0000000000000673", read:"full",
+  sample:"16 essais randomisés, 45 826 participants, surtout des échantillons non cliniques",
+  shows:"Les interventions diététiques réduisent les symptômes dépressifs (g = 0,162), un effet modeste mais présent même face à un groupe contrôle actif. Aucun effet significatif pour les symptômes anxieux (g = 0,085, non significatif).",
+  limits:"Une seule étude sur 16 portait sur un échantillon cliniquement dépressif (SMILES lui-même)."},
+ {id:"matison2021", lane:"risk", x:2021.2, type:"rev", short:"Matison 2021",
+  authors:"Matison AP, Mather KA, Flood VM, Reppermund S", title:"Associations between nutrition and the incidence of depression in middle-aged and older adults: a systematic review and meta-analysis of prospective observational population-based studies",
+  journal:"Ageing Research Reviews, 70, 101403", doi:"10.1016/j.arr.2021.101403", read:"abs",
+  sample:"33 articles (21 en méta-analyse), adultes de 45 ans et plus",
+  shows:"Un indice inflammatoire alimentaire élevé (OR 1,33) et un régime occidental (OR 1,15) sont associés à plus de dépression incidente. Fruits (OR 0,85) et légumes (OR 0,91) sont associés à moins de dépression. Régime méditerranéen, régime « sain » générique et poisson : pas d'association significative dans cette tranche d'âge.",
+  limits:"Population de 45 ans et plus seulement ; peu d'études par groupe alimentaire ; confusion résiduelle probable."},
+ {id:"simpson2021", lane:"gut", x:2021.05, type:"rev", short:"Simpson 2021",
+  authors:"Simpson CA, Diaz-Arteche C, Eliby D, Schwartz OS, Simmons JG, Cowan CSM", title:"The gut microbiota in anxiety and depression - A systematic review",
+  journal:"Clinical Psychology Review, 83, 101943", doi:"10.1016/j.cpr.2020.101943", read:"abs",
+  sample:"26 études comparant le microbiote intestinal chez des personnes avec et sans anxiété ou dépression",
+  shows:"Les personnes avec anxiété ou dépression ont tendance à avoir plus de bactéries pro-inflammatoires et moins de bactéries productrices d'acides gras à chaîne courte, un carburant protecteur pour la paroi intestinale.",
+  limits:"Revue qualitative ; les études ne contrôlent pas toujours pour l'alimentation ou les médicaments, qui influencent aussi le microbiote."},
+ {id:"chen2022", lane:"caus", x:2022.7, type:"pop", n:449210, short:"Chen 2022",
+  authors:"Chen TT, Chen CY, Fang CP, Cheng YC, Lin YF", title:"Causal influence of dietary habits on the risk of major depressive disorder: A diet-wide Mendelian randomization analysis",
+  journal:"Journal of Affective Disorders, 319, 482–489", doi:"10.1016/j.jad.2022.09.109", read:"abs",
+  sample:"449 210 personnes (UK Biobank) pour l'alimentation, 142 646 pour la dépression (Psychiatric Genomics Consortium)",
+  shows:"En utilisant la génétique pour approcher la causalité, une consommation plus élevée de bœuf ressort comme protectrice contre la dépression, et le poisson non gras comme un facteur de risque — l'inverse des recommandations nutritionnelles habituelles.",
+  limits:"La randomisation mendélienne repose sur des hypothèses qui peuvent être violées (pléiotropie horizontale) ; résultat à interpréter avec prudence."},
+ {id:"lane2022", lane:"upf", x:2022.5, type:"rev", n:385541, short:"Lane 2022",
+  authors:"Lane MM, Gamage E, Travica N, et al.", title:"Ultra-Processed Food Consumption and Mental Health: A Systematic Review and Meta-Analysis of Observational Studies",
+  journal:"Nutrients, 14(13), 2568", doi:"10.3390/nu14132568", read:"full",
+  sample:"17 études (15 transversales, 2 prospectives), 385 541 participants",
+  shows:"Une consommation élevée d'aliments ultra-transformés est associée à plus de symptômes dépressifs (OR 1,44) et anxieux (OR 1,48) dans les études transversales, et à un risque accru de dépression incidente (HR 1,22) dans les études prospectives.",
+  limits:"Seulement 2 études prospectives disponibles ; la majorité des données restent transversales."},
+ {id:"eliby2023", lane:"risk", x:2023.5, type:"rev", short:"Eliby 2023",
+  authors:"Eliby D, Simpson CA, Lawrence AS, Schwartz OS, Haslam N, Simmons JG", title:"Associations between diet quality and anxiety and depressive disorders: a systematic review",
+  journal:"Journal of Affective Disorders Reports, 14, 100629", doi:"10.1016/j.jadr.2023.100629", read:"abs",
+  sample:"44 études (dont 3 essais randomisés), échantillons avec diagnostic de dépression et/ou d'anxiété",
+  shows:"Chez des personnes avec un diagnostic (pas seulement des symptômes), l'adhésion au régime méditerranéen reste associée à moins de dépression. Pour l'anxiété diagnostiquée, les preuves sont beaucoup plus limitées et inconstantes.",
+  limits:"Hétérogénéité trop forte pour une méta-analyse formelle ; très peu d'études sur l'anxiété diagnostiquée."},
+ {id:"sikorska2023", lane:"gut", x:2023.1, type:"rev", short:"Sikorska 2023",
+  authors:"Sikorska M, Antosik-Wójcińska AZ, Dominiak M", title:"Probiotics as a Tool for Regulating Molecular Mechanisms in Depression: A Systematic Review and Meta-Analysis of Randomized Clinical Trials",
+  journal:"International Journal of Molecular Sciences, 24(4), 3081", doi:"10.3390/ijms24043081", read:"full",
+  sample:"20 essais randomisés incluant des marqueurs biologiques",
+  shows:"Chez des personnes avec dépression et une maladie somatique associée, les probiotiques augmentent le BDNF (facteur de plasticité cérébrale) et diminuent la CRP (marqueur d'inflammation). Aucun effet significatif sur l'IL-6, le TNF-α ou le cortisol.",
+  limits:"Résultats positifs seulement chez des personnes avec comorbidité somatique ; mécanismes chez les personnes en bonne santé physique non confirmés."},
+ {id:"werneck2024", lane:"upf", x:2024.15, dy:-16, type:"pop", n:15960, short:"Werneck 2024",
+  authors:"Werneck AO, Steele EM, Delpino FM, et al.", title:"Adherence to the ultra-processed dietary pattern and risk of depressive outcomes: Findings from the NutriNet Brasil cohort study and an updated systematic review and meta-analysis",
+  journal:"Clinical Nutrition, 43(5), 1190–1199", doi:"10.1016/j.clnu.2024.03.028", read:"abs",
+  sample:"15 960 adultes brésiliens (cohorte NutriNet Brasil), suivi moyen 18,3 mois ; méta-analyse de 6 cohortes",
+  shows:"Chaque hausse de 10 % de la part d'aliments ultra-transformés dans l'alimentation est associée à une hausse de 10 % du risque de symptômes dépressifs (HR 1,10). En combinant 6 cohortes, le risque est de HR 1,32 pour une forte exposition contre une faible.",
+  limits:"Association atténuée mais pas annulée après ajustement pour des médiateurs potentiels (poids, qualité du reste de l'alimentation)."},
+ {id:"dai2024", lane:"upf", x:2024.35, dy:16, type:"rev", short:"Dai 2024",
+  authors:"Dai S, Wellens J, Yang N, et al.", title:"Ultra-processed foods and human health: An umbrella review and updated meta-analyses of observational evidence",
+  journal:"Clinical Nutrition, 43(6), 1386–1394", doi:"10.1016/j.clnu.2024.04.016", read:"abs",
+  sample:"39 méta-analyses mises à jour avec 122 articles, 49 issues de santé",
+  shows:"La dépression et les troubles mentaux courants font partie des 5 issues de santé classées en preuve « très suggestive » (classe II) liées aux aliments ultra-transformés, aux côtés du diabète de type 2, du surpoids et de l'obésité.",
+  limits:"Le résumé ne donne pas la valeur exacte de l'effet pour la dépression ; le texte intégral détaille la méthode de gradation et les biais évalués."},
+ {id:"bizzozero2024", lane:"int", x:2024.1, type:"rev", n:1507, short:"Bizzozero-Peroni 2024",
+  authors:"Bizzozero-Peroni B, Martínez-Vizcaíno V, Fernández-Rodríguez R, et al.", title:"The impact of the Mediterranean diet on alleviating depressive symptoms in adults: a systematic review and meta-analysis of randomized controlled trials",
+  journal:"Nutrition Reviews, 83(1), 29–39", doi:"10.1093/nutrit/nuad176", read:"abs",
+  sample:"5 essais randomisés, 1 507 participants avec dépression, 22 à 53 ans en moyenne",
+  shows:"Le régime méditerranéen réduit les symptômes dépressifs par rapport à un groupe contrôle (SMD −0,53). Le risque de biais va d'« incertain » à « élevé », et la certitude de la preuve (GRADE) est jugée faible.",
+  limits:"Hétérogénéité élevée (I² 87 %) ; intervalle de prédiction très large (−1,86 à 0,81), donc un futur essai pourrait montrer l'effet inverse."},
+ {id:"lane2024bmj", lane:"upf", x:2024.75, type:"rev", n:9888373, short:"Lane 2024 (BMJ)",
+  authors:"Lane MM, Gamage E, Du S, et al.", title:"Ultra-processed food exposure and adverse health outcomes: umbrella review of epidemiological meta-analyses",
+  journal:"The BMJ, e077310", doi:"10.1136/bmj-2023-077310", read:"full",
+  sample:"45 méta-analyses regroupées (umbrella review), plus de 9,88 millions de participants au total",
+  shows:"Preuve jugée « convaincante » (classe I) pour un lien entre aliments ultra-transformés et anxiété (OR 1,48) et trouble mental courant combiné (OR 1,53). Preuve « très suggestive » (classe II) pour la dépression incidente (HR 1,22). Qualité GRADE jugée faible pour ces trois résultats.",
+  limits:"Les auteurs précisent que la revue ne peut pas établir de causalité et n'a pas pu ajuster pour tous les facteurs de confusion possibles."},
+ {id:"molero2025", lane:"risk", x:2025.2, type:"rev", n:700000, short:"Molero 2025",
+  authors:"Molero P, De Lorenzi F, Gędek A, et al.", title:"Diet quality and depression risk: A systematic review and meta-analysis of prospective studies",
+  journal:"Journal of Affective Disorders, 382, 154–166", doi:"10.1016/j.jad.2025.03.162", read:"abs",
+  sample:"Plus de 700 000 participants : 21 essais randomisés + 92 cohortes prospectives",
+  shows:"La force de preuve globale reliant qualité alimentaire et dépression est jugée très faible (causalité inverse possible, faible validité interne). Le régime méditerranéen reste associé à moins de symptômes autodéclarés (OR 0,91) sans dose-réponse. Les essais de traitement montrent un effet net (d = 0,80) mais peu fiable méthodologiquement ; en prévention, aucun effet.",
+  limits:"Beaucoup d'hétérogénéité entre régimes et mesures ; les auteurs eux-mêmes qualifient la preuve de « très faible »."},
+ {id:"hooijdonk2025", lane:"caus", x:2025.05, type:"pop", n:9276, short:"van Hooijdonk 2025",
+  authors:"van Hooijdonk KJM, Reed ZE, van den Broek N, et al.", title:"Triangulated evidence provides no support for bidirectional causal pathways between diet/physical activity and depression/anxiety",
+  journal:"Psychological Medicine, 55, e4", doi:"10.1017/S0033291724003349", read:"full",
+  sample:"3 méthodes combinées : 9 276 étudiants suivis 3 fois, jumeaux (co-twin control), randomisation mendélienne (17 310 à 447 401 personnes selon l'exposition)",
+  shows:"En combinant trois méthodes aux biais différents, aucune ne soutient un effet causal de l'alimentation sur la dépression ou l'anxiété, ni l'inverse. Exception surprenante : plus de fruits est associé génétiquement à plus d'anxiété (OR 1,99), pas moins.",
+  limits:"Chaque méthode a ses propres limites ; aucune ne remplace un essai randomisé bien mené."},
+ {id:"lian2026", lane:"gut", x:2026.3, type:"rev", short:"Lian 2026",
+  authors:"Lian J, Yu W, Feng G, Miao D", title:"Pre-/pro and synbiotics on anxiety and depression symptoms: a GRADE assessed systematic review and meta-analysis of randomized controlled trials",
+  journal:"Annals of General Psychiatry, 25, 45", doi:"10.1186/s12991-026-00661-6", read:"full",
+  sample:"70 essais randomisés (65 pour la dépression, 49 pour l'anxiété), durée 2 à 24 semaines",
+  shows:"Les pré-/pro-/synbiotiques réduisent les symptômes dépressifs (SMD −0,57) et anxieux (SMD −0,43). Probiotiques et synbiotiques aident la dépression ; les trois types aident l'anxiété, avec le plus grand effet pour les synbiotiques.",
+  limits:"Hétérogénéité substantielle et qualité méthodologique globalement modérée ; les auteurs insistent : ces interventions complètent, ne remplacent pas, un traitement standard."},
+];
+const byId = Object.fromEntries(S.map(s=>[s.id,s]));
+const NS = "http://www.w3.org/2000/svg";
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+function el(tag, attrs={}, parent){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+function txt(parent, x, y, s, attrs={}){ const t=el("text",{x,y,"font-size":12,fill:"var(--ink-2)",...attrs},parent); t.textContent=s; return t; }
+
+/* ---------- Tooltip ---------- */
+const tip = document.getElementById("tip");
+function showTip(html, ev){ tip.innerHTML=html; tip.hidden=false; moveTip(ev); }
+function moveTip(ev){ const pad=14; let x=ev.clientX+pad, y=ev.clientY+pad; const r=tip.getBoundingClientRect(); if(x+r.width>innerWidth-8) x=ev.clientX-r.width-pad; if(y+r.height>innerHeight-8) y=ev.clientY-r.height-pad; tip.style.left=x+"px"; tip.style.top=y+"px"; }
+function hideTip(){ tip.hidden=true; }
+function hover(node, html){ node.addEventListener("mouseenter",e=>showTip(html,e)); node.addEventListener("mousemove",moveTip); node.addEventListener("mouseleave",hideTip); }
+
+/* ---------- Carte des études ---------- */
+let selected = "molero2025";
+function drawMap(){
+  const svg = document.getElementById("map"); svg.innerHTML="";
+  const W=900, left=140, right=880, top=10;
+  const x0=2016, x1=2027; const X = y => left + (y-x0)/(x1-x0)*(right-left);
+  let y=top; const laneY={};
+  LANES.forEach((L,i)=>{
+    if(i%2===0) el("rect",{x:left-6,y,width:right-left+12,height:L.h,fill:"var(--surface-2)",opacity:.55,rx:4},svg);
+    laneY[L.id]=y+L.h/2;
+    L.label.forEach((s,j)=>txt(svg,0,y+L.h/2-7+j*15,s,{"font-size":12,fill:"var(--ink-2)"}));
+    y+=L.h;
+  });
+  const bottom=y;
+  for(let yr=2016; yr<=2027; yr++){
+    const gx=X(yr);
+    if(yr%2===0){ el("line",{x1:gx,x2:gx,y1:top,y2:bottom,stroke:"var(--rule)","stroke-width":1},svg); txt(svg,gx,bottom+18,String(yr),{"text-anchor":"middle",fill:"var(--ink-3)","font-size":11.5}); }
+  }
+  svg.setAttribute("viewBox",`0 0 ${W} ${bottom+30}`);
+  const R = n => 4 + 2.8*Math.log10(n);
+  const order=[...S].sort((a,b)=>(b.n||0)-(a.n||0));
+  order.forEach(s=>{
+    const cx=X(s.x), cy=laneY[s.lane]+(s.dy||0);
+    const fill=`var(${TYPES[s.type].c})`;
+    let m;
+    if(s.type==="rev"){ const d=10; m=el("path",{d:`M${cx} ${cy-d} L${cx+d} ${cy} L${cx} ${cy+d} L${cx-d} ${cy} Z`,fill},svg); }
+    else m=el("circle",{cx,cy,r:R(s.n),fill},svg);
+    m.setAttribute("stroke","var(--surface)"); m.setAttribute("stroke-width","2");
+    m.classList.add("mark"); if(s.id===selected) m.classList.add("sel");
+    m.setAttribute("tabindex","0"); m.setAttribute("role","button");
+    m.setAttribute("aria-label",`${s.short}, ${TYPES[s.type].label}${s.n?`, ${s.n.toLocaleString("fr-CH")} participants`:""}`);
+    hover(m,`<b>${s.short}</b><br>${TYPES[s.type].label}${s.n?`<br>N = ${s.n.toLocaleString("fr-CH")}`:""}`);
+    const go=()=>{ selected=s.id; drawMap(); renderDetail(); };
+    m.addEventListener("click",go);
+    m.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); }});
+  });
+  // direct labels for the key studies
+  ["molero2025","jacka2017","lane2024bmj"].forEach(id=>{
+    const s=byId[id]; const cx=X(s.x), cy=laneY[s.lane]+(s.dy||0), r=s.type==="rev"?10:R(s.n);
+    txt(svg,cx,cy+r+13,s.short,{"text-anchor":"middle","font-size":11,fill:"var(--ink-2)"});
+  });
+}
+function renderDetail(){
+  const s=byId[selected]; const d=document.getElementById("detail");
+  const link = `<a href="https://doi.org/${s.doi}">doi.org/${s.doi}</a>`;
+  d.innerHTML=`
+    <h3>${s.title}</h3>
+    <dl class="kv">
+      <dt>Auteurs</dt><dd>${s.authors}</dd>
+      <dt>Revue</dt><dd>${s.journal}</dd>
+      <dt>Type</dt><dd>${TYPES[s.type].label}</dd>
+      <dt>Échantillon</dt><dd>${s.sample}</dd>
+      <dt>Lecture</dt><dd><span class="chip ${s.read}">${s.read==="full"?"texte intégral":"résumé seulement"}</span></dd>
+      <dt>Lien</dt><dd>${link}</dd>
+    </dl>
+    <div class="body">
+      <div><h4>Ce qu'elle montre</h4><p>${s.shows}</p></div>
+      <div><h4>À garder en tête</h4><p>${s.limits}</p></div>
+    </div>`;
+}
+document.querySelectorAll(".cite").forEach(b=>{
+  b.addEventListener("click",()=>{ selected=b.dataset.id; drawMap(); renderDetail(); document.getElementById("carte").scrollIntoView({block:"start"}); });
+});
+
+/* ---------- D1 : forest qualité de l'alimentation ---------- */
+function drawDietForest(){
+  const host=document.getElementById("dietForest"); host.innerHTML="";
+  const rows=[
+    {k:"Régime méditerranéen (Lassale 2018, longitudinal)", or:0.67, lo:0.55, hi:0.82},
+    {k:"Score méditerranéen (Nicolaou 2019, prospectif)", or:0.88, lo:0.80, hi:0.96},
+    {k:"Régime méditerranéen (Shafiei 2019, cohortes seules, ns)", or:0.95, lo:0.79, hi:1.16},
+    {k:"Régime méditerranéen (Molero 2025, mise à jour)", or:0.91, lo:0.88, hi:0.96},
+    {k:"Régime occidental (Matison 2021)", or:1.15, lo:1.04, hi:1.26},
+    {k:"Indice inflammatoire alimentaire élevé (Matison 2021)", or:1.33, lo:1.04, hi:1.70},
+  ];
+  const W=520, L=10, R=500, top=10, rowH=34;
+  const H=top+rows.length*rowH+50;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Association entre qualité de l'alimentation et dépression, plusieurs méta-analyses"},host);
+  const lmin=Math.log(0.5), lmax=Math.log(1.9);
+  const X=v=>L+(Math.log(v)-lmin)/(lmax-lmin)*(R-L);
+  const axisY=top+rows.length*rowH+2;
+  [0.5,0.75,1,1.25,1.5,1.75].forEach(v=>{ el("line",{x1:X(v),x2:X(v),y1:top-4,y2:axisY,stroke:v===1?"var(--ink-3)":"var(--rule)","stroke-width":1,"stroke-dasharray":v===1?"4 3":""},svg); txt(svg,X(v),axisY+15,String(v).replace(".",","),{"text-anchor":"middle","font-size":10.5,fill:"var(--ink-3)"}); });
+  txt(svg,X(1)-6,axisY+32,"← moins de dépression",{"text-anchor":"end","font-size":11,fill:"var(--ink-2)"});
+  txt(svg,X(1)+6,axisY+32,"plus de dépression →",{"text-anchor":"start","font-size":11,fill:"var(--ink-2)"});
+  rows.forEach((r,i)=>{
+    const cy=top+i*rowH+14; const c=r.or<1?"var(--less)":"var(--more)";
+    txt(svg,0,cy-6,r.k,{"font-size":11.5,fill:"var(--ink-2)"});
+    el("line",{x1:X(r.lo),x2:X(r.hi),y1:cy+10,y2:cy+10,stroke:c,"stroke-width":2,"stroke-linecap":"round"},svg);
+    el("rect",{x:X(r.or)-5,y:cy+4.5,width:10,height:10,fill:c,stroke:"var(--surface)","stroke-width":2,rx:1.5},svg);
+    const lab=String(r.or.toFixed(2)).replace(".",",");
+    const hit=el("rect",{x:L,y:cy-6,width:R-L,height:22,fill:"transparent"},svg);
+    hover(hit,`<b>${r.k}</b><br>${lab} [${String(r.lo).replace(".",",")} ; ${String(r.hi).replace(".",",")}]`);
+  });
+}
+
+/* ---------- D2 : forest aliments ultra-transformés ---------- */
+function drawUPFForest(){
+  const host=document.getElementById("upfForest"); host.innerHTML="";
+  const rows=[
+    {k:"Symptômes dépressifs, transversal (Lane 2022)", or:1.44, lo:1.14, hi:1.82},
+    {k:"Dépression incidente (Lane 2022, méta prospective)", or:1.22, lo:1.16, hi:1.28},
+    {k:"Dépression incidente, forte exposition (Werneck 2024)", or:1.32, lo:1.19, hi:1.46},
+    {k:"Anxiété prévalente (Lane 2024, BMJ — classe I)", or:1.48, lo:1.37, hi:1.59},
+    {k:"Trouble mental courant combiné (Lane 2024, BMJ — classe I)", or:1.53, lo:1.43, hi:1.63},
+  ];
+  const W=520, L=10, R=500, top=10, rowH=34;
+  const H=top+rows.length*rowH+50;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Aliments ultra-transformés et risque de dépression ou d'anxiété, plusieurs méta-analyses"},host);
+  const lmin=Math.log(0.9), lmax=Math.log(1.75);
+  const X=v=>L+(Math.log(v)-lmin)/(lmax-lmin)*(R-L);
+  const axisY=top+rows.length*rowH+2;
+  [1,1.2,1.4,1.6].forEach(v=>{ el("line",{x1:X(v),x2:X(v),y1:top-4,y2:axisY,stroke:v===1?"var(--ink-3)":"var(--rule)","stroke-width":1,"stroke-dasharray":v===1?"4 3":""},svg); txt(svg,X(v),axisY+15,String(v).replace(".",","),{"text-anchor":"middle","font-size":10.5,fill:"var(--ink-3)"}); });
+  txt(svg,X(1),axisY+32,"plus de risque avec + d'aliments ultra-transformés →",{"text-anchor":"start","font-size":10.5,fill:"var(--ink-2)"});
+  rows.forEach((r,i)=>{
+    const cy=top+i*rowH+14; const c="var(--more)";
+    txt(svg,0,cy-6,r.k,{"font-size":11.5,fill:"var(--ink-2)"});
+    el("line",{x1:X(r.lo),x2:X(r.hi),y1:cy+10,y2:cy+10,stroke:c,"stroke-width":2,"stroke-linecap":"round"},svg);
+    el("rect",{x:X(r.or)-5,y:cy+4.5,width:10,height:10,fill:c,stroke:"var(--surface)","stroke-width":2,rx:1.5},svg);
+    const lab=String(r.or.toFixed(2)).replace(".",",");
+    const hit=el("rect",{x:L,y:cy-6,width:R-L,height:22,fill:"transparent"},svg);
+    hover(hit,`<b>${r.k}</b><br>${lab} [${String(r.lo).replace(".",",")} ; ${String(r.hi).replace(".",",")}]`);
+  });
+}
+
+/* ---------- D3 : tailles d'effet des interventions ---------- */
+function drawRCTBars(){
+  const host=document.getElementById("rctBars"); host.innerHTML="";
+  const rows=[
+    {k:"SMILES, dépression majeure (Jacka 2017)", v:1.16, lab:"d = 1,16"},
+    {k:"Essais de traitement, méta (Molero 2025)", v:0.80, lab:"d = 0,80"},
+    {k:"Régime méditerranéen, méta 5 essais (Bizzozero-Peroni 2024)", v:0.53, lab:"SMD = 0,53"},
+    {k:"16 essais, tous régimes (Firth 2019)", v:0.162, lab:"g = 0,16"},
+    {k:"Essais en prévention, population non malade (Molero 2025)", v:0.17, lab:"d = 0,17"},
+  ];
+  const W=520, Lm=10, R=500, top=6, rowH=38, H=top+rows.length*rowH+22;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Tailles d'effet des interventions diététiques sur les symptômes dépressifs"},host);
+  const X=v=>Lm+v/1.3*(R-Lm);
+  const axisY=top+rows.length*rowH;
+  [0,0.25,0.5,0.75,1,1.25].forEach(v=>{ el("line",{x1:X(v),x2:X(v),y1:top,y2:axisY,stroke:"var(--rule)","stroke-width":1},svg); txt(svg,X(v),axisY+15,String(v).replace(".",","),{"text-anchor":v===0?"start":"middle","font-size":10.5,fill:"var(--ink-3)"}); });
+  rows.forEach((r,i)=>{
+    const y=top+i*rowH;
+    txt(svg,Lm,y+13,r.k,{"font-size":11.5,fill:"var(--ink-2)"});
+    el("rect",{x:X(0),y:y+18,width:X(r.v)-X(0),height:14,fill:"var(--accent)",rx:3},svg);
+    txt(svg,X(r.v)+8,y+29,r.lab,{"font-size":12,fill:"var(--ink)","font-weight":500});
+  });
+  txt(svg,Lm,H-4,"taille d'effet (valeur absolue) — plus grand = plus de baisse des symptômes",{"font-size":10.5,fill:"var(--ink-3)"});
+}
+
+/* ---------- D4 : probiotiques par sous-groupe ---------- */
+function drawProbioBars(){
+  const host=document.getElementById("probioBars"); host.innerHTML="";
+  const rows=[
+    {k:"Lian 2026 (70 essais) — dépression", v:0.57, lab:"SMD = 0,57"},
+    {k:"Lian 2026 (70 essais) — anxiété", v:0.43, lab:"SMD = 0,43"},
+    {k:"Liu 2019 — dépression, tous essais", v:0.24, lab:"d = 0,24"},
+    {k:"Liu 2019 — dépression, échantillons cliniques", v:0.45, lab:"d = 0,45"},
+    {k:"Liu 2019 — dépression, échantillons psychiatriques (préliminaire)", v:0.73, lab:"d = 0,73"},
+    {k:"Liu 2019 — prébiotiques seuls, dépression (ns)", v:0.08, lab:"d = 0,08 (ns)"},
+  ];
+  const W=520, Lm=10, R=500, top=6, rowH=34, H=top+rows.length*rowH+22;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Taille d'effet des probiotiques selon le type d'échantillon"},host);
+  const X=v=>Lm+v/0.85*(R-Lm);
+  const axisY=top+rows.length*rowH;
+  [0,0.2,0.4,0.6,0.8].forEach(v=>{ el("line",{x1:X(v),x2:X(v),y1:top,y2:axisY,stroke:"var(--rule)","stroke-width":1},svg); txt(svg,X(v),axisY+15,String(v).replace(".",","),{"text-anchor":v===0?"start":"middle","font-size":10.5,fill:"var(--ink-3)"}); });
+  rows.forEach((r,i)=>{
+    const y=top+i*rowH; const dim = r.lab.includes("ns");
+    txt(svg,Lm,y+12,r.k,{"font-size":11.3,fill:dim?"var(--ink-3)":"var(--ink-2)"});
+    el("rect",{x:X(0),y:y+16,width:Math.max(2,X(r.v)-X(0)),height:12,fill:dim?"var(--t-other)":"var(--accent)",rx:3},svg);
+    txt(svg,X(r.v)+8,y+26,r.lab,{"font-size":11.5,fill:dim?"var(--ink-3)":"var(--ink)","font-weight":dim?400:500});
+  });
+  txt(svg,Lm,H-4,"taille d'effet (valeur absolue) sur les symptômes — ns = non significatif",{"font-size":10.5,fill:"var(--ink-3)"});
+}
+
+/* ---------- D5 : dumbbell cohorte vs randomisation mendélienne ---------- */
+function drawCausalDumbbell(){
+  const host=document.getElementById("causalDumbbell"); host.innerHTML="";
+  const rows=[
+    {k:"Fruits → dépression", obs:0.85, mr:0.93},
+    {k:"Légumes → dépression", obs:0.91, mr:1.06},
+  ];
+  const W=520, Lm=150, R=500, top=16, rowH=54, H=top+rows.length*rowH+40;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Comparaison entre association observée en cohorte et estimation par randomisation mendélienne"},host);
+  // legend
+  el("circle",{cx:Lm+6,cy:8,r:5,fill:"var(--t-clin)"},svg); txt(svg,Lm+16,12,"cohorte (observationnel)",{"font-size":11,fill:"var(--ink-2)"});
+  el("circle",{cx:Lm+186,cy:8,r:5,fill:"var(--accent)"},svg); txt(svg,Lm+196,12,"randomisation mendélienne",{"font-size":11,fill:"var(--ink-2)"});
+  const lmin=Math.log(0.75), lmax=Math.log(1.2);
+  const X=v=>Lm+(Math.log(v)-lmin)/(lmax-lmin)*(R-Lm);
+  const axisY=top+rows.length*rowH+4;
+  [0.8,0.9,1,1.1,1.2].forEach(v=>{ el("line",{x1:X(v),x2:X(v),y1:top+14,y2:axisY,stroke:v===1?"var(--ink-3)":"var(--rule)","stroke-width":1,"stroke-dasharray":v===1?"4 3":""},svg); txt(svg,X(v),axisY+15,String(v).replace(".",","),{"text-anchor":"middle","font-size":10.5,fill:"var(--ink-3)"}); });
+  rows.forEach((r,i)=>{
+    const cy=top+24+i*rowH;
+    txt(svg,0,cy+4,r.k,{"font-size":12,fill:"var(--ink-2)"});
+    el("line",{x1:X(r.obs),x2:X(r.mr),y1:cy,y2:cy,stroke:"var(--rule)","stroke-width":2},svg);
+    const c1=el("circle",{cx:X(r.obs),cy,r:7,fill:"var(--t-clin)",stroke:"var(--surface)","stroke-width":2},svg);
+    const c2=el("circle",{cx:X(r.mr),cy,r:7,fill:"var(--accent)",stroke:"var(--surface)","stroke-width":2},svg);
+    hover(c1,`<b>${r.k}</b><br>Cohorte (Matison 2021) : OR ${String(r.obs).replace(".",",")}`);
+    hover(c2,`<b>${r.k}</b><br>Randomisation mendélienne : OR ${String(r.mr).replace(".",",")}`);
+    txt(svg,X(r.obs),cy-13,String(r.obs).replace(".",","),{"text-anchor":"middle","font-size":11,fill:"var(--ink)"});
+    txt(svg,X(r.mr),cy-13,String(r.mr).replace(".",","),{"text-anchor":"middle","font-size":11,fill:"var(--ink)"});
+  });
+}
+
+/* ---------- Références ---------- */
+function drawRefs(){
+  const ol=document.getElementById("reflist");
+  [...S].sort((a,b)=>a.x-b.x).forEach(s=>{
+    const li=document.createElement("li");
+    const link=`<a href="https://doi.org/${s.doi}">doi:${s.doi}</a>`;
+    li.innerHTML=`<span class="yr">${Math.floor(s.x)}</span><span><span class="t">${s.authors} ${s.title}.</span> <span class="j">${s.journal}.</span> <span class="chip ${s.read}">${s.read==="full"?"texte intégral":"résumé"}</span></span>${link}`;
+    ol.appendChild(li);
+  });
+}
+
+drawMap(); renderDetail(); drawDietForest(); drawUPFForest(); drawRCTBars(); drawProbioBars(); drawCausalDumbbell(); drawRefs();
+</script>
+
+</body>
+</html>
