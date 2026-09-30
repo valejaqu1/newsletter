@@ -7,32 +7,24 @@
       "titre": "Santé mentale des hommes",
       "accroche": "Les hommes meurent nettement plus souvent par suicide et sont moins bien repérés en dépression ; aucune étude ne montre en revanche qu'une meilleure reconnaissance de la souffrance des femmes y soit pour quelque chose.",
       "date": "2026-09-30",
+      "maj": "2026-09-30",
       "sources": 25,
       "periode": "2004–2026",
-      "version": 1,
+      "version": 2,
       "pdfs_demandes": [
         {
-          "ref": "Wong, Ho, Wang & Miller (2017)",
-          "doi": "10.1037/cou0000176",
-          "pourquoi": "Le résumé donne la direction pour trois normes (autosuffisance, domination sur les femmes, promiscuité) mais pas les tailles d'effet exactes ni le détail des analyses de modération (âge, culture) : utile pour cibler les normes à travailler en priorité en clinique."
-        },
-        {
-          "ref": "Friedel, Abels, Henze, Haering, Buspavanich & Stadler (2024)",
-          "doi": "10.1007/s00115-024-01616-6",
-          "pourquoi": "Revue explicative du paradoxe du genre en dépression ; seul le résumé a pu être lu. Le texte intégral détaille les modèles biologiques (stress, trauma) et sociologiques évoqués."
-        },
-        {
-          "ref": "Michaud, Brovelli & Bourquin (2021)",
-          "doi": "10.53738/revmed.2021.17.7442.1265",
-          "pourquoi": "Synthèse clinique en français, particulièrement utile pour un stage en Suisse romande ; l'accès à la Revue Médicale Suisse est bloqué depuis cet environnement. Le texte intégral donnerait des repères concrets pour l'anamnèse."
-        },
-        {
-          "ref": "Flood, Dragiewicz & Pease (2021)",
-          "doi": "10.1002/ajs4.137",
-          "pourquoi": "Revue de référence sur les mécanismes de résistance à l'égalité de genre ; seul le résumé a pu être lu (accès Wiley bloqué). Le texte intégral détaillerait les formes précises de résistance et leur base empirique, utile pour traiter la question de l'invisibilisation croisée avec la rigueur voulue."
+          "ref": "Rice, Seidler, Kealy, Ogrodniczuk, Zajac & Oliffe (2022)",
+          "doi": "10.1097/HRP.0000000000000346",
+          "pourquoi": "Article de discussion clinique sur la place des symptômes externalisés dans les critères DSM-5-TR de la dépression masculine ; seul le résumé a pu être lu, le PDF n'a pas été déposé."
         }
       ],
-      "pdfs_recus": []
+      "pdfs_recus": [
+        {"ref": "Wong, Ho, Wang & Miller (2017)", "doi": "10.1037/cou0000176", "fichier": "2016-56584-001.pdf"},
+        {"ref": "Friedel, Abels, Henze, Haering, Buspavanich & Stadler (2024)", "doi": "10.1007/s00115-024-01616-6", "fichier": "s00115-024-01616-6.pdf"},
+        {"ref": "Michaud, Brovelli & Bourquin (2021)", "doi": "10.53738/revmed.2021.17.7442.1265", "fichier": "RMS_744-2_1265.pdf"},
+        {"ref": "Flood, Dragiewicz & Pease (2021)", "doi": "10.1002/ajs4.137", "fichier": "Aust J Social Issues - 2020 - Flood - Resistance and backlash to gender equality.pdf"},
+        {"ref": "Üzümçeker (2025)", "doi": "10.1002/ijop.70031", "fichier": "Int J Psychol - 2025 - Üzümçeker - Traditional Masculinity and Men s Psychological Help‐Seeking  A Meta‐Analysis.pdf"}
+      ]
     },
     {
       "slug": "l-impacte-de-notre-alimentation-sur-notre-bien-etr",
