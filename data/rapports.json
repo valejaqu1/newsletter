@@ -1,6 +1,31 @@
 {
   "rapports": [
     {
+      "slug": "l-utilisation-de-prise-de-note-numerique-a-l-aide-",
+      "etat": "en-preparation",
+      "titre": "Prise de notes numérique ou papier en entretien",
+      "accroche": "Tablette, bloc-notes numérique ou papier pendant un entretien clinique adulte : ce que la recherche dit de l'effet sur l'écoute du clinicien et sur la perception du patient.",
+      "date": "2026-10-02",
+      "pdfs_demandes": [
+        {
+          "ref": "Mueller & Oppenheimer (2014)",
+          "doi": "10.1177/0956797614524581",
+          "pourquoi": "Étude fondatrice montrant que la prise de notes manuscrites favorise un traitement plus profond de l'information que la frappe au clavier (reformulation contre copie verbatim) ; le texte intégral donnerait le détail des tâches et des tailles d'effet pour juger si cela s'applique à l'écoute clinique et pas seulement à un cours."
+        },
+        {
+          "ref": "Hickling, Hickling, Sison & Radetsky (1984)",
+          "doi": "10.1080/00223980.1984.9923641",
+          "pourquoi": "Seule étude expérimentale repérée qui teste directement l'effet de la prise de notes sur la perception du client et l'impact thérapeutique dans un entretien clinique simulé ; le résumé ne donne pas le détail du dispositif ni les tailles d'effet, utiles pour nuancer que l'étude compare notes ou pas, pas papier contre numérique."
+        },
+        {
+          "ref": "Fogarty, Winters & Farah (2016)",
+          "doi": "10.1177/0091217416659274",
+          "pourquoi": "Évalue une formation pour garder une communication centrée sur le patient en utilisant un dossier électronique ; le texte intégral donnerait les comportements concrets (ex. annoncer quand l'attention part vers l'écran) transposables à la prise de notes sur tablette en entretien."
+        }
+      ],
+      "pdfs_recus": []
+    },
+    {
       "slug": "le-vecu-des-parents-et-les-different-transfert-pos",
       "etat": "en-preparation",
       "titre": "Vécu parental et transmission aux enfants",
